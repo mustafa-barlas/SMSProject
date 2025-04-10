@@ -5,6 +5,7 @@ public class BaseEntity
     public Guid Id { get; set; }
 
     public DateTime CreatedDate { get; set; }
+    public bool Status { get; set; }
 
     virtual public DateTime UpdatedDate { get; set; }
 

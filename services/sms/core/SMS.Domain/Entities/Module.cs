@@ -6,6 +6,6 @@ public class Module : BaseEntity
 {
     public string? Name { get; set; }
     public string? ImageUrl { get; set; } 
-    public bool? Status { get; set; }
+    public List<StudentModule> StudentModules { get; set; } = new List<StudentModule>();
     public List<Topic> Topics { get; set; } = new List<Topic>();
 }

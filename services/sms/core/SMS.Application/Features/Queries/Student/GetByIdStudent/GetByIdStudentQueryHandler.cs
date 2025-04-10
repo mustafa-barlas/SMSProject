@@ -1,48 +1,53 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SMS.Application.Dto;
+using SMS.Application.Dto.Module;
+using SMS.Application.Dto.Student;
 using SMS.Application.Repositories.StudentRepository;
 
-namespace SMS.Application.Features.Queries.Student.GetByIdStudent
+namespace SMS.Application.Features.Queries.Student.GetByIdStudent;
+
+public class GetByIdStudentQueryHandler : IRequestHandler<GetByIdStudentQueryRequest, GetByIdStudentQueryResponse>
 {
-    public class GetByIdStudentQueryHandler : IRequestHandler<GetByIdStudentQueryRequest, GetByIdStudentQueryResponse>
+    private readonly IStudentReadRepository _readRepository;
+
+    public GetByIdStudentQueryHandler(IStudentReadRepository readRepository)
     {
-        private readonly IStudentReadRepository _readRepository;
+        _readRepository = readRepository;
+    }
 
-        // Constructor injection for IStudentReadRepository
-        public GetByIdStudentQueryHandler(IStudentReadRepository readRepository)
+    public async Task<GetByIdStudentQueryResponse> Handle(GetByIdStudentQueryRequest request,
+        CancellationToken cancellationToken)
+    {
+        var student = await _readRepository
+            .GetWhere(s => s.Id.ToString() == request.StudentId)
+            .Include(s => s.StudentModules)
+            .ThenInclude(sm => sm.Module)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (student == null)
         {
-            _readRepository = readRepository;
+            throw new KeyNotFoundException($"Student with ID {request.StudentId} not found");
         }
 
-        public async Task<GetByIdStudentQueryResponse> Handle(GetByIdStudentQueryRequest request,
-            CancellationToken cancellationToken)
+        var response = new GetByIdStudentQueryResponse
         {
-            var student = await _readRepository.GetWhere(s => s.Id.Equals(Guid.Parse(request.StudentId)))
-                .Include(x => x.Modules)
-                .FirstOrDefaultAsync(cancellationToken);
-
-            if (student == null)
+            Student = new StudentDto()
             {
-                throw new KeyNotFoundException($"Student with ID {request.StudentId} not found");
-            }
-
-            // Create the response
-            var response = new GetByIdStudentQueryResponse
-            {
-                Student = new GetByIdStudentDto
+                StudentId = student.Id.ToString(),
+                StudentName = student.Name,
+                Age = student.Age,
+                Status = student.Status,
+                CreatedDate = student.CreatedDate,
+                UpdatedDate = student.UpdatedDate,
+                Modules = student.StudentModules.Select(sm => new ModuleDto
                 {
-                    Id = student.Id,
-                    Name = student.Name,
-                    Age = student.Age,
-                    Status = student.Status,
-                    CreatedDate = student.CreatedDate,
-                    UpdatedDate = student.UpdatedDate,
-                    Modules = new List<ModuleDto>(),
-                }
-            };
+                    ModuleId = sm.Module.Id.ToString(),
+                    ModuleName = sm.Module.Name
+                }).ToList()
+            }
+        };
 
-            return response;
-        }
+        return response;
     }
 }

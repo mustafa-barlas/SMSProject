@@ -6,7 +6,6 @@ public class Student : BaseEntity
 {
     public string? Name { get; set; }
     public int? Age { get; set; }
-    public bool? Status { get; set; }
-    public List<Module> Modules { get; set; } = new List<Module>();
-    public List<HomeWork> HomeWorks { get; set; } = new List<HomeWork>();
+    public List<StudentModule> StudentModules { get; set; } = new List<StudentModule>();
+    public List<HomeWork> HomeWorks { get; set; } = new List<HomeWork>(); // Öğrenciye ait ödevler
 }

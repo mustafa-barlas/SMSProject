@@ -1,28 +1,56 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SMS.Application.Dto.HomeWork;
+using SMS.Application.Dto.Module;
+using SMS.Application.Dto.Student;
+using SMS.Application.Dto.Topic;
 using SMS.Application.Repositories.StudentRepository;
 
 namespace SMS.Application.Features.Queries.Student.GetAllStudent;
 
-public class GetAllStudentQueryHandler(IStudentReadRepository readRepository) : IRequestHandler<GetAllStudentQueryRequest, GetAllStudentQueryResponse>
+public class GetAllStudentQueryHandler(IStudentReadRepository readRepository)
+    : IRequestHandler<GetAllStudentQueryRequest, GetAllStudentQueryResponse>
 {
     public async Task<GetAllStudentQueryResponse> Handle(GetAllStudentQueryRequest request, CancellationToken cancellationToken)
     {
-        var student = readRepository.GetAll(false).Include(x => x.Modules).ThenInclude(x => x.Topics)
-            .Select(s => new
+        var students = await readRepository.GetAll(false)
+            .Include(s => s.StudentModules)
+            .ThenInclude(sm => sm.Module)
+            .ThenInclude(m => m.Topics) 
+            .Include(x => x.HomeWorks)// module → topics
+            .Select(s => new StudentDto
             {
-                s.Id,
-                s.Name,
-                s.Age,
-                s.Status,
-                s.CreatedDate,
-                s.UpdatedDate,
-                s.Modules
-            }).ToList();
+                StudentId  = s.Id.ToString(),
+                StudentName = s.Name,
+                Age = s.Age,
+                Status = s.Status,
+                CreatedDate = s.CreatedDate,
+                UpdatedDate = s.UpdatedDate,
+                HomeWorks = s.HomeWorks.Select(x => new GetByIdHomeWorkDto()
+                {
+                    Title = x.Title,
+                    Content = x.Content,
+                    Status = x.Status,
+                    CreatedDate = x.CreatedDate,
+                    UpdatedDate = x.UpdatedDate,
+                    
+                }).ToList(),
+                Modules = s.StudentModules.Select(sm => new ModuleDto
+                {
+                    ModuleId = sm.Module.Id.ToString(),
+                    ModuleName = sm.Module.Name,
+                    Topics = sm.Module.Topics.Select(t => new TopicDto
+                    {
+                        TopicId = t.Id.ToString(), 
+                        TopicName= t.Name
+                    }).ToList()
+                }).ToList()
+            })
+            .ToListAsync(cancellationToken);
 
-        return new GetAllStudentQueryResponse()
+        return new GetAllStudentQueryResponse
         {
-            Students =  student
+            Students = students
         };
     }
 }

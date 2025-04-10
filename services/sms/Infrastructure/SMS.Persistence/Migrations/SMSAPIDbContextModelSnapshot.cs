@@ -34,7 +34,7 @@ namespace SMS.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool?>("Status")
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<Guid?>("StudentId")
@@ -68,18 +68,13 @@ namespace SMS.Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Status")
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
-
-                    b.Property<Guid?>("StudentId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Modules");
                 });
@@ -99,7 +94,7 @@ namespace SMS.Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Status")
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedDate")
@@ -108,6 +103,21 @@ namespace SMS.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("SMS.Domain.Entities.StudentModule", b =>
+                {
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ModuleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("StudentId", "ModuleId");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("StudentModules");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Topic", b =>
@@ -125,7 +135,7 @@ namespace SMS.Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Status")
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("UpdatedDate")
@@ -140,27 +150,47 @@ namespace SMS.Persistence.Migrations
 
             modelBuilder.Entity("SMS.Domain.Entities.HomeWork", b =>
                 {
-                    b.HasOne("SMS.Domain.Entities.Student", null)
+                    b.HasOne("SMS.Domain.Entities.Student", "Student")
                         .WithMany("HomeWorks")
-                        .HasForeignKey("StudentId");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("SMS.Domain.Entities.Module", b =>
+            modelBuilder.Entity("SMS.Domain.Entities.StudentModule", b =>
                 {
-                    b.HasOne("SMS.Domain.Entities.Student", null)
-                        .WithMany("Modules")
-                        .HasForeignKey("StudentId");
+                    b.HasOne("SMS.Domain.Entities.Module", "Module")
+                        .WithMany("StudentModules")
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SMS.Domain.Entities.Student", "Student")
+                        .WithMany("StudentModules")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Topic", b =>
                 {
-                    b.HasOne("SMS.Domain.Entities.Module", null)
+                    b.HasOne("SMS.Domain.Entities.Module", "Module")
                         .WithMany("Topics")
-                        .HasForeignKey("ModuleId");
+                        .HasForeignKey("ModuleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Module");
                 });
 
             modelBuilder.Entity("SMS.Domain.Entities.Module", b =>
                 {
+                    b.Navigation("StudentModules");
+
                     b.Navigation("Topics");
                 });
 
@@ -168,7 +198,7 @@ namespace SMS.Persistence.Migrations
                 {
                     b.Navigation("HomeWorks");
 
-                    b.Navigation("Modules");
+                    b.Navigation("StudentModules");
                 });
 #pragma warning restore 612, 618
         }
