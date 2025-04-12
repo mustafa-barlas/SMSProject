@@ -1,9 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Content Include="wwwroot\sneat-bootstrap-html-admin-template-free-v3.0.0\.DS_Store" />
+      <Content Include="wwwroot\sneat-bootstrap-html-admin-template-free-v3.0.0\.idea\.gitignore" />
+      <Content Include="wwwroot\sneat-bootstrap-html-admin-template-free-v3.0.0\.idea\indexLayout.xml" />
+      <Content Include="wwwroot\sneat-bootstrap-html-admin-template-free-v3.0.0\.idea\projectSettingsUpdater.xml" />
+      <Content Include="wwwroot\sneat-bootstrap-html-admin-template-free-v3.0.0\.idea\vcs.xml" />
+      <Content Include="wwwroot\sneat-bootstrap-html-admin-template-free-v3.0.0\.idea\workspace.xml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Student\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Student\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="Student\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Student\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Student\Shared\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Student\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="Student\_ViewStart.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\SMS.DtoLayer\SMS.DtoLayer.csproj" />
+    </ItemGroup>
 
 </Project>

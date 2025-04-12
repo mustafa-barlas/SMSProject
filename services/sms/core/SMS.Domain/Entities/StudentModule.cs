@@ -1,10 +1,15 @@
+using SMS.Domain.Entities.Common;
+
 namespace SMS.Domain.Entities;
 
-public class StudentModule
+public class StudentModule : BaseEntity
 {
-    public Guid StudentId { get; set; }   
-    public Student Student { get; set; }
+    public Guid StudentModuleId { get; set; }
+    public Guid StudentId { get; set; }
+    public Guid ModuleId { get; set; }
 
-    public Guid ModuleId { get; set; }    
-    public Module Module { get; set; }
+    public bool IsActive { get; set; } = true;
+
+    public Student? Student { get; set; }
+    public Module? Module { get; set; }
 }

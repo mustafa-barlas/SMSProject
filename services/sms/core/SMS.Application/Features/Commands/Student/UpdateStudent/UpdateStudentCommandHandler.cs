@@ -12,7 +12,8 @@ public class UpdateStudentCommandHandler(IStudentReadRepository readRepository, 
         Domain.Entities.Student student = await readRepository.GetByIdAsync(request.StudentId);
 
         student.Name = request.Name;
-        student.Age = request.Age;
+        student.DateOfBirth = request.DateOfBirth;
+        student.ImageUrl = request.ImageUrl;
         student.Status = request.Status;
         student.UpdatedDate = DateTime.Now;
 

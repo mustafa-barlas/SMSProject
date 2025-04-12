@@ -15,9 +15,8 @@ public class GetAllTopicQueryHandler(ITopicReadRepository readRepository) :
             .Include(x => x.Module)
             .Select(x => new TopicDto
             {
-                TopicId = x.Id.ToString(),
+                TopicId = x.Id,
                 TopicName = x.Name,
-                ModuleId = x.ModuleId.ToString(),
                 Status = x.Status
                 
             })

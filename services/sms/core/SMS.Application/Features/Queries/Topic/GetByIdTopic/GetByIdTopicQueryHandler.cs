@@ -18,11 +18,10 @@ public class GetByIdTopicQueryHandler(ITopicReadRepository readRepository) :
         {
             Topic = new TopicDto()
             {
-                TopicId = query.Id.ToString(),
+                TopicId = query.Id,
                 TopicName = query.Name,
                 CreateDate = query.CreatedDate,
                 UpdateDate = query.UpdatedDate,
-                ModuleId = query.ModuleId.ToString(),
                 Status = query.Status
             }
         };

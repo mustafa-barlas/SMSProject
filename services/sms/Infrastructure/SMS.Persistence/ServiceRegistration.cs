@@ -3,11 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SMS.Application.Repositories.HomeWorkRepository;
 using SMS.Application.Repositories.ModuleRepository;
+using SMS.Application.Repositories.StudentModule;
 using SMS.Application.Repositories.StudentRepository;
 using SMS.Application.Repositories.TopicRepository;
 using SMS.Persistence.Context;
 using SMS.Persistence.Repositories.HomeWrokRepository;
 using SMS.Persistence.Repositories.ModuleRepository;
+using SMS.Persistence.Repositories.StudentModuleRepository;
 using SMS.Persistence.Repositories.StudentRepository;
 using SMS.Persistence.Repositories.TopicRepository;
 
@@ -35,5 +37,8 @@ public static class ServiceRegistration
 
         services.AddScoped<ITopicReadRepository, TopicReadRepository>();
         services.AddScoped<ITopicWriteRepository, TopicWriteRepository>();
+        
+        services.AddScoped<IStudentModuleWriteRepository, StudentModuleWriteRepository>();
+        services.AddScoped<IStudentModuleReadRepository, StudentModuleReadRepository>();
     }
 }

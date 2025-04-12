@@ -10,7 +10,8 @@ public class CreateStudentCommandHandler(IStudentWriteRepository studentWriteRep
         await studentWriteRepository.AddAsync(new()
         {
             Name = request.Name,
-            Age = request.Age,
+            DateOfBirth = request.DateOfBirth,
+            ImageUrl = request.ImageUrl,
             Status = request.Status,
         });
 

@@ -22,7 +22,8 @@ public class GetAllStudentQueryHandler(IStudentReadRepository readRepository)
             {
                 StudentId  = s.Id.ToString(),
                 StudentName = s.Name,
-                Age = s.Age,
+                DateOfBirth = s.DateOfBirth,
+                ImageUrl = s.ImageUrl,
                 Status = s.Status,
                 CreatedDate = s.CreatedDate,
                 UpdatedDate = s.UpdatedDate,
@@ -41,7 +42,7 @@ public class GetAllStudentQueryHandler(IStudentReadRepository readRepository)
                     ModuleName = sm.Module.Name,
                     Topics = sm.Module.Topics.Select(t => new TopicDto
                     {
-                        TopicId = t.Id.ToString(), 
+                        TopicId = t.Id, 
                         TopicName= t.Name
                     }).ToList()
                 }).ToList()

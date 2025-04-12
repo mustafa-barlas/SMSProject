@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.JavaScript;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SMS.Application.Dto;
@@ -36,7 +37,8 @@ public class GetByIdStudentQueryHandler : IRequestHandler<GetByIdStudentQueryReq
             {
                 StudentId = student.Id.ToString(),
                 StudentName = student.Name,
-                Age = student.Age,
+                DateOfBirth = student.DateOfBirth,
+                ImageUrl = student.ImageUrl,
                 Status = student.Status,
                 CreatedDate = student.CreatedDate,
                 UpdatedDate = student.UpdatedDate,

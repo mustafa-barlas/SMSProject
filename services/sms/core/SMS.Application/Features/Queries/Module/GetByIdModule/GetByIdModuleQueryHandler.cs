@@ -28,7 +28,7 @@ public class GetByIdModuleQueryHandler(IModuleReadRepository readRepository)
                 Topics = query.Topics.Select(x => new TopicDto()
                 {
                     TopicName = x.Name,
-                    TopicId = x.Id.ToString()
+                    TopicId = x.Id
                 }).ToList()
             }
         };

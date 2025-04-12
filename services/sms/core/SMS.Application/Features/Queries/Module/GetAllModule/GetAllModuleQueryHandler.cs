@@ -25,7 +25,7 @@ public class GetAllModuleQueryHandler(IModuleReadRepository readRepository) :
                 UpdateDate = x.UpdatedDate,
                 Topics = x.Topics.Select(t => new TopicDto
                 {
-                    TopicId = t.Id.ToString(),
+                    TopicId = t.Id,
                     TopicName = t.Name
                 }).ToList()
             }).ToListAsync(cancellationToken);
