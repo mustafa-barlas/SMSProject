@@ -17,18 +17,18 @@ public class GetByIdModuleQueryHandler(IModuleReadRepository readRepository)
 
         var response = new GetByIdModuleQueryResponse
         {
-            Module = new ModuleDetailDto()
+            Module = new ModuleDto()
             {
                 Id = query.Id,
-                Name = query.Name,
+                ModuleName = query.Name,
+                ImageUrl = query.ImageUrl,
                 Status = query.Status,
                 CreatedDate = query.CreatedDate,
                 UpdatedDate = query.UpdatedDate,
-                ImageUrl = query.ImageUrl,
                 Topics = query.Topics.Select(x => new TopicDto()
                 {
-                    TopicName = x.Name,
-                    Id = x.Id
+                    Id = x.Id,
+                    TopicName = x.Name
                 }).ToList()
             }
         };

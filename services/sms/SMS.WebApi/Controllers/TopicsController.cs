@@ -10,21 +10,15 @@ namespace StudentManagementWebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TopicsController : ControllerBase
+public class TopicsController(IMediator mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
     // Constructor injection for IMediator
-    public TopicsController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
 
     // Get all Topics
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetAllTopicQueryRequest request)
     {
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 
@@ -32,7 +26,7 @@ public class TopicsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateTopicCommandRequest request)
     {
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 
@@ -41,7 +35,7 @@ public class TopicsController : ControllerBase
     public async Task<IActionResult> GetById([FromRoute] Guid id) // Guid al
     {
         var request = new GetByIdTopicQueryRequest { TopicId = id.ToString() }; // TopicId'yi göndermek
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 
@@ -49,7 +43,7 @@ public class TopicsController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateTopicCommandRequest request)
     {
-        await _mediator.Send(request);
+        await mediator.Send(request);
         return NoContent(); // NoContent is more appropriate for successful PUT requests
     }
 
@@ -58,7 +52,7 @@ public class TopicsController : ControllerBase
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
         var request = new RemoveTopicCommandRequest { TopicId = id };
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 }

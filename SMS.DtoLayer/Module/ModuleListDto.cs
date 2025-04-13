@@ -5,7 +5,5 @@ namespace SMS.DtoLayer.Module;
 
 public record ModuleListDto : BaseDTO
 {
-    public string? ModuleName { get; set; }
-    public string? ImageUrl { get; set; }
-    public List<TopicDto> Topics { get; set; } = new List<TopicDto>();
+    public List<ModuleDto> Modules { get; set; } = new();
 }

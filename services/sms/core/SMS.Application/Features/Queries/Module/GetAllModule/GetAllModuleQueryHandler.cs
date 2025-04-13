@@ -13,24 +13,24 @@ public class GetAllModuleQueryHandler(IModuleReadRepository readRepository) :
         CancellationToken cancellationToken)
     {
         var query = await readRepository.GetAll()
-            .Include(x => x.StudentModules)
-            .ThenInclude(x => x.Student)
-            .Select(x => new ModuleListDto()
+            .Include(x => x.Topics)
+            .Select(x => new ModuleDto()
             {
                 Id = x.Id,
                 ModuleName = x.Name,
-                Status = x.Status,
                 ImageUrl = x.ImageUrl,
-                Topics = x.Topics.Select(t => new TopicDto
+                Status = x.Status,
+                Topics = x.Topics.Select(t => new TopicDto()
                 {
-                    TopicName = t.Name
+                    Id = t.Id,
+                    TopicName = x.Name,
                 }).ToList()
             }).ToListAsync(cancellationToken);
 
 
         return new()
         {
-            ModuleDtos = query
+            Modules = query
         };
     }
 }

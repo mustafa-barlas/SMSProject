@@ -1,6 +1,8 @@
+using SMS.DtoLayer.Module;
+
 namespace SMS.Application.Features.Queries.Module.GetByIdModule;
 
 public class GetByIdModuleQueryResponse
 {
-    public object? Module { get; set; }
+    public ModuleDto? Module { get; set; }
 }

@@ -1,0 +1,17 @@
+@model SMS.DtoLayer.Module.ModuleDetailDto
+
+@{
+    ViewData["Title"] = "Module Details";
+}
+
+<h2>Module Details</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h4>@Model.ModuleName</h4>
+        <p><strong>iMAGE:</strong> @Model.ImageUrl</p>
+        <p><strong>Status:</strong> @(Model.Status ? "Active" : "Inactive")</p>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to List</a>

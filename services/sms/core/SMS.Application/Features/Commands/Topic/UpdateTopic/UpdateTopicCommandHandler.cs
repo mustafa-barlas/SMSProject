@@ -9,7 +9,7 @@ public class UpdateTopicCommandHandler(ITopicWriteRepository writeRepository, IT
     public async Task<UpdateTopicCommandResponse> Handle(UpdateTopicCommandRequest request,
         CancellationToken cancellationToken)
     {
-        var response = await readRepository.GetByIdAsync(request.TopicId);
+        var response = await readRepository.GetByIdAsync(request.TopicId.ToString());
         response.Name = request.TopicName;
         response.UpdatedDate = DateTime.Now;
         response.ModuleId = request.ModuleId;

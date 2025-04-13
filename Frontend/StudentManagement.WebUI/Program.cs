@@ -1,22 +1,10 @@
-using StudentManagement.WebUI.Services.Student;
-using StudentManagement.WebUI.Services.HomeWork;
+using StudentManagement.WebUI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-// STUDENT SERVICE
-builder.Services.AddHttpClient<IStudentService, StudentService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7109"); // STUDENT API URL
-});
-
-// HOMEWORK SERVICE
-builder.Services.AddHttpClient<IHomeWorkService, HomeWorkService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7109"); // HOMEWORK API URL (aynıysa problem yok)
-});
-// Module SERVICE
+builder.Services.AddHttpClients(builder.Configuration);
 
 
 var app = builder.Build();

@@ -1,5 +1,6 @@
 using MediatR;
 using SMS.Application.Repositories.TopicRepository;
+using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Commands.Topic.CreateTopic;
 

@@ -5,19 +5,25 @@ using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Queries.Topic.GetAllTopic;
 
-public class GetAllTopicQueryHandler(ITopicReadRepository readRepository) :
-    IRequestHandler<GetAllTopicQueryRequest, GetAllTopicQueryResponse>
+public class GetAllTopicQueryHandler(ITopicReadRepository readRepository)
+    : IRequestHandler<GetAllTopicQueryRequest, GetAllTopicQueryResponse>
 {
     public async Task<GetAllTopicQueryResponse> Handle(GetAllTopicQueryRequest request,
         CancellationToken cancellationToken)
     {
-        var topics = await readRepository.GetAll(false)
-            .Include(x => x.Module)
+        var query = readRepository.GetAll(false);
+        if (request.IncludeModule)
+        {
+            query = query.Include(x => x.Module);
+        }
+
+        var topics = await query
             .Select(x => new TopicDto
             {
                 Id = x.Id,
                 TopicName = x.Name,
-                Status = x.Status
+                Status = x.Status,
+                ModuleId = x.ModuleId // Eğer modül dahilse
             })
             .ToListAsync(cancellationToken);
 
