@@ -1,8 +1,9 @@
-using SMS.Application.Dto.HomeWork;
+
+using SMS.DtoLayer.HomeWork;
 
 namespace SMS.Application.Features.Queries.HomeWork.GetAllHomeWork;
 
 public class GetAllHomeWorkQueryResponse
 {
-    public List<GetByIdHomeWorkDto> HomeWorkDtos { get; set; } = new List<GetByIdHomeWorkDto>();
+    public List<HomeWorkDTO> HomeWorkDtos { get; set; } = new List<HomeWorkDTO>();
 }

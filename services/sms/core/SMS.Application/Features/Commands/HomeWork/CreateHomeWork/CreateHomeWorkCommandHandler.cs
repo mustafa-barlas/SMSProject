@@ -1,5 +1,4 @@
 using MediatR;
-using SMS.Application.Dto.HomeWork;
 using SMS.Application.Repositories.HomeWorkRepository;
 
 namespace SMS.Application.Features.Commands.HomeWork.CreateHomeWork;

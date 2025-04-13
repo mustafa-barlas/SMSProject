@@ -1,8 +1,9 @@
+using SMS.DtoLayer.Base;
+
 namespace SMS.DtoLayer.Topic;
 
-public class TopicUpdateDTO
+public record TopicUpdateDTO : BaseDTO
 {
-    public Guid Id { get; set; }
     public string? Name { get; set; }
     public Guid ModuleId { get; set; }
 }

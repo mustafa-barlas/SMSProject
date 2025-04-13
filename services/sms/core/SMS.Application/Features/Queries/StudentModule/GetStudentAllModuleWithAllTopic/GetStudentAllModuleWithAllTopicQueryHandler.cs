@@ -1,7 +1,7 @@
 using MediatR;
-using SMS.Application.Dto.StudentModule;
-using SMS.Application.Dto.Topic;
 using SMS.Application.Repositories.StudentModule;
+using SMS.DtoLayer.StudentModule;
+using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Queries.StudentModule.GetStudentAllModuleWithAllTopic;
 
@@ -13,15 +13,15 @@ public class GetStudentAllModuleWithAllTopicQueryHandler(IStudentModuleReadRepos
     {
         var studentModules = await readRepository.GetWithModulesAndTopicsByStudentIdAsync(request.StudentId);
 
-        var result = studentModules.Select(sm => new StudentModuleDto
+        var result = studentModules.Select(sm => new StudentModuleWithTopicDto()
         {
             StudentId = sm.StudentId,
             ModuleId = sm.Module.Id,
             ModuleName = sm.Module.Name,
             IsActive = sm.IsActive,
-            Topics = sm.Module.Topics.Select(t => new TopicDto
+            TopicDtos = sm.Module.Topics.Select(t => new TopicDto
             {
-                TopicId = t.Id,
+                Id = t.Id,
                 TopicName = t.Name
             }).ToList()
         }).ToList();

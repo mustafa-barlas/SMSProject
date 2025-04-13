@@ -1,8 +1,9 @@
+using SMS.DtoLayer.Base;
+
 namespace SMS.DtoLayer.Module;
 
-public class ModuleUpdateDTO
+public record ModuleUpdateDTO : BaseDTO
 {
-    public Guid Id { get; set; }
     public string? Name { get; set; }
     public string? ImageUrl { get; set; }
 }

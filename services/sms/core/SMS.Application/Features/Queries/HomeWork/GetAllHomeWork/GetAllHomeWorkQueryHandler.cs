@@ -1,8 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SMS.Application.Dto.HomeWork;
-using SMS.Application.Dto.Student;
 using SMS.Application.Repositories.HomeWorkRepository;
+using SMS.DtoLayer.HomeWork;
 
 namespace SMS.Application.Features.Queries.HomeWork.GetAllHomeWork;
 
@@ -14,22 +13,17 @@ public class GetAllHomeWorkQueryHandler(IHomeWorkReadRepository readRepository)
     {
         var homeworks = await readRepository.GetAll()
             .Include(x => x.Student) // Öğrenci ilişkisini dahil et
-            .Select(x => new GetByIdHomeWorkDto()
+            .Select(x => new HomeWorkDTO()
             {
-                HomeWorkId = x.Id.ToString(),
+                Id = x.Id,
                 Title = x.Title,
                 CreatedDate = x.CreatedDate,
                 UpdatedDate = x.UpdatedDate,
                 Status = x.Status,
                 Content = x.Content,
-                Student = new StudentDto
-                {
-                    StudentId = x.Student.Id.ToString(),
-                    StudentName = x.Student.Name
-                }
             }).ToListAsync(cancellationToken);
 
-        // HomeWorkDto listesini içeren response'u döndür
+        
         return new GetAllHomeWorkQueryResponse
         {
             HomeWorkDtos = homeworks

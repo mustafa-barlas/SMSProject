@@ -10,21 +10,15 @@ namespace StudentManagementWebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class StudentsController : ControllerBase
+public class StudentsController(IMediator mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
     // Constructor injection for IMediator
-    public StudentsController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
 
     // Get all students
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetAllStudentQueryRequest request)
     {
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 
@@ -32,7 +26,7 @@ public class StudentsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateStudentCommandRequest request)
     {
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 
@@ -40,8 +34,8 @@ public class StudentsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute] Guid id) // Guid al
     {
-        var request = new GetByIdStudentQueryRequest { StudentId = id.ToString() }; // StudentId'yi göndermek
-        var response = await _mediator.Send(request);
+        var request = new GetByIdStudentQueryRequest { StudentId = id }; // StudentId'yi göndermek
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 
@@ -49,7 +43,7 @@ public class StudentsController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> Put([FromBody] UpdateStudentCommandRequest request)
     {
-        await _mediator.Send(request);
+        await mediator.Send(request);
         return NoContent(); // NoContent is more appropriate for successful PUT requests
     }
 
@@ -58,7 +52,7 @@ public class StudentsController : ControllerBase
     public async Task<IActionResult> Delete([FromRoute] Guid id) // Guid al
     {
         var request = new RemoveStudentCommandRequest { StudentId = id.ToString() }; // StudentId'yi göndermek
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 }

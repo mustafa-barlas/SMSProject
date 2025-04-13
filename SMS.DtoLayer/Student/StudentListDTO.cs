@@ -1,10 +1,11 @@
+using SMS.DtoLayer.Base;
+using SMS.DtoLayer.HomeWork;
+using SMS.DtoLayer.Module;
+
 namespace SMS.DtoLayer.Student;
 
-public class StudentListDTO
+public record StudentListDto : BaseDTO
 {
-    public Guid Id { get; set; }
     public string? Name { get; set; }
-    public bool Status { get; set; }
     public string? ImageUrl { get; set; }
-
 }

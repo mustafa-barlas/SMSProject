@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\SMS.DtoLayer\SMS.DtoLayer.csproj" />
       <ProjectReference Include="..\SMS.Domain\SMS.Domain.csproj" />
     </ItemGroup>
 

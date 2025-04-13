@@ -1,6 +1,8 @@
+using SMS.DtoLayer.Base;
+
 namespace SMS.DtoLayer.Module;
 
-public class ModuleCreateDTO
+public record ModuleCreateDTO : BaseDTO
 {
     public string? Name { get; set; }
     public string? ImageUrl { get; set; }

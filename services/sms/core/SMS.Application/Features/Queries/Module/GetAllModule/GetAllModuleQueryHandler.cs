@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SMS.Application.Dto.Module;
-using SMS.Application.Dto.Topic;
 using SMS.Application.Repositories.ModuleRepository;
+using SMS.DtoLayer.Module;
+using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Queries.Module.GetAllModule;
 
@@ -15,17 +15,14 @@ public class GetAllModuleQueryHandler(IModuleReadRepository readRepository) :
         var query = await readRepository.GetAll()
             .Include(x => x.StudentModules)
             .ThenInclude(x => x.Student)
-            .Select(x => new GetByIdModuleDto()
+            .Select(x => new ModuleListDto()
             {
-                ModuleId = x.Id.ToString(),
+                Id = x.Id,
                 ModuleName = x.Name,
                 Status = x.Status,
                 ImageUrl = x.ImageUrl,
-                CreateDate = x.CreatedDate,
-                UpdateDate = x.UpdatedDate,
                 Topics = x.Topics.Select(t => new TopicDto
                 {
-                    TopicId = t.Id,
                     TopicName = t.Name
                 }).ToList()
             }).ToListAsync(cancellationToken);

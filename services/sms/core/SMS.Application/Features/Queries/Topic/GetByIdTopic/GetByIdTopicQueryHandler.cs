@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SMS.Application.Dto.Topic;
 using SMS.Application.Repositories.TopicRepository;
+using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Queries.Topic.GetByIdTopic;
 
@@ -18,10 +18,10 @@ public class GetByIdTopicQueryHandler(ITopicReadRepository readRepository) :
         {
             Topic = new TopicDto()
             {
-                TopicId = query.Id,
+                Id = query.Id,
                 TopicName = query.Name,
-                CreateDate = query.CreatedDate,
-                UpdateDate = query.UpdatedDate,
+                CreatedDate = query.CreatedDate,
+                UpdatedDate = query.UpdatedDate,
                 Status = query.Status
             }
         };

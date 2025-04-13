@@ -1,6 +1,7 @@
+using SMS.DtoLayer.Base;
+
 namespace SMS.DtoLayer.Topic;
 
-public class TopicRemoveDTO
+public record TopicRemoveDTO : BaseDTO
 {
-    public Guid Id { get; set; }
 }

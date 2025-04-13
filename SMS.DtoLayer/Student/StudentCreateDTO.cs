@@ -1,6 +1,8 @@
+using SMS.DtoLayer.Base;
+
 namespace SMS.DtoLayer.Student;
 
-public class StudentCreateDTO
+public record StudentCreateDTO : BaseDTO
 {
     public string? Name { get; set; }
     public DateTime DateOfBirth { get; set; }

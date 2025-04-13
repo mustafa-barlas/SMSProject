@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SMS.Application.Dto.Module;
-using SMS.Application.Dto.Topic;
 using SMS.Application.Repositories.ModuleRepository;
+using SMS.DtoLayer.Module;
+using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Queries.Module.GetByIdModule;
 
@@ -17,18 +17,18 @@ public class GetByIdModuleQueryHandler(IModuleReadRepository readRepository)
 
         var response = new GetByIdModuleQueryResponse
         {
-            Module = new GetByIdModuleDto()
+            Module = new ModuleDetailDto()
             {
-                ModuleId = query.Id.ToString(),
-                ModuleName = query.Name,
+                Id = query.Id,
+                Name = query.Name,
                 Status = query.Status,
-                CreateDate = query.CreatedDate,
-                UpdateDate = query.UpdatedDate,
+                CreatedDate = query.CreatedDate,
+                UpdatedDate = query.UpdatedDate,
                 ImageUrl = query.ImageUrl,
                 Topics = query.Topics.Select(x => new TopicDto()
                 {
                     TopicName = x.Name,
-                    TopicId = x.Id
+                    Id = x.Id
                 }).ToList()
             }
         };

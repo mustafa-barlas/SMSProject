@@ -1,8 +1,8 @@
-using SMS.Application.Dto.Module;
+using SMS.DtoLayer.Module;
 
 namespace SMS.Application.Features.Queries.Module.GetAllModule;
 
 public class GetAllModuleQueryResponse
 {
-    public List<GetByIdModuleDto> ModuleDtos { get; set; } = new List<GetByIdModuleDto>();
+    public List<ModuleListDto> ModuleDtos { get; set; } = new List<ModuleListDto>();
 }

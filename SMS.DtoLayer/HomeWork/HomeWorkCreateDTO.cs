@@ -1,6 +1,8 @@
+using SMS.DtoLayer.Base;
+
 namespace SMS.DtoLayer.HomeWork;
 
-public class HomeWorkCreateDTO
+public record HomeWorkCreateDTO : BaseDTO
 {
     public string? Title { get; set; }
     public string? Content { get; set; }

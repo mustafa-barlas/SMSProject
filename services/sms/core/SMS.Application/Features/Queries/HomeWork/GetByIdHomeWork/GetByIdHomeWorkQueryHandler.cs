@@ -1,8 +1,8 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SMS.Application.Dto.HomeWork;
-using SMS.Application.Dto.Student;
 using SMS.Application.Repositories.HomeWorkRepository;
+using SMS.DtoLayer.HomeWork;
+using SMS.DtoLayer.Student;
 
 namespace SMS.Application.Features.Queries.HomeWork.GetByIdHomeWork;
 
@@ -17,18 +17,18 @@ public class GetByIdHomeWorkQueryHandler(IHomeWorkReadRepository readRepository)
 
         var response = new GetByIdHomeWorkQueryResponse()
         {
-            HomeWork = new GetByIdHomeWorkDto()
+            HomeWork = new GetHomeWorkWithStudentDTO()
             {
-                HomeWorkId = query.Id.ToString(),
+                Id = query.Id,
                 Title = query.Title,
                 CreatedDate = query.CreatedDate,
                 UpdatedDate = query.UpdatedDate,
                 Status = query.Status,
                 Content = query.Content,
-                Student = new StudentDto
+                StudentDetailDto = new StudentDetailDTO()
                 {
-                    StudentId = query.Student.Id.ToString(),
-                    StudentName = query.Student.Name
+                    Id = query.Student.Id,
+                    Name = query.Student.Name,
                 }
             }
         };

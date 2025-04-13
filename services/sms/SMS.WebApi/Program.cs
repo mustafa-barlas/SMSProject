@@ -3,6 +3,18 @@ using SMS.Application;
 using SMS.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// CORS tanımı
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowWebUI", policy =>
+    {
+        // WebUI'nin çalıştığı portları ekliyoruz
+        policy.WithOrigins("https://localhost:7250", "http://localhost:5004") // WebUI portları
+            .AllowAnyHeader()   // Herhangi bir header'a izin ver
+            .AllowAnyMethod();  // Herhangi bir HTTP metoduna izin ver
+    });
+});
 var configuration = builder.Configuration;
 
 builder.Services.AddPersistenceServices(configuration);
@@ -10,7 +22,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddApplicationServices();
 builder.Services.AddControllers();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>()); // Assembly içindeki MediatR handler'larını kaydediyoruz
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssemblyContaining<Program>()); // Assembly içindeki MediatR handler'larını kaydediyoruz
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,7 +38,7 @@ if (app.Environment.IsDevelopment())
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowWebUI");
 app.UseAuthorization();
 
 app.MapControllers();

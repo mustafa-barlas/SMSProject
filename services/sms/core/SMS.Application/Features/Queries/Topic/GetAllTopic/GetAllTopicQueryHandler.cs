@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SMS.Application.Dto.Topic;
 using SMS.Application.Repositories.TopicRepository;
+using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Queries.Topic.GetAllTopic;
 
@@ -15,10 +15,9 @@ public class GetAllTopicQueryHandler(ITopicReadRepository readRepository) :
             .Include(x => x.Module)
             .Select(x => new TopicDto
             {
-                TopicId = x.Id,
+                Id = x.Id,
                 TopicName = x.Name,
                 Status = x.Status
-                
             })
             .ToListAsync(cancellationToken);
 
