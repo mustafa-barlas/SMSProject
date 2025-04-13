@@ -4,5 +4,5 @@ namespace SMS.Application.Features.Commands.Student.RemoveStudent;
 
 public class RemoveStudentCommandRequest : IRequest<RemoveStudentCommandResponse>
 {
-    public string StudentId { get; set; }
+    public Guid StudentId { get; set; }
 }

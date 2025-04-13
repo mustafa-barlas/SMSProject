@@ -17,6 +17,9 @@ public class CreateHomeWorkCommandHandler(IHomeWorkWriteRepository writeReposito
             StudentId = request.StudentId,
         });
         await writeRepository.SaveAsync();
-        return new();
+        return new CreateHomeWorkCommandResponse
+        {
+            Message = "Ödev başarıyla eklendi!"
+        };
     }
 }

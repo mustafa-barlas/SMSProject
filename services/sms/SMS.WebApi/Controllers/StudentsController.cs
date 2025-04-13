@@ -51,7 +51,7 @@ public class StudentsController(IMediator mediator) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id) // Guid al
     {
-        var request = new RemoveStudentCommandRequest { StudentId = id.ToString() }; // StudentId'yi göndermek
+        var request = new RemoveStudentCommandRequest { StudentId = id }; // StudentId'yi göndermek
         var response = await mediator.Send(request);
         return Ok(response);
     }

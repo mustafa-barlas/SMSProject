@@ -37,7 +37,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Pages\Shared\Components\" />
+      <Folder Include="Pages\" />
+      <Folder Include="Services\Module\" />
+      <Folder Include="Services\StudentModule\" />
+      <Folder Include="Services\Topic\" />
     </ItemGroup>
 
 </Project>

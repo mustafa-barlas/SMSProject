@@ -1,35 +1,8 @@
-@page "{id:guid}"
 @model SMS.DtoLayer.Student.StudentUpdateDTO
 
 @{
-    ViewBag.Title = "Edit Student";
+    ViewBag.Title = "title";
     Layout = "_Layout";
 }
 
-<h2>Edit Student</h2>
-
-<form asp-action="Edit" asp-controller="Students" method="post">
-    <input type="hidden" name="Id" value="@Model.Id"/>
-
-    <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" name="Name" value="@Model.Name" required/>
-    </div>
-    <div class="form-group">
-        <label>Date of Birth:</label>
-        <input type="date" class="form-control" name="DateOfBirth" value="@Model.DateOfBirth" required/>
-    </div>
-    <div class="form-group">
-        <label>Image URL:</label>
-        <input type="text" class="form-control" name="ImageUrl" value="@Model.ImageUrl"/>
-    </div>
-    <div class="form-group">
-        <label>Status:</label>
-        <select class="form-control" asp-for="Status">
-            <option value="true">Active</option>
-            <option value="false">Inactive</option>
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-</form>
+<h2>title</h2>

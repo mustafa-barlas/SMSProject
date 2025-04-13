@@ -18,11 +18,12 @@ public class StudentController(IStudentService studentService) : Controller
         return View(student);
     }
 
+
     // GET: Create
     public IActionResult Create()
     {
-        List<StudentCreateDTO> _students = new();
-        return View(_students.Select(s => new StudentListDto
+        List<StudentCreateDTO> students = new();
+        return View(students.Select(s => new StudentListDto
         {
             Name = s.Name,
             Status = Convert.ToBoolean(s.Status == true ? "Active" : "Inactive")
@@ -43,10 +44,9 @@ public class StudentController(IStudentService studentService) : Controller
         return View(model);
     }
 
-    // GET: Update
     public async Task<IActionResult> Edit(Guid id)
     {
-        var student = await studentService.GetByIdStudentAsync(id);
+        StudentDetailDTO? student  = await studentService.GetByIdStudentAsync(id);
         if (student == null)
         {
             return NotFound();
@@ -64,6 +64,7 @@ public class StudentController(IStudentService studentService) : Controller
         return View(editDto);
     }
 
+    // POST: Edit
     [HttpPost]
     public async Task<IActionResult> Edit(StudentUpdateDTO model)
     {
@@ -78,33 +79,15 @@ public class StudentController(IStudentService studentService) : Controller
     }
 
 
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        var student = await studentService.GetByIdStudentAsync(id);
-        if (student == null)
-        {
-            return NotFound();
-        }
-
-        var deleteDto = new StudentUpdateDTO()
-        {
-            Id = student.Id,
-            Name = student.Name
-        };
-
-        return View(deleteDto);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Delete(StudentUpdateDTO model)
+    [HttpPost("Delete/{id}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
         if (ModelState.IsValid)
         {
-            await studentService.DeleteStudentAsync(model.Id);
+            await studentService.DeleteStudentAsync(id);
             TempData["Success"] = "Student successfully deleted!";
-            return RedirectToAction("Index");
         }
 
-        return View(model);
+        return RedirectToAction("Index");
     }
 }

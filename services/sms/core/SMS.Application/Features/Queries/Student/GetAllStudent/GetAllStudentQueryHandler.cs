@@ -23,6 +23,7 @@ public class GetAllStudentQueryHandler(IStudentReadRepository readRepository)
                 Status = s.Status,
                 CreatedDate = s.CreatedDate,
                 UpdatedDate = s.UpdatedDate,
+                DateOfBirth = s.DateOfBirth
             }).ToListAsync(cancellationToken);
 
         return new()

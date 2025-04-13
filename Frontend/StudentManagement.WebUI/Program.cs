@@ -1,14 +1,23 @@
 using StudentManagement.WebUI.Services.Student;
+using StudentManagement.WebUI.Services.HomeWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<IStudentService, StudentService>();
-// HomeWorks API için örnek bir HttpClient kaydı ekleyeceksek:
+
+// STUDENT SERVICE
 builder.Services.AddHttpClient<IStudentService, StudentService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7109"); // API URL'si
+    client.BaseAddress = new Uri("https://localhost:7109"); // STUDENT API URL
 });
+
+// HOMEWORK SERVICE
+builder.Services.AddHttpClient<IHomeWorkService, HomeWorkService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7109"); // HOMEWORK API URL (aynıysa problem yok)
+});
+// Module SERVICE
+
 
 var app = builder.Build();
 
@@ -22,10 +31,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Students}/{action=Index}/{id?}");
+    pattern: "{controller=Student}/{action=Index}/{id?}");
 
 app.Run();

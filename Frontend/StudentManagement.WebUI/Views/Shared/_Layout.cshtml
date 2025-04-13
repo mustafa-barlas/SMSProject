@@ -6,16 +6,25 @@
   data-assets-path="sneat/sneat-bootstrap-html-admin-template-free/assets/"
   data-template="vertical-menu-template-free">
 
-@await Component.InvokeAsync("HeadViewComponentPartial")
+<head>
+  <meta charset="utf-8"/>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
+  <title>SUMS - Student Management System</title>
+
+  <meta name="description" content=""/>
+
+  @await Html.PartialAsync("Components/HeadViewComponentPartial/Default")
+</head>
 <body>
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
   <div class="layout-container">
     <!-- Menu -->
 
-    @await Component.InvokeAsync("LayoutViewComponentPartial")
-    <!-- / Menu -->
+    @await Html.PartialAsync("Components/LayoutViewComponentPartial/Default") <!-- / Menu -->
 
     <!-- Layout container -->
     <div class="layout-page">
@@ -45,11 +54,10 @@
           <!-- /Search -->
 
           <ul class="navbar-nav flex-row align-items-center ms-md-auto">
-            
+
 
             <!-- User -->
-            @await Component.InvokeAsync("UserViewComponentPartial");
-            <!--/ User -->
+            @await Html.PartialAsync("Components/UserViewComponentPartial/Default") <!--/ User -->
           </ul>
         </div>
       </nav>
@@ -58,29 +66,32 @@
 
       <!-- Content wrapper -->
       <div class="content-wrapper">
-        <!-- Content -->
-        @RenderBody()
-        <!-- / Content -->
-
-        <!-- Footer -->
-        @await Component.InvokeAsync("FooterViewComponentPartial")
-        <!-- / Footer -->
-
-        <div class="content-backdrop fade"></div>
+        <div class="container-xxl flex-grow-1 container-p-y">
+          @RenderBody() <!-- Edit sayfası buraya basılacak -->
+        </div>
       </div>
-      <!-- Content wrapper -->
-    </div>
-    <!-- / Layout page -->
-  </div>
 
-  <!-- Overlay -->
-  <div class="layout-overlay layout-menu-toggle"></div>
+      <!-- / Content -->
+
+      <!-- Footer -->
+      @await Html.PartialAsync("Components/FooterViewComponentPartial/Default")
+      <!-- / Footer -->
+
+      <div class="content-backdrop fade"></div>
+    </div>
+    <!-- Content wrapper -->
+  </div>
+  <!-- / Layout page -->
 </div>
+
+<!-- Overlay -->
+<div class="layout-overlay layout-menu-toggle"></div>
+
 <!-- / Layout wrapper -->
 
 
 <!-- Core JS -->
 
-@await Component.InvokeAsync("ScriptViewComponentPartial")
+@await Html.PartialAsync("Components/ScriptViewComponentPartial/Default")
 </body>
 </html>

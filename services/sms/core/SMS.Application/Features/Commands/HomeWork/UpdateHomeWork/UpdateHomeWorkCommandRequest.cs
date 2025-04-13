@@ -9,5 +9,5 @@ public class UpdateHomeWorkCommandRequest : IRequest<UpdateHomeWorkCommandRespon
     public string? Content { get; set; }
     public bool Status { get; set; }
 
-    public Guid? StudentId { get; set; }
+    public Guid StudentId { get; set; }
 }
