@@ -23,6 +23,7 @@ public class GetAllTopicQueryHandler(ITopicReadRepository readRepository)
                 Id = x.Id,
                 TopicName = x.Name,
                 Status = x.Status,
+                ModuleName = request.IncludeModule ? x.Module.Name : null,
                 ModuleId = x.ModuleId // Eğer modül dahilse
             })
             .ToListAsync(cancellationToken);

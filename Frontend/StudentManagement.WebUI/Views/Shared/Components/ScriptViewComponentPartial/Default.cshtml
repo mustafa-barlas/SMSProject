@@ -1,26 +1,59 @@
-
-
-
-<script src="sneat/assets/vendor/libs/jquery/jquery.js"></script>
-
-<script src="sneat/assets/vendor/libs/popper/popper.js"></script>
-<script src="sneat/assets/vendor/js/bootstrap.js"></script>
-
+<script src="skydash-free-bootstrap-admin-template-main/template/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="skydash-free-bootstrap-admin-template-main/template/vendors/chart.js/Chart.min.js"></script>
+<script src="skydash-free-bootstrap-admin-template-main/template/vendors/datatables.net/jquery.dataTables.js"></script>
 <script
-    src="sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    src="skydash-free-bootstrap-admin-template-main/template/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+<script src="skydash-free-bootstrap-admin-template-main/template/js/dataTables.select.min.js"></script>
 
-<script src="sneat/assets/vendor/js/menu.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="skydash-free-bootstrap-admin-template-main/template/js/off-canvas.js"></script>
+<script src="skydash-free-bootstrap-admin-template-main/template/js/hoverable-collapse.js"></script>
+<script src="skydash-free-bootstrap-admin-template-main/template/js/template.js"></script>
+<script src="skydash-free-bootstrap-admin-template-main/template/js/settings.js"></script>
+<script src="skydash-free-bootstrap-admin-template-main/template/js/todolist.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page-->
+<script src="skydash-free-bootstrap-admin-template-main/template/js/dashboard.js"></script>
+<script src="skydash-free-bootstrap-admin-template-main/template/js/Chart.roundedBarCharts.js"></script>
 
-<!-- endbuild -->
+<script>
+    window.onload = function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(sendLocationToServer, showError);
+        } else {
+            alert("Tarayıcınız konum bilgisini desteklemiyor.");
+        }
+    };
 
-<!-- Vendors JS -->
-<script src="sneat/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+    function sendLocationToServer(position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
 
-<!-- Main JS -->
+        fetch(`/Weather/GetWeather?lat=${lat}&lon=${lon}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.city && data.temperature) {
+                    document.getElementById("weatherInfo").innerHTML =
+                        `<strong>${data.city}</strong> | ${data.conditionText}, ${data.temperature}°C`;
+                } else {
+                    document.getElementById("weatherInfo").innerText = "Veri alınamadı.";
+                }
+            })
+            .catch(error => {
+                document.getElementById("weatherInfo").innerText = "Hava durumu alınamadı.";
+                console.error(error);
+            });
+    }
 
-<script src="sneat/assets/js/main.js"></script>
+    function showError(error) {
+        document.getElementById("weatherInfo").innerText = "Konum alınamadı.";
+    }
+</script>
 
-<!-- Page JS -->
-<script src="sneat/assets/js/dashboards-analytics.js"></script>
 
-<script async defer src="https://buttons.github.io/buttons.js"></script>
+<div id="weatherInfo" class="alert alert-info mt-3">
+    Hava durumu bilgisi yükleniyor...
+</div>

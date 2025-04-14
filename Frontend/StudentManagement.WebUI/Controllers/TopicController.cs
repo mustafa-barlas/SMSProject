@@ -9,7 +9,7 @@ public class TopicController(ITopicService topicService) : Controller
     // Listeleme
     public async Task<IActionResult> Index()
     {
-        var topics = await topicService.GetAllTopicsAsync(false);
+        var topics = await topicService.GetAllTopicsAsync(true);
         return View(topics);
     }
     
