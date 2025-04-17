@@ -4,5 +4,5 @@ namespace SMS.Application.Features.Queries.Module.GetByIdModule;
 
 public class GetByIdModuleQueryResponse
 {
-    public ModuleDto? Module { get; set; }
+    public ModuleGetByIdDto Module { get; set; }
 }

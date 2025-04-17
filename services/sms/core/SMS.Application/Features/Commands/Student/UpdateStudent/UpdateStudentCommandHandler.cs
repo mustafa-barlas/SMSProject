@@ -1,23 +1,25 @@
+using AutoMapper;
 using MediatR;
 using SMS.Application.Repositories.StudentRepository;
+using SMS.DtoLayer.Student;
 
 namespace SMS.Application.Features.Commands.Student.UpdateStudent;
 
-public class UpdateStudentCommandHandler(IStudentReadRepository readRepository, IStudentWriteRepository writeRepository)
+public class UpdateStudentCommandHandler(
+    IStudentReadRepository readRepository,
+    IStudentWriteRepository writeRepository,
+    IMapper mapper)
     : IRequestHandler<UpdateStudentCommandRequest, UpdateStudentCommandResponse>
 {
     public async Task<UpdateStudentCommandResponse> Handle(UpdateStudentCommandRequest request,
         CancellationToken cancellationToken)
     {
-        Domain.Entities.Student student = await readRepository.GetByIdAsync(request.StudentId);
+        var student = await readRepository.GetByIdAsync(request.StudentUpdateDto.Id);
+        mapper.Map(request.StudentUpdateDto, student);
 
-        student.Name = request.Name;
-        student.DateOfBirth = request.DateOfBirth;
-        student.ImageUrl = request.ImageUrl;
-        student.Status = request.Status;
-        student.UpdatedDate = DateTime.Now;
-
+        writeRepository.Update(student);
         await writeRepository.SaveAsync();
+
         return new();
     }
 }

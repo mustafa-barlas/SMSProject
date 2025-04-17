@@ -4,5 +4,5 @@ namespace SMS.Application.Features.Queries.HomeWork.GetByIdHomeWork;
 
 public class GetHomeworksByStudentIdQueryResponse
 {
-    public List<HomeworkListDto> Homeworks { get; set; } = new();
+    public List<GetAllHomeworkDto> Homeworks { get; set; } = new();
 }

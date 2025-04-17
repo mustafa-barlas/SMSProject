@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SMS.Application.Repositories.ModuleRepository;
@@ -10,34 +11,31 @@ public class CreateStudentModuleCommandHandler(
     IStudentReadRepository studentReadRepository,
     IModuleReadRepository moduleReadRepository,
     IStudentModuleWriteRepository studentModuleWriteRepository,
-    IStudentModuleReadRepository studentModuleReadRepository)
+    IStudentModuleReadRepository studentModuleReadRepository, IMapper mapper)
     : IRequestHandler<CreateStudentModuleCommandRequest, CreateStudentModuleCommandResponse>
 {
     public async Task<CreateStudentModuleCommandResponse> Handle(CreateStudentModuleCommandRequest request,
         CancellationToken cancellationToken)
     {
         // Öğrenci var mı kontrolü
-        var student = await studentReadRepository.GetByIdAsync(request.StudentId.ToString());
+        var student = await studentReadRepository.GetByIdAsync(request.StudentModuleCreateDto.StudentId);
         if (student == null)
             throw new Exception("Student not found");
 
 
         // Daha önce atanmış mı?
         var existing = await studentModuleReadRepository.GetWhere(sm =>
-                sm.StudentId == request.StudentId && sm.ModuleId == request.ModuleId)
+                sm.StudentId == request.StudentModuleCreateDto.StudentId &&
+                sm.ModuleId == request.StudentModuleCreateDto.ModuleId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (existing != null)
             return new(); // zaten atanmış, işlem yapma
 
         // Yeni modül ata
-        var newStudentModule = new Domain.Entities.StudentModule
-        {
-            StudentId = request.StudentId,
-            ModuleId = request.ModuleId
-        };
+        var result = mapper.Map<Domain.Entities.StudentModule>(request.StudentModuleCreateDto);
 
-        await studentModuleWriteRepository.AddAsync(newStudentModule);
+        await studentModuleWriteRepository.AddAsync(result);
         await studentModuleWriteRepository.SaveAsync();
         return new();
 

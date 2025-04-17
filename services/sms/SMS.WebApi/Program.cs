@@ -1,5 +1,6 @@
 using MediatR;
 using SMS.Application;
+using SMS.Application.Mappings;
 using SMS.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowWebUI", policy =>
     {
         // WebUI'nin çalıştığı portları ekliyoruz
-        policy.WithOrigins("https://localhost:7250", "http://localhost:5004") // WebUI portları
+        policy.WithOrigins("https://localhost:7192", "http://localhost:5027") // WebUI portları
             .AllowAnyHeader()   // Herhangi bir header'a izin ver
             .AllowAnyMethod();  // Herhangi bir HTTP metoduna izin ver
     });
@@ -19,6 +20,7 @@ var configuration = builder.Configuration;
 
 builder.Services.AddPersistenceServices(configuration);
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddAutoMapper(typeof(StudentMappingProfile));
 
 builder.Services.AddApplicationServices();
 builder.Services.AddControllers();

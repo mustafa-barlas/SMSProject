@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SMS.Application.Repositories.HomeWorkRepository;
@@ -5,28 +6,26 @@ using SMS.DtoLayer.HomeWork;
 
 namespace SMS.Application.Features.Queries.HomeWork.GetAllHomeWork;
 
-public class GetAllHomeWorkQueryHandler(IHomeWorkReadRepository readRepository)
+public class GetAllHomeWorkQueryHandler(
+    IHomeWorkReadRepository readRepository,
+    IMapper mapper)
     : IRequestHandler<GetAllHomeWorkQueryRequest, GetAllHomeWorkQueryResponse>
 {
     public async Task<GetAllHomeWorkQueryResponse> Handle(GetAllHomeWorkQueryRequest request,
         CancellationToken cancellationToken)
     {
+        // Homework verilerini al, Student ilişkisini de dahil et
         var homeworks = await readRepository.GetAll()
-            .Include(x => x.Student) // Öğrenci ilişkisini dahil et
-            .Select(x => new HomeWorkDTO()
-            {
-                Id = x.Id,
-                Title = x.Title,
-                CreatedDate = x.CreatedDate,
-                UpdatedDate = x.UpdatedDate,
-                Status = x.Status,
-                Content = x.Content,
-            }).ToListAsync(cancellationToken);
+            .Include(x => x.Student) // ilişkili veriyi de dahil et
+            .ToListAsync(cancellationToken); // Asenkron hale getir
 
-        
+        // AutoMapper ile veriyi DTO'ya dönüştür
+        var result = mapper.Map<List<GetAllHomeworkDto>>(homeworks);
+
+        // Dönüştürülmüş veriyi response nesnesine at
         return new GetAllHomeWorkQueryResponse
         {
-            HomeWorkDtos = homeworks
+            HomeWorkDtos = result // response modelini doldur
         };
     }
 }

@@ -38,9 +38,9 @@ public class ModulesController : ControllerBase
 
     // Get a Module by ID
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById([FromRoute] Guid id) // Guid al
+    public async Task<IActionResult> GetById([FromRoute] int id) // Guid al
     {
-        var request = new GetByIdModuleQueryRequest { ModuleId = id }; // ModuleId'yi göndermek
+        var request = new GetByIdModuleQueryRequest { Id = id }; // ModuleId'yi göndermek
         var response = await _mediator.Send(request);
         return Ok(response);
     }
@@ -55,9 +55,9 @@ public class ModulesController : ControllerBase
 
     // Delete a Module
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id) // Guid al
+    public async Task<IActionResult> Delete([FromRoute] int id) // Guid al
     {
-        var request = new RemoveModuleCommandRequest { ModuleId = id.ToString() }; // ModuleId'yi göndermek
+        var request = new RemoveModuleCommandRequest { Id = id }; // ModuleId'yi göndermek
         var response = await _mediator.Send(request);
         return Ok(response);
     }

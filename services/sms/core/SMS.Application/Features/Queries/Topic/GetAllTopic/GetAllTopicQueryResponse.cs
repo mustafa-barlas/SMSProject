@@ -1,6 +1,8 @@
+using SMS.DtoLayer.Topic;
+
 namespace SMS.Application.Features.Queries.Topic.GetAllTopic;
 
 public class GetAllTopicQueryResponse
 {
-    public object? Topics { get; set; }
+    public List<GetAllTopicDto> Topics { get; set; } =  new List<GetAllTopicDto>();
 }

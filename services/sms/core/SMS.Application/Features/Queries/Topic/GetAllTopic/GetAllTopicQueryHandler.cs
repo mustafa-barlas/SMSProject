@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SMS.Application.Repositories.TopicRepository;
@@ -5,32 +6,19 @@ using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Queries.Topic.GetAllTopic;
 
-public class GetAllTopicQueryHandler(ITopicReadRepository readRepository)
+public class GetAllTopicQueryHandler(ITopicReadRepository readRepository, IMapper mapper)
     : IRequestHandler<GetAllTopicQueryRequest, GetAllTopicQueryResponse>
 {
     public async Task<GetAllTopicQueryResponse> Handle(GetAllTopicQueryRequest request,
         CancellationToken cancellationToken)
     {
-        var query = readRepository.GetAll(false);
-        if (request.IncludeModule)
-        {
-            query = query.Include(x => x.Module);
-        }
-
-        var topics = await query
-            .Select(x => new TopicDto
-            {
-                Id = x.Id,
-                TopicName = x.Name,
-                Status = x.Status,
-                ModuleName = request.IncludeModule ? x.Module.Name : null,
-                ModuleId = x.ModuleId // Eğer modül dahilse
-            })
-            .ToListAsync(cancellationToken);
+        var query = await readRepository.GetAll().Include(x => x.Module)
+            .Where(x => x.ModuleId.Equals(request.ModuleId)).ToListAsync(cancellationToken);
+        var response = mapper.Map<List<GetAllTopicDto>>(query);
 
         return new GetAllTopicQueryResponse
         {
-            Topics = topics
+            Topics = response
         };
     }
 }

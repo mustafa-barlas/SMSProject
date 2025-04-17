@@ -18,7 +18,7 @@ namespace StudentManagementWebApi.Controllers
         }
 
         [HttpGet("get-by-student/{studentId}")]
-        public async Task<IActionResult> GetStudentModules(Guid studentId)
+        public async Task<IActionResult> GetStudentModules(int studentId)
         {
             var query = new GetStudentAllModuleWithAllTopicQueryRequest() { StudentId = studentId };
             var result = await mediator.Send(query);
@@ -26,7 +26,7 @@ namespace StudentManagementWebApi.Controllers
         }
 
         [HttpDelete("remove-student-module")]
-        public async Task<IActionResult> Remove([FromQuery] Guid studentId, [FromQuery] Guid moduleId)
+        public async Task<IActionResult> Remove([FromQuery] int studentId, [FromQuery] int moduleId)
         {
             var commandRequest = new RemoveStudentModuleCommandRequest
             {

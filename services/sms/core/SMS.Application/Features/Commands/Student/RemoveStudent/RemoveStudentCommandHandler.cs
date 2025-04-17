@@ -7,7 +7,7 @@ public class RemoveStudentCommandHandler(IStudentWriteRepository writeRepository
 {
     public async Task<RemoveStudentCommandResponse> Handle(RemoveStudentCommandRequest request, CancellationToken cancellationToken)
     {
-        await writeRepository.ChangeStatusAsync(request.StudentId.ToString());
+        await writeRepository.ChangeStatusAsync(request.Id.ToString());
         await writeRepository.SaveAsync();
 
         return new();

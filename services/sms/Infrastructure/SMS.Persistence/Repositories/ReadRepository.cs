@@ -47,7 +47,7 @@ public class ReadRepository<T>(SMSAPIDbContext context) : IReadRepository<T> whe
         return await query.FirstOrDefaultAsync(method);
     }
 
-    public async Task<T> GetByIdAsync(string id, bool tracking = true)
+    public async Task<T> GetByIdAsync(int id, bool tracking = true)
     {
         var query = Table.AsQueryable();
 
@@ -56,7 +56,7 @@ public class ReadRepository<T>(SMSAPIDbContext context) : IReadRepository<T> whe
             query = query.AsNoTracking();
         }
 
-        return await query.FirstOrDefaultAsync(x => x.Id.Equals(Guid.Parse(id)));
+        return await query.FirstOrDefaultAsync(x => x.Id.Equals(id));
     }
 
 

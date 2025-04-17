@@ -1,21 +1,18 @@
+using AutoMapper;
 using MediatR;
 using SMS.Application.Repositories.TopicRepository;
-using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Commands.Topic.CreateTopic;
 
-public class CreateTopicCommandHandler(ITopicWriteRepository writeRepository)
+public class CreateTopicCommandHandler(ITopicWriteRepository writeRepository, IMapper mapper)
     : IRequestHandler<CreateTopicCommandRequest, CreateTopicCommandResponse>
 {
     public async Task<CreateTopicCommandResponse> Handle(CreateTopicCommandRequest request,
         CancellationToken cancellationToken)
     {
-        await writeRepository.AddAsync(new()
-        {
-            Name = request.TopicName,
-            ModuleId = request.ModuleId,
-            Status = request.Status,
-        });
+        var response = mapper.Map<Domain.Entities.Topic>(request.TopicCreateDto);
+
+        await writeRepository.AddAsync(response);
         await writeRepository.SaveAsync();
         return new CreateTopicCommandResponse();
     }

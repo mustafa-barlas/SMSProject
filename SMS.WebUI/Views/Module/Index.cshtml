@@ -1,0 +1,56 @@
+@model List<SMS.DtoLayer.Module.ModuleDto>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_UILayout";
+}
+
+<style>
+    .module-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+</style>
+
+<h2 class="mb-4">Module List</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">+ Add New Module</a>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle text-center">
+        <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var module in Model)
+        {
+            <tr>
+                <td>@module.ModuleName</td>
+                <td>
+                    <img src="@module.ImageUrl" alt="@module.ModuleName" class="module-image" />
+                </td>
+                <td>
+                    <form asp-action="Delete" method="post" style="display:inline">
+                        <input type="hidden" name="id" value="@module.Id"/>
+                        <button type="submit" class="btn @(module.Status ? "btn-success" : "btn-secondary") btn-sm">
+                            @(module.Status ? "Active" : "Inactive")
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <a asp-action="Detail" asp-route-id="@module.Id" class="btn btn-info btn-sm me-1">Details</a>
+                    <a asp-action="Edit" asp-route-id="@module.Id" class="btn btn-warning btn-sm">Edit</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

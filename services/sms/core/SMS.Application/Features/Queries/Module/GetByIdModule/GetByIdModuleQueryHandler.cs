@@ -1,3 +1,4 @@
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SMS.Application.Repositories.ModuleRepository;
@@ -6,32 +7,20 @@ using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Queries.Module.GetByIdModule;
 
-public class GetByIdModuleQueryHandler(IModuleReadRepository readRepository)
+public class GetByIdModuleQueryHandler(IModuleReadRepository readRepository, IMapper mapper)
     : IRequestHandler<GetByIdModuleQueryRequest, GetByIdModuleQueryResponse>
 {
     public async Task<GetByIdModuleQueryResponse> Handle(GetByIdModuleQueryRequest request,
         CancellationToken cancellationToken)
     {
-        var query = await readRepository.GetWhere(x => x.Id.Equals(request.ModuleId)).Include(x => x.Topics)
+        var query = await readRepository.GetAll(false).Include(x => x.Topics).Where(x => x.Id.Equals(request.Id))
             .FirstOrDefaultAsync(cancellationToken);
 
-        var response = new GetByIdModuleQueryResponse
+        var response = mapper.Map<ModuleGetByIdDto>(query);
+
+        return new()
         {
-            Module = new ModuleDto()
-            {
-                Id = query.Id,
-                ModuleName = query.Name,
-                ImageUrl = query.ImageUrl,
-                Status = query.Status,
-                CreatedDate = query.CreatedDate,
-                UpdatedDate = query.UpdatedDate,
-                Topics = query.Topics.Select(x => new TopicDto()
-                {
-                    Id = x.Id,
-                    TopicName = x.Name
-                }).ToList()
-            }
+            Module = response
         };
-        return response;
     }
 }

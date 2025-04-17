@@ -5,6 +5,7 @@ using SMS.Application.Features.Commands.Student.RemoveStudent;
 using SMS.Application.Features.Commands.Student.UpdateStudent;
 using SMS.Application.Features.Queries.Student.GetAllStudent;
 using SMS.Application.Features.Queries.Student.GetByIdStudent;
+using SMS.Application.Features.Queries.StudentModule.GetStudentAllModuleWithAllTopic;
 
 namespace StudentManagementWebApi.Controllers;
 
@@ -30,28 +31,37 @@ public class StudentsController(IMediator mediator) : ControllerBase
         return Ok(response);
     }
 
+    // Get student with all related fields (modules, topics, etc.)
+    [HttpGet("{id}/all")]
+    public async Task<IActionResult> GetStudentWithAllFields([FromRoute] int id)
+    {
+        var request = new GetStudentAllModuleWithAllTopicQueryRequest { StudentId = id };
+        var response = await mediator.Send(request);
+        return Ok(response);
+    }
+
     // Get a student by ID
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById([FromRoute] Guid id) // Guid al
+    public async Task<IActionResult> GetById([FromRoute] int id) // int al
     {
-        var request = new GetByIdStudentQueryRequest { StudentId = id }; // StudentId'yi göndermek
+        var request = new GetByIdStudentQueryRequest { Id = id }; // StudentId'yi göndermek
         var response = await mediator.Send(request);
         return Ok(response);
     }
 
     // Update a student
     [HttpPut]
-    public async Task<IActionResult> Put([FromBody] UpdateStudentCommandRequest request)
+    public async Task<IActionResult> Update( [FromBody] UpdateStudentCommandRequest request)
     {
-        await mediator.Send(request);
-        return NoContent(); // NoContent is more appropriate for successful PUT requests
+        var response = await mediator.Send(request);
+        return Ok(response); // veya NoContent(); (tercih meselesi)
     }
 
     // Delete a student
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id) // Guid al
+    public async Task<IActionResult> Delete([FromRoute] int id) // int al
     {
-        var request = new RemoveStudentCommandRequest { StudentId = id }; // StudentId'yi göndermek
+        var request = new RemoveStudentCommandRequest { Id = id }; // StudentId'yi göndermek
         var response = await mediator.Send(request);
         return Ok(response);
     }

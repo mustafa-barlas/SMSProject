@@ -1,22 +1,28 @@
+using AutoMapper;
 using MediatR;
 using SMS.Application.Repositories.HomeWorkRepository;
+using SMS.DtoLayer.HomeWork;
 
 namespace SMS.Application.Features.Commands.HomeWork.UpdateHomeWork;
 
-public class UpdateHomeWorkCommandHandler(IHomeWorkWriteRepository writeRepository,IHomeWorkReadRepository readRepository) : IRequestHandler<UpdateHomeWorkCommandRequest,UpdateHomeWorkCommandResponse>
+public class UpdateHomeWorkCommandHandler(
+    IHomeWorkWriteRepository writeRepository,
+    IHomeWorkReadRepository readRepository,
+    IMapper mapper)
+    : IRequestHandler<UpdateHomeWorkCommandRequest, UpdateHomeWorkCommandResponse>
 {
-    public async Task<UpdateHomeWorkCommandResponse> Handle(UpdateHomeWorkCommandRequest request, CancellationToken cancellationToken)
+    public async Task<UpdateHomeWorkCommandResponse> Handle(UpdateHomeWorkCommandRequest request,
+        CancellationToken cancellationToken)
     {
-        var response = await readRepository.GetByIdAsync(request.HomeWorkId.ToString());
-        
-        response.Content = request.Content;
-        response.Status = request.Status;
-        response.StudentId = request.StudentId;
-        response.UpdatedDate = DateTime.Now;
-        response.Title = request.Title;
-        
+        // ID ile mevcut HomeWork'ü bul
+        var homework = await readRepository.GetByIdAsync(request.HomeWorkUpdateDto.Id);
+
+        // DTO'daki yeni değerleri var olan entity'ye uygula
+        mapper.Map(request.HomeWorkUpdateDto, homework);
+
+        writeRepository.Update(homework);
         await writeRepository.SaveAsync();
-        
+
         return new();
     }
 }

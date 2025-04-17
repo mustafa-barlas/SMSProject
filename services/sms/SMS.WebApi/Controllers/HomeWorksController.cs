@@ -32,7 +32,7 @@ public class HomeWorksController(IMediator mediator) : ControllerBase
 
     // Get a HomeWork by ID
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById([FromRoute] Guid id) // Guid al
+    public async Task<IActionResult> GetById([FromRoute] int id) // int al
     {
         var request = new GetHomeworksByStudentIdQueryRequest() { StudentId = id }; // HomeWorkId'yi göndermek
         var response = await mediator.Send(request);
@@ -49,9 +49,9 @@ public class HomeWorksController(IMediator mediator) : ControllerBase
 
     // Delete a HomeWork
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id) // Guid al
+    public async Task<IActionResult> Delete([FromRoute] int id) // int al
     {
-        var request = new RemoveHomeWorkCommandRequest { HomeWorkId = id }; // HomeWorkId'yi göndermek
+        var request = new RemoveHomeWorkCommandRequest { Id = id }; // HomeWorkId'yi göndermek
         var response = await mediator.Send(request);
         return Ok(response);
     }

@@ -29,9 +29,9 @@ public class WriteRepository<T>(SMSAPIDbContext context) : IWriteRepository<T> w
         return entityEntry.State == EntityState.Deleted;
     }
 
-    public async Task<bool> ChangeStatusAsync(string? id)
+    public async Task<bool> ChangeStatusAsync(string id)
     {
-        var model =await Table.FirstOrDefaultAsync(x => x.Id.Equals(Guid.Parse(id)));
+        var model = await Table.FirstOrDefaultAsync(x => x.Id.Equals(id));
 
         if (model.Status == false || model.Status == null)
         {
@@ -55,7 +55,7 @@ public class WriteRepository<T>(SMSAPIDbContext context) : IWriteRepository<T> w
 
     public async Task<bool> RemoveByIdAsync(string id)
     {
-        T model = await Table.FirstOrDefaultAsync(x => x.Id.Equals(Guid.Parse(id)));
+        T model = await Table.FirstOrDefaultAsync(x => x.Id.Equals(id));
         return Remove(model);
     }
 

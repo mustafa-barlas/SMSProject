@@ -9,7 +9,7 @@ public class RemoveTopicCommandHandler(ITopicWriteRepository writeRepository)
     public async Task<RemoveTopicCommandResponse> Handle(RemoveTopicCommandRequest request,
         CancellationToken cancellationToken)
     {
-        await writeRepository.ChangeStatusAsync(request.TopicId.ToString());
+        await writeRepository.ChangeStatusAsync(request.Id.ToString());
         return new RemoveTopicCommandResponse();
     }
 }

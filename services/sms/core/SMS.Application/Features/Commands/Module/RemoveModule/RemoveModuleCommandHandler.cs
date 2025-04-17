@@ -9,7 +9,7 @@ public class RemoveModuleCommandHandler(IModuleWriteRepository writeRepository)
     public async Task<RemoveModuleCommandResponse> Handle(RemoveModuleCommandRequest request,
         CancellationToken cancellationToken)
     {
-        await writeRepository.ChangeStatusAsync(request.ModuleId);
+        await writeRepository.ChangeStatusAsync(request.Id.ToString());
         return new();
     }
 }

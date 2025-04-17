@@ -4,12 +4,9 @@ namespace SMS.Domain.Entities;
 
 public class StudentModule : BaseEntity
 {
-    public Guid StudentModuleId { get; set; }
-    public Guid StudentId { get; set; }
-    public Guid ModuleId { get; set; }
-
-    public bool IsActive { get; set; } = true;
-
-    public Student? Student { get; set; }
-    public Module? Module { get; set; }
+    public int StudentId { get; set; }
+    public int ModuleId { get; set; }
+    
+    public Student Student { get; set; }
+    public Module Module { get; set; }
 }

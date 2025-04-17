@@ -1,6 +1,8 @@
+using SMS.DtoLayer.StudentModule;
+
 namespace SMS.Application.Features.Queries.StudentModule.GetStudentAllModuleWithAllTopic;
 
 public class GetStudentAllModuleWithAllTopicQueryResponse
 {
-    public object StudentModule { get; set; }
+    public List<StudentModuleGetByIdDto> StudentModules { get; set; } = new List<StudentModuleGetByIdDto>();
 }

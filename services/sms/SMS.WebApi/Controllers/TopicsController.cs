@@ -32,9 +32,9 @@ public class TopicsController(IMediator mediator) : ControllerBase
 
     // Get a Topic by ID
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById([FromRoute] Guid id) // Guid al
+    public async Task<IActionResult> GetById([FromRoute] int id) // Guid al
     {
-        var request = new GetByIdTopicQueryRequest { TopicId = id.ToString() }; // TopicId'yi göndermek
+        var request = new GetByIdTopicQueryRequest { TopicId = id }; // TopicId'yi göndermek
         var response = await mediator.Send(request);
         return Ok(response);
     }
@@ -49,9 +49,9 @@ public class TopicsController(IMediator mediator) : ControllerBase
 
     // Delete a Topic
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        var request = new RemoveTopicCommandRequest { TopicId = id };
+        var request = new RemoveTopicCommandRequest { Id = id };
         var response = await mediator.Send(request);
         return Ok(response);
     }

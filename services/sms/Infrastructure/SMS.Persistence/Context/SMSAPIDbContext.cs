@@ -4,13 +4,8 @@ using SMS.Domain.Entities.Common;
 
 namespace SMS.Persistence.Context;
 
-public class SMSAPIDbContext : DbContext
+public class SMSAPIDbContext(DbContextOptions<SMSAPIDbContext> options) : DbContext(options)
 {
-    public SMSAPIDbContext(DbContextOptions<SMSAPIDbContext> options)
-        : base(options)
-    {
-    }
-
     public DbSet<Student> Students { get; set; }
     public DbSet<HomeWork> HomeWorks { get; set; }
     public DbSet<Topic> Topics { get; set; }
@@ -60,19 +55,19 @@ public class SMSAPIDbContext : DbContext
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        //ChangeTracker : Entityler üzerinden yapılan değişiklerin ya da yeni eklenen verinin yakalanmasını sağlayan propertydir. Update operasyonlarında Track edilen verileri yakalayıp elde etmemizi sağlar.
-
-        var datas = ChangeTracker
-            .Entries<BaseEntity>();
+        var datas = ChangeTracker.Entries<BaseEntity>();
 
         foreach (var data in datas)
         {
-            _ = data.State switch
+            if (data.State == EntityState.Added)
             {
-                EntityState.Added => data.Entity.CreatedDate = DateTime.UtcNow,
-                EntityState.Modified => data.Entity.UpdatedDate = DateTime.UtcNow,
-                _ => DateTime.UtcNow
-            };
+                data.Entity.CreatedDate = DateTime.UtcNow;
+            }
+            else if (data.State == EntityState.Modified)
+            {
+                data.Property(x => x.CreatedDate).IsModified = false;
+                data.Entity.UpdatedDate = DateTime.UtcNow;
+            }
         }
 
         return await base.SaveChangesAsync(cancellationToken);

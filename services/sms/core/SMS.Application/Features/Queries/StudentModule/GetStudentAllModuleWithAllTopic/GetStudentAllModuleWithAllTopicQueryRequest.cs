@@ -4,5 +4,5 @@ namespace SMS.Application.Features.Queries.StudentModule.GetStudentAllModuleWith
 
 public class GetStudentAllModuleWithAllTopicQueryRequest : IRequest<GetStudentAllModuleWithAllTopicQueryResponse>
 {
-    public Guid StudentId { get; set; }
+    public int StudentId { get; set; }
 }

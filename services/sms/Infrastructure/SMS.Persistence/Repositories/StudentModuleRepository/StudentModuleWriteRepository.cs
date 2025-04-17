@@ -10,7 +10,7 @@ public class StudentModuleWriteRepository(SMSAPIDbContext context)
 {
     private readonly SMSAPIDbContext _context = context;
 
-    public async Task<bool> ExistsAsync(Guid studentId, Guid moduleId)
+    public async Task<bool> ExistsAsync(int studentId, int moduleId)
     {
         return await _context.StudentModules
             .AnyAsync(sm => sm.StudentId == studentId && sm.ModuleId == moduleId);

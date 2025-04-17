@@ -1,11 +1,13 @@
+using AutoMapper;
 using MediatR;
 using SMS.Application.Repositories.StudentModule;
+using SMS.DtoLayer.Student;
 using SMS.DtoLayer.StudentModule;
 using SMS.DtoLayer.Topic;
 
 namespace SMS.Application.Features.Queries.StudentModule.GetStudentAllModuleWithAllTopic;
 
-public class GetStudentAllModuleWithAllTopicQueryHandler(IStudentModuleReadRepository readRepository)
+public class GetStudentAllModuleWithAllTopicQueryHandler(IStudentModuleReadRepository readRepository, IMapper mapper)
     : IRequestHandler<GetStudentAllModuleWithAllTopicQueryRequest, GetStudentAllModuleWithAllTopicQueryResponse>
 {
     public async Task<GetStudentAllModuleWithAllTopicQueryResponse> Handle(
@@ -13,22 +15,11 @@ public class GetStudentAllModuleWithAllTopicQueryHandler(IStudentModuleReadRepos
     {
         var studentModules = await readRepository.GetWithModulesAndTopicsByStudentIdAsync(request.StudentId);
 
-        var result = studentModules.Select(sm => new StudentModuleWithTopicDto()
-        {
-            StudentId = sm.StudentId,
-            ModuleId = sm.Module.Id,
-            ModuleName = sm.Module.Name,
-            IsActive = sm.IsActive,
-            TopicDtos = sm.Module.Topics.Select(t => new TopicDto
-            {
-                Id = t.Id,
-                TopicName = t.Name
-            }).ToList()
-        }).ToList();
+        var response = mapper.Map<List<StudentModuleGetByIdDto>>(studentModules);
 
         return new()
         {
-            StudentModule = result
+            StudentModules = response
         };
     }
 }
