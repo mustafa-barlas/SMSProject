@@ -44,7 +44,7 @@ public class WriteRepository<T>(SMSAPIDbContext context) : IWriteRepository<T> w
 
         await SaveAsync();
 
-        return model.Status; // Güncellenmiş durumu döndür
+        return model.Status; 
     }
 
     public bool RemoveRange(List<T> datas)

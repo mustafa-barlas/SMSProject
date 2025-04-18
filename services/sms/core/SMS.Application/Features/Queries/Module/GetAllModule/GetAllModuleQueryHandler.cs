@@ -13,9 +13,7 @@ public class GetAllModuleQueryHandler(IModuleReadRepository readRepository, IMap
     public async Task<GetAllModuleQueryResponse> Handle(GetAllModuleQueryRequest request,
         CancellationToken cancellationToken)
     {
-        var query = await readRepository.GetAll()
-            .Include(x => x.Topics).ToListAsync(cancellationToken);
-
+        var query = await readRepository.GetAll().ToListAsync(cancellationToken);
         var response = mapper.Map<List<GetAllModuleDto>>(query);
 
         return new()

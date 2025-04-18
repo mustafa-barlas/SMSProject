@@ -14,7 +14,8 @@ public class GetAllTopicQueryHandler(ITopicReadRepository readRepository, IMappe
     {
         var query = await readRepository.GetAll().Include(x => x.Module)
             .Where(x => x.ModuleId.Equals(request.ModuleId)).ToListAsync(cancellationToken);
-        var response = mapper.Map<List<GetAllTopicDto>>(query);
+
+        var response = mapper.Map<List<TopicGetByIdDto>>(query);
 
         return new GetAllTopicQueryResponse
         {

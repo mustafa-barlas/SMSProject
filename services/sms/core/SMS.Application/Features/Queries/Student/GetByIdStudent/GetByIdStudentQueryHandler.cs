@@ -12,9 +12,15 @@ public class GetByIdStudentQueryHandler(IStudentReadRepository readRepository, I
     public async Task<GetByIdStudentQueryResponse> Handle(GetByIdStudentQueryRequest request,
         CancellationToken cancellationToken)
     {
-        var result = await readRepository.GetAll().Include(x => x.HomeWorks)
+        var result = await readRepository.GetAll()
+            .Include(x => x.HomeWorks)
             .Include(x => x.StudentModules)
-            .ThenInclude(x => x.Module).Where(x => x.Id.Equals(request.Id)).FirstOrDefaultAsync(cancellationToken);
+            .ThenInclude(x => x.Module)
+            .ThenInclude(x => x.Topics)
+            .Include(x => x.StudentModules)
+            .ThenInclude(x => x.Student) 
+            .Where(x => x.Id == request.Id)
+            .FirstOrDefaultAsync(cancellationToken);
 
 
         var response = mapper.Map<StudentGetByIdDto>(result);

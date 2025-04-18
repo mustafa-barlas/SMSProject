@@ -5,7 +5,8 @@ using SMS.Persistence.Context;
 
 namespace SMS.Persistence.Repositories.StudentModuleRepository;
 
-public class StudentModuleReadRepository(SMSAPIDbContext context) : ReadRepository<StudentModule>(context), IStudentModuleReadRepository
+public class StudentModuleReadRepository(SMSAPIDbContext context)
+    : ReadRepository<StudentModule>(context), IStudentModuleReadRepository
 {
     private readonly SMSAPIDbContext _context = context;
 
@@ -20,9 +21,9 @@ public class StudentModuleReadRepository(SMSAPIDbContext context) : ReadReposito
     public async Task<List<StudentModule>> GetWithModulesAndTopicsByStudentIdAsync(int studentId)
     {
         return await _context.StudentModules
-            .Where(sm => sm.StudentId == studentId)
             .Include(sm => sm.Module)
             .ThenInclude(m => m.Topics)
+            .Where(sm => sm.StudentId == studentId)
             .ToListAsync();
     }
 }
