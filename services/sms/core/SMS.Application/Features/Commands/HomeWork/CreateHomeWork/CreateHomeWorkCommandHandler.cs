@@ -10,7 +10,7 @@ public class CreateHomeWorkCommandHandler(IHomeWorkWriteRepository writeReposito
     public async Task<CreateHomeWorkCommandResponse> Handle(CreateHomeWorkCommandRequest request,
         CancellationToken cancellationToken)
     {
-       var homework = mapper.Map<Domain.Entities.HomeWork>(request.HomeWorkCreateDto);
+       var homework = mapper.Map<Domain.Entities.HomeWork>(request);
        await writeRepository.AddAsync(homework);
         
         await writeRepository.SaveAsync();

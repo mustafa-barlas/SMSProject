@@ -1,13 +1,14 @@
 using SMS.DtoLayer.Student;
+using SMS.WebUI.ViewModels.Student;
 
 namespace SMS.WebUI.Services.Student;
 
 public interface IStudentService
 {
-    Task<List<GetAllStudentDto>> GetAllStudentAsync();
-    Task CreateStudentAsync(StudentCreateDto studentCreateDto);
-    Task UpdateStudentAsync(StudentUpdateDto studentUpdateDto);
-    Task DeleteStudentAsync(Guid studentId);
-    Task<StudentDetailDTO?> GetByIdStudentAsync(Guid studentId);
-    Task<StudentDetailDTO?> GetStudentWithAllFieldAsync(Guid studentId);
+    Task<List<StudentListViewModel>> GetAllStudentAsync();
+    Task CreateStudentAsync(StudentCreateDto model);
+    Task UpdateStudentAsync(StudentUpdateDto model);
+    Task DeleteStudentAsync(int studentId);
+    Task ChangeStudentAsync(int studentId, bool status);
+    Task<StudentDetailViewModel?> GetByIdStudentAsync(int studentId);
 }

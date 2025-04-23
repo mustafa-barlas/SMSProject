@@ -6,21 +6,20 @@ namespace SMS.WebUI.Controllers;
 
 public class TopicController(ITopicService topicService) : Controller
 {
-    // Listeleme
     public async Task<IActionResult> Index()
     {
-        var topics = await topicService.GetAllTopicsAsync(true);
+        var topics = await topicService.GetAllTopicsAsync();
         return View(topics);
     }
-    
+
     public async Task<IActionResult> GetAllTopicsWithModuleId()
     {
-        var topics = await topicService.GetAllTopicsAsync(true);
+        var topics = await topicService.GetAllTopicsAsync();
         return View(topics);
     }
 
     // Detay
-    public async Task<IActionResult> Detail(Guid id)
+    public async Task<IActionResult> Detail(int id)
     {
         var topic = await topicService.GetTopicByIdAsync(id);
         if (topic == null) return NotFound();
@@ -38,13 +37,13 @@ public class TopicController(ITopicService topicService) : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(TopicCreateDto dto)
     {
-        if (!ModelState.IsValid) return View(dto);
+        
         await topicService.CreateTopicAsync(dto);
         return RedirectToAction(nameof(Index));
     }
 
     // Güncelleme (GET)
-    public async Task<IActionResult> Edit(Guid id)
+    public async Task<IActionResult> Edit(int id)
     {
         var topic = await topicService.GetTopicByIdAsync(id);
         if (topic == null) return NotFound();
@@ -52,7 +51,7 @@ public class TopicController(ITopicService topicService) : Controller
         var updateDto = new TopicUpdateDto
         {
             Id = topic.Id,
-            TopicName = topic.TopicName,
+            Title = topic.Title,
             ModuleId = topic.ModuleId,
             Status = topic.Status
         };
@@ -65,25 +64,21 @@ public class TopicController(ITopicService topicService) : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(TopicUpdateDto dto)
     {
-        if (!ModelState.IsValid) return View(dto);
         await topicService.UpdateTopicAsync(dto);
         return RedirectToAction(nameof(Index));
     }
 
-    // Silme (GET onay sayfası)
-    public async Task<IActionResult> Delete(Guid id)
-    {
-        var topic = await topicService.GetTopicByIdAsync(id);
-        if (topic == null) return NotFound();
-        return View(topic);
-    }
-
-    // Silme (POST)
-    [HttpPost, ActionName("Delete")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    [HttpPost]
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
         await topicService.DeleteTopicAsync(id);
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Index", "Topic");
     }
+
+    // [HttpPut]
+    // public async Task<IActionResult> ChangeStatus(int id, [FromBody] bool status)
+    // {
+    //     await topicService.(id, status);
+    //     return NoContent();
+    // }
 }

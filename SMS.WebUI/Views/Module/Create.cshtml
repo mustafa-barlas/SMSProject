@@ -4,23 +4,23 @@
     ViewData["Title"] = "Create Module";
 }
 
-<h2>Create Module</h2>
+<h2>Ders Ekleme</h2>
 
 <form asp-action="Create" method="post" asp-controller="Module">
     <div class="form-group">
-        <label asp-for="ModuleName"></label>
-        <input asp-for="ModuleName" class="form-control"/>
-        <span asp-validation-for="ModuleName" class="text-danger"></span>
+        <label asp-for="Title">Ders Adı</label>
+        <input asp-for="Title" class="form-control"/>
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="ImageUrl"></label>
-        <textarea asp-for="ImageUrl" class="form-control"></textarea>
+        <textarea asp-for="ImageUrl" class="form-control">Ders Görseli</textarea>
         <span asp-validation-for="ImageUrl" class="text-danger"></span>
     </div>
     <div class="form-group form-check">
         <input asp-for="Status" class="form-check-input"/>
-        <label asp-for="Status" class="form-check-label"></label>
+        <label asp-for="Status" class="form-check-label">Aktif Mi?</label>
     </div>
-    <button type="submit" class="btn btn-success">Create</button>
-    <a asp-action="Index" class="btn btn-secondary">Back</a>
+    <button type="submit" class="btn btn-success">Ekle</button>
+    <a asp-action="Index" class="btn btn-secondary">Geri Dön</a>
 </form>

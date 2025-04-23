@@ -10,7 +10,7 @@ public class ChangeStatusModuleCommandHandler(IModuleWriteRepository writeReposi
     public async Task<ChangeStatusModuleCommandResponse> Handle(ChangeStatusModuleCommandRequest request,
         CancellationToken cancellationToken)
     {
-        await writeRepository.ChangeStatusAsync(request.Id.ToString());
+        await writeRepository.ChangeStatusAsync(request.Id,request.Status);
         return new();
     }
 }

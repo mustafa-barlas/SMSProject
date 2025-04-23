@@ -10,8 +10,8 @@ public class StudentModuleMappingProfile : Profile
     public StudentModuleMappingProfile()
     {
         CreateMap<StudentModule, StudentModuleCreateDto>().ReverseMap();
-        CreateMap<StudentModule, StudentModuleGetByIdDto>().ReverseMap();
         CreateMap<StudentModule, StudentModuleUpdateDto>().ReverseMap();
+
         CreateMap<StudentModule, StudentModuleGetByIdDto>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Module.Title))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Student.Name))

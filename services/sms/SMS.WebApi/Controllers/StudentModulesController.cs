@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SMS.Application.Features.Commands.StudentModule.CreateStudentModule;
 using SMS.Application.Features.Commands.StudentModule.RemoveStudentModule;
-using SMS.Application.Features.Queries.StudentModule.GetStudentAllModuleWithAllTopic;
+using SMS.Application.Features.Queries.StudentModule.GetStudentModuleById;
 
 namespace StudentManagementWebApi.Controllers
 {
@@ -20,7 +20,7 @@ namespace StudentManagementWebApi.Controllers
         [HttpGet("get-by-student/{studentId}")]
         public async Task<IActionResult> GetStudentModules(int studentId)
         {
-            var query = new GetStudentAllModuleWithAllTopicQueryRequest() { StudentId = studentId };
+            var query = new GetByIdStudentModuleQueryRequest() { StudentId = studentId };
             var result = await mediator.Send(query);
             return Ok(result);
         }

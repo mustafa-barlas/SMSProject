@@ -1,74 +1,92 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SMS.DtoLayer.HomeWork;
 using SMS.DtoLayer.Student;
-using SMS.WebUI.Models;
+using SMS.WebUI.Services.HomeWork;
 using SMS.WebUI.Services.Student;
+using SMS.WebUI.ViewModels.Student;
 
-namespace SMS.WebUI.Controllers;
-
-public class StudentController(IStudentService studentService, IMapper mapper) : Controller
+namespace SMS.WebUI.Controllers
 {
-    public async Task<IActionResult> Index()
+    public class StudentController(IStudentService studentService, IMapper mapper, IHomeWorkService homeWorkService) : Controller
     {
-        var students = await studentService.GetAllStudentAsync();
-        var viewModel = mapper.Map<List<GetAllStudentDto>>(students);
-        return View(viewModel);
-    }
+        public async Task<IActionResult> Index()
+        {
+            var response = await studentService.GetAllStudentAsync();
+            return View(response);
+        }
 
-    public async Task<IActionResult> Details(Guid id)
-    {
-        var student = await studentService.GetStudentWithAllFieldAsync(id);
-        var viewModel = mapper.Map<StudentDetailDTO>(student);
-        return View(viewModel);
-    }
+        public async Task<IActionResult> Details(int id)
+        {
+            var studentDto = await studentService.GetByIdStudentAsync(id);
+            return View(studentDto);
+        }
 
-    // GET: Create
-    public IActionResult Create()
-    {
-        return View(); // Form için boş model gönderiyoruz
-    }
+        [HttpGet]
+        [Route("createStudent")]
+        public IActionResult Create()
+        {
+            return View();
+        }
 
-    [HttpPost]
-    public async Task<IActionResult> Create(StudentCreateDto model)
-    {
-        if (ModelState.IsValid)
+        [HttpPost]
+        [Route("createStudent")]
+        public async Task<IActionResult> Create(StudentCreateDto model)
         {
             await studentService.CreateStudentAsync(model);
-            TempData["Success"] = "Student successfully added!";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Student");
         }
 
-        return View(model);
-    }
+        [HttpGet]
+        [Route("updateStudent/{id}")]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var student = await studentService.GetByIdStudentAsync(id);
 
-    [HttpGet]
-    public async Task<IActionResult> Edit(Guid id)
-    {
-        var student = await studentService.GetByIdStudentAsync(id);
+            var updateModel = new StudentUpdateDto()
+            {
+                Id = student.Id,
+                Name = student.Name,
+                Surname = student.Surname,
+                DateOfBirth = student.DateOfBirth,
+                ImageUrl = student.ImageUrl,
+                Status = student.Status
+            };
 
+            return View(updateModel);
+        }
 
-        var dto = mapper.Map<StudentUpdateDto>(student);
-        return View(dto);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Edit(StudentUpdateDto model)
-    {
-        if (ModelState.IsValid)
+        [HttpPost]
+        [Route("updateStudent/{id}")]
+        public async Task<IActionResult> Edit(StudentUpdateDto model)
         {
             await studentService.UpdateStudentAsync(model);
-            TempData["Success"] = "Student successfully updated!";
             return RedirectToAction("Index");
         }
 
-        return View(model);
-    }
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await studentService.DeleteStudentAsync(id);
+            return RedirectToAction("Index", "Student");
+        }
 
-    [HttpPost("Delete/{id}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
-    {
-        await studentService.DeleteStudentAsync(id);
-        TempData["Success"] = "Student successfully deleted!";
-        return RedirectToAction("Index");
+        [HttpPut]
+        public async Task<IActionResult> ChangeStatus(int id, [FromBody] bool status)
+        {
+            await studentService.ChangeStudentAsync(id, status);
+            return NoContent();
+        }
+        
+        // [HttpPost]
+        // public async Task<IActionResult> AddAssignment(HomeWorkCreateDto dto)
+        // {
+        //     
+        //
+        //     await homeWorkService.CreateAsync(dto);
+        //     return RedirectToAction("Details", new { id = dto.StudentId });
+        // }
+
+
     }
 }

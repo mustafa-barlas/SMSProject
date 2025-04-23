@@ -7,71 +7,70 @@ namespace SMS.WebUI.Controllers
 {
     public class ModuleController(IModuleService moduleService, IMapper mapper) : Controller
     {
-        // Listeleme
         public async Task<IActionResult> Index()
         {
             var modules = await moduleService.GetAllModuleAsync();
-            var viewModel = mapper.Map<List<ModuleDto>>(modules);
-
-            return View(viewModel);
+            return View(modules);
         }
 
-        // Detay
-        public async Task<IActionResult> Detail(Guid id)
+        public async Task<IActionResult> Detail(int id)
         {
             var module = await moduleService.GetByIdModuleAsync(id);
             return View(module);
         }
 
-        // Yeni Ekleme (GET)
         public IActionResult Create()
         {
             return View();
         }
 
-        // Yeni Ekleme (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ModuleCreateDto dto)
         {
-            if (!ModelState.IsValid) return View(dto);
-
             await moduleService.CreateModuleAsync(dto);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Module");
         }
 
-        // Güncelleme (GET)
-        public async Task<IActionResult> Edit(Guid id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
         {
             var module = await moduleService.GetByIdModuleAsync(id);
 
-            var updateDto = new ModuleUpdateDto
+            if (module == null)
+                return NotFound();
+
+            var updateModel = new ModuleUpdateDto()
             {
                 Id = module.Id,
-                ModuleName = module.ModuleName,
+                Title = module.Title,
                 ImageUrl = module.ImageUrl,
-                Status = module.Status
+                Status = module.Status,
             };
 
-            return View(updateDto);
+            return View(updateModel);
         }
 
-        // Güncelleme (POST)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ModuleUpdateDto dto)
         {
-            if (!ModelState.IsValid) return View(dto);
-
             await moduleService.UpdateModuleAsync(dto);
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await moduleService.DeleteModuleAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Module");
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ChangeStatus(int id, [FromBody] bool status)
+        {
+            await moduleService.ChangeModuleAsync(id, status);
+            return NoContent();
         }
     }
 }

@@ -1,13 +1,14 @@
 using SMS.DtoLayer.HomeWork;
+using SMS.WebUI.ViewModels.Homework;
 
 namespace SMS.WebUI.Services.HomeWork
 {
     public interface IHomeWorkService
     {
-        Task<List<HomeworkListDto>> GetHomeworksByStudentIdAsync(Guid studentId);
-        Task<HomeworkListDto?> GetByIdAsync(Guid id);
-        Task CreateAsync(HomeWorkCreateDTO dto);
-        Task UpdateAsync(HomeWorkUpdateDto dto);
-        Task DeleteAsync(Guid id);
+        Task<List<HomeWorkViewModel>> GetAllHomeworkByStudentId(int studentId);
+        Task<HomeWorkViewModel?> GetByIdAsync(int id);
+        Task CreateAsync(HomeWorkCreateDto model);
+        Task UpdateAsync(HomeWorkUpdateDto model);
+        Task DeleteAsync(int id);
     }
 }

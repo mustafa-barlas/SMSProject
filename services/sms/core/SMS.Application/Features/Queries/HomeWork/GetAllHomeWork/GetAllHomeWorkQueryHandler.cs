@@ -14,18 +14,15 @@ public class GetAllHomeWorkQueryHandler(
     public async Task<GetAllHomeWorkQueryResponse> Handle(GetAllHomeWorkQueryRequest request,
         CancellationToken cancellationToken)
     {
-        // Homework verilerini al, Student ilişkisini de dahil et
-        var homeworks = await readRepository.GetAll()
-            .Include(x => x.Student) // ilişkili veriyi de dahil et
-            .ToListAsync(cancellationToken); // Asenkron hale getir
+        var homeworks = await readRepository.GetAll().Where(x => request.StudentId == x.StudentId)
+            .Include(x => x.Student)
+            .ToListAsync(cancellationToken);
 
-        // AutoMapper ile veriyi DTO'ya dönüştür
         var result = mapper.Map<List<GetAllHomeworkDto>>(homeworks);
 
-        // Dönüştürülmüş veriyi response nesnesine at
         return new GetAllHomeWorkQueryResponse
         {
-            HomeWorkDtos = result // response modelini doldur
+            HomeWorkDtos = result
         };
     }
 }

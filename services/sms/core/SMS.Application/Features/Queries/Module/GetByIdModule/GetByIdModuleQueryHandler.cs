@@ -13,10 +13,10 @@ public class GetByIdModuleQueryHandler(IModuleReadRepository readRepository, IMa
     public async Task<GetByIdModuleQueryResponse> Handle(GetByIdModuleQueryRequest request,
         CancellationToken cancellationToken)
     {
-        var query = await readRepository.GetAll(false).Include(x => x.Topics).Where(x => x.Id.Equals(request.Id))
+        var result = await readRepository.GetWhere(x => x.Id == request.Id).Include(x => x.Topics)
             .FirstOrDefaultAsync(cancellationToken);
 
-        var response = mapper.Map<ModuleGetByIdDto>(query);
+        var response = mapper.Map<ModuleGetByIdDto>(result);
 
         return new()
         {

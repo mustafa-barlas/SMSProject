@@ -1,7 +1,8 @@
-@model SMS.DtoLayer.Student.StudentDetailDTO
+@model SMS.WebUI.ViewModels.Student.StudentDetailViewModel
+
 
 @{
-    ViewBag.Title = "Student Details";
+    ViewBag.Title = "Öğrenci Detay Sayfası";
     Layout = "_UILayout";
 }
 
@@ -10,10 +11,10 @@
         <!-- Student Header Section -->
         <div class="card-header bg-primary text-white">
             <div class="d-flex justify-content-between align-items-center">
-                <h3 class="mb-0">Student Profile</h3>
+                <h3 class="mb-0">Öğrenci Profili</h3>
                 <div>
                     <span class="badge @(Model.Status ? "bg-success" : "bg-secondary") fs-6">
-                        @(Model.Status ? "Active" : "Inactive")
+                        @(Model.Status ? "Aktif" : "Pasif")
                     </span>
                 </div>
             </div>
@@ -29,39 +30,38 @@
                              onerror="this.src='https://ui-avatars.com/api/?name=@Model.Name&background=random&size=200'"/>
                         @if (Model.Status)
                         {
-                            <span
-                                class="position-absolute bottom-0 end-0 bg-success p-2 rounded-circle border border-3 border-white"></span>
+                            @* <span class="position-absolute bottom-0 end-0 bg-success p-2 rounded-circle border border-3 border-white"></span> *@
                         }
                     </div>
 
-                    <h3 class="mt-3 mb-1">@Model.Name</h3>
+                    <h3 class="mt-3 mb-1">@Model.Name @Model.Surname</h3>
                     <p class="text-muted mb-3">
-                        <i class="fas fa-birthday-cake me-2"></i>@Model.DateOfBirth?.ToString("dd MMM yyyy")
+                        <i class="fas fa-birthday-cake me-2"></i>@Model.DateOfBirth.ToString("dd MMM yyyy")
                     </p>
 
-                    <div class="d-grid gap-2 mb-4">
-                        <button class="btn btn-outline-primary btn-sm">
-                            <i class="fas fa-envelope me-2"></i>Send Message
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm">
-                            <i class="fas fa-file-pdf me-2"></i>Generate Report
-                        </button>
-                    </div>
+                    @* <div class="d-grid gap-2 mb-4"> *@
+                    @*     <button class="btn btn-outline-primary btn-sm"> *@
+                    @*         <i class="fas fa-envelope me-2"></i>Send Message *@
+                    @*     </button> *@
+                    @*     <button class="btn btn-outline-secondary btn-sm"> *@
+                    @*         <i class="fas fa-file-pdf me-2"></i>Generate Report *@
+                    @*     </button> *@
+                    @* </div> *@
 
                     <div class="card bg-light mb-3">
                         <div class="card-body p-3">
-                            <h6 class="card-title text-muted mb-3">Quick Stats</h6>
+                            <h6 class="card-title text-muted mb-3">İstatistikler</h6>
                             <div class="d-flex justify-content-between mb-2">
-                                <span>Modules</span>
+                                <span>Dersler</span>
                                 <span class="fw-bold">@Model.StudentModules?.Count()</span>
                             </div>
                             <div class="d-flex justify-content-between mb-2">
-                                <span>Completed HW</span>
-                                <span class="fw-bold">@Model.HomeWorks?.Count(h => h.Status)</span>
+                                <span>Tamamlanan Ödevler</span>
+                                <span class="fw-bold">@Model.HomeWorks?.Count()</span>
                             </div>
                             <div class="d-flex justify-content-between">
-                                <span>Pending HW</span>
-                                <span class="fw-bold">@Model.HomeWorks?.Count(h => !h.Status)</span>
+                                <span>Devam Eden Ödevler</span>
+                                <span class="fw-bold">@Model.HomeWorks?.Count()</span>
                             </div>
                         </div>
                     </div>
@@ -73,117 +73,117 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="modules-tab" data-bs-toggle="tab"
                                     data-bs-target="#modules" type="button" role="tab">
-                                <i class="fas fa-book me-2"></i>Modules
+                                <i class="fas fa-book me-2"></i>Dersler
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="homeworks-tab" data-bs-toggle="tab"
                                     data-bs-target="#homeworks" type="button" role="tab">
-                                <i class="fas fa-tasks me-2"></i>Homeworks
+                                <i class="fas fa-tasks me-2"></i>Ödevler
                             </button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="progress-tab" data-bs-toggle="tab"
                                     data-bs-target="#progress" type="button" role="tab">
-                                <i class="fas fa-chart-line me-2"></i>Progress
+                                <i class="fas fa-chart-line me-2"></i>Süreç
                             </button>
                         </li>
                     </ul>
 
                     <div class="tab-content mt-4" id="studentTabsContent">
                         <!-- Modules Tab -->
-                        <div class="tab-pane fade show active" id="modules" role="tabpanel">
+                        @* <div class="tab-pane fade show active" id="modules" role="tabpanel"> *@
+                        @*     @if (Model.StudentModules?.Any() == true) *@
+                        @*     { *@
+                        @*         <div class="accordion" id="modulesAccordion"> *@
+                        @*             @foreach (var module in Model.StudentModules) *@
+                        @*             { *@
+                        @*                 <div class="accordion-item mb-2 border-0 shadow-sm"> *@
+                        @*                     <h2 class="accordion-header" id="heading-@module.ModuleId"> *@
+                        @*                         <button class="accordion-button @(module.Status ? "" : "collapsed")" *@
+                        @*                                 type="button" *@
+                        @*                                 data-bs-toggle="collapse" *@
+                        @*                                 data-bs-target="#collapse-@module.ModuleId" *@
+                        @*                                 aria-expanded="@module.Status.ToString().ToLower()" *@
+                        @*                                 aria-controls="collapse-@module.ModuleId"> *@
+                        @*                             <div class="d-flex justify-content-between w-100 pe-3"> *@
+                        @*                                 <span>@module.Title</span> *@
+                        @*                                 <span *@
+                        @*                                     class="badge @(module.Status ? "bg-primary" : "bg-warning")"> *@
+                        @*                                     @(module.Status ? "Active" : "Inactive") *@
+                        @*                                 </span> *@
+                        @*                             </div> *@
+                        @*                         </button> *@
+                        @*                     </h2> *@
+                        @*                     <div id="collapse-@module.ModuleId" *@
+                        @*                          class="accordion-collapse collapse @(module.Status ? "show" : "")" *@
+                        @*                          aria-labelledby="heading-@module.ModuleId" *@
+                        @*                          data-bs-parent="#modulesAccordion"> *@
+                        @*                         <div class="accordion-body"> *@
+                        @* *@
+                        @*                             $1$ @foreach (var topic in module.Topics) #1# *@
+                        @*                             $1$ { #1# *@
+                        @*                             $1$     <li class="list-group-item d-flex justify-content-between align-items-center"> #1# *@
+                        @*                             $1$         <span>@topic.Title</span> #1# *@
+                        @*                             $1$         $2$                                     <span #2# #1# *@
+                        @*                             $1$         $2$                                         class="badge @(topic.Status ? "bg-success" : "bg-secondary")"> #2# #1# *@
+                        @*                             $1$         $2$     @(topic.Status ? "Completed" : "Pending") #2# #1# *@
+                        @*                             $1$         $2$ </span> #2# #1# *@
+                        @*                             $1$     </li> #1# *@
+                        @*                             $1$ } #1# *@
+                        @*                             @if (module.Topics?.Any() == true) *@
+                        @*                             { *@
+                        @*                                 <ul class="list-group list-group-flush"> *@
+                        @*                                     @foreach (var topic in module.Topics) *@
+                        @*                                     { *@
+                        @*                                         <li class="list-group-item d-flex justify-content-between align-items-center"> *@
+                        @*                                             <span>@topic.Title</span> *@
+                        @*                                             $1$                                     <span #1# *@
+                        @*                                             $1$                                         class="badge @(topic.Status ? "bg-success" : "bg-secondary")"> #1# *@
+                        @*                                             $1$     @(topic.Status ? "Completed" : "Pending") #1# *@
+                        @*                                             $1$ </span> #1# *@
+                        @*                                         </li> *@
+                        @*                                     } *@
+                        @*                                 </ul> *@
+                        @*                             } *@
+                        @*                             else *@
+                        @*                             { *@
+                        @*                                 <div class="text-muted">No topics available for this module. *@
+                        @*                                 </div> *@
+                        @*                             } *@
+                        @* *@
+                        @*                         </div> *@
+                        @*                     </div> *@
+                        @*                 </div> *@
+                        @*             } *@
+                        @*         </div> *@
+                        @*     } *@
+                        @*     else *@
+                        @*     { *@
+                        @*         <div class="alert alert-info"> *@
+                        @*             <i class="fas fa-info-circle me-2"></i>No modules assigned to this student. *@
+                        @*         </div> *@
+                        @*     } *@
+                        @* </div> *@
+
+                        <!-- modules Tab -->
+                        <div class="tab-pane fade" id="modules" role="tabpanel">
                             @if (Model.StudentModules?.Any() == true)
-                            {
-                                <div class="accordion" id="modulesAccordion">
-                                    @foreach (var module in Model.StudentModules)
-                                    {
-                                        <div class="accordion-item mb-2 border-0 shadow-sm">
-                                            <h2 class="accordion-header" id="heading-@module.ModuleId">
-                                                <button class="accordion-button @(module.Status ? "" : "collapsed")"
-                                                        type="button"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse-@module.ModuleId"
-                                                        aria-expanded="@module.Status.ToString().ToLower()"
-                                                        aria-controls="collapse-@module.ModuleId">
-                                                    <div class="d-flex justify-content-between w-100 pe-3">
-                                                        <span>@module.ModuleName</span>
-                                                        <span
-                                                            class="badge @(module.Status ? "bg-primary" : "bg-warning")">
-                                                            @(module.Status ? "Active" : "Inactive")
-                                                        </span>
-                                                    </div>
-                                                </button>
-                                            </h2>
-                                            <div id="collapse-@module.ModuleId"
-                                                 class="accordion-collapse collapse @(module.Status ? "show" : "")"
-                                                 aria-labelledby="heading-@module.ModuleId"
-                                                 data-bs-parent="#modulesAccordion">
-                                                <div class="accordion-body">
-
-                                                    <h3>buraya topicler gelecek</h3>
-                                                    @if (module.TopicDtos?.Any() == true)
-                                                    {
-                                                        <ul class="list-group list-group-flush">
-                                                            @foreach (var topic in module.TopicDtos)
-                                                            {
-                                                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                                    <span>@topic.TopicName</span>
-                                                                    <span
-                                                                        class="badge @(topic.Status ? "bg-success" : "bg-secondary")">
-                    @(topic.Status ? "Completed" : "Pending")
-                </span>
-                                                                </li>
-                                                            }
-                                                        </ul>
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="text-muted">No topics available for this module.
-                                                        </div>
-                                                    }
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="alert alert-info">
-                                    <i class="fas fa-info-circle me-2"></i>No modules assigned to this student.
-                                </div>
-                            }
-                        </div>
-
-                        <!-- Homeworks Tab -->
-                        <div class="tab-pane fade" id="homeworks" role="tabpanel">
-                            @if (Model.HomeWorks?.Any() == true)
                             {
                                 <div class="table-responsive">
                                     <table class="table table-hover align-middle">
                                         <thead class="table-light">
                                         <tr>
-                                            <th>Title</th>
-                                            <th>Content</th>
-                                            <th>Due Date</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
+                                            <th>Ad</th>
+                                            <th>Durum</th>
+                                            <th>İşlemler</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach (var hw in Model.HomeWorks.OrderByDescending(h => h.CreatedDate))
+                                        @foreach (var hw in Model.StudentModules)
                                         {
                                             <tr>
                                                 <td>@hw.Title</td>
-                                                <td class="text-truncate" style="max-width: 200px;">@hw.Content</td>
-                                                <td>@hw.CreatedDate?.ToString("dd MMM yyyy")</td>
-                                                <td>
-                                                        <span class="badge @(hw.Status ? "bg-success" : "bg-danger")">
-                                                            @(hw.Status ? "Completed" : "Pending")
-                                                        </span>
-                                                </td>
                                                 <td>
                                                     <button class="btn btn-sm btn-outline-primary" title="View Details">
                                                         <i class="fas fa-eye"></i>
@@ -201,76 +201,100 @@
 
                                 <div class="d-flex justify-content-between mt-3">
                                     <div class="text-muted">
-                                        Showing @Model.HomeWorks.Count() homeworks
+                                        @Model.StudentModules.Count() Ders Gösteriliyor
                                     </div>
                                     <button class="btn btn-sm btn-primary">
-                                        <i class="fas fa-plus me-1"></i> Add Homework
+                                        <i class="fas fa-plus me-1"></i> Add module
                                     </button>
                                 </div>
                             }
                             else
                             {
                                 <div class="alert alert-info">
-                                    <i class="fas fa-info-circle me-2"></i>No homework assigned to this student.
+                                    <i class="fas fa-info-circle me-2"></i>Öğrencinin Kayıtlı Olduğu Ders Yok
                                 </div>
                                 <button class="btn btn-primary">
-                                    <i class="fas fa-plus me-1"></i> Assign Homework
+                                    <i class="fas fa-plus me-1"></i> Ders Kaydı Yap
                                 </button>
                             }
                         </div>
+                        @* homework tab*@
+
+                        <div class="tab-pane fade" id="homeworks" role="tabpanel">
+
+                            @if (Model.HomeWorks?.Any() == true)
+                            {
+                                <!-- Ödev listesi -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead class="table-light">
+                                        <tr>
+                                            <th>Ad</th>
+                                            <th>İçerik</th>
+                                            <th>Bitiş Tarihi</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach (var hw in Model.HomeWorks.OrderByDescending(h => h.Title))
+                                        {
+                                            <tr>
+                                                <td>@hw.Title</td>
+                                                <td class="text-truncate" style="max-width: 200px;">@hw.Content</td>
+                                                @* <td>@hw..ToShortDateString()</td> *@
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary" title="View Details">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-secondary ms-1"
+                                                            title="Download">
+                                                        <i class="fas fa-download"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="text-muted my-2">
+                                    @Model.HomeWorks.Count() Ödev Gösteriliyor
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle me-2"></i> Öğrenciye Verilen Ödev Yok
+                                </div>
+                            }
+
+                            <!-- ✏️ ÖDEV EKLE FORMU - her zaman görünsün -->
+                            <form asp-action="CreateFromStudent" asp-controller="HomeWork" method="post">
+                                <input type="hidden" name="StudentId" value="@Model.Id" />
+
+                                <input type="text" name="Title" class="form-control mb-2" placeholder="Ödev Başlığı" required />
+                                <input type="text" name="Content" class="form-control mb-2" placeholder="İçerik" required />
+                                <input type="date" name="DueDate" class="form-control mb-2" required />
+
+                                <div class="form-check mb-2">
+                                    <input type="checkbox" class="form-check-input" name="Status" value="true" id="statusCheck" />
+                                    <label class="form-check-label" for="statusCheck">Durum (aktif mi?)</label>
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input type="checkbox" class="form-check-input" name="IsFinished" value="true" id="isFinishedCheck" />
+                                    <label class="form-check-label" for="isFinishedCheck">Tamamlandı mı?</label>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Kaydet</button>
+                            </form>
+
+
+
+                        </div>
 
                         <!-- Progress Tab -->
-                        <div class="tab-pane fade" id="progress" role="tabpanel">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="card mb-4">
-                                        <div class="card-header bg-light">
-                                            <h6 class="mb-0">Module Completion</h6>
-                                        </div>
-                                        <div class="card-body">
-                                            <canvas id="moduleProgressChart" height="200"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="card-header bg-light">
-                                            <h6 class="mb-0">Homework Status</h6>
-                                        </div>
-                                        <div class="card-body">
-                                            <canvas id="homeworkStatusChart" height="200"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card mt-3">
-                                <div class="card-header bg-light">
-                                    <h6 class="mb-0">Recent Activity</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="list-group list-group-flush">
-                                        <div class="list-group-item d-flex">
-                                            <div class="flex-shrink-0">
-                                                <i class="fas fa-check-circle text-success me-3"></i>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted">Today, 10:45 AM</small>
-                                                <p class="mb-0">Completed homework for Mathematics</p>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item d-flex">
-                                            <div class="flex-shrink-0">
-                                                <i class="fas fa-book text-primary me-3"></i>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted">Yesterday, 3:30 PM</small>
-                                                <p class="mb-0">Started new module in History</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -348,3 +372,119 @@
         });
     </script>
 }
+@* *@
+@* <div class="tab-pane fade" id="homeworks" role="tabpanel"> *@
+@*     @if (Model.HomeWorks?.Any() == true) *@
+@*     { *@
+@*         <div class="table-responsive"> *@
+@*             <table class="table table-hover align-middle"> *@
+@*                 <thead class="table-light"> *@
+@*                 <tr> *@
+@*                     <th>Ad</th> *@
+@*                     <th>İçerik</th> *@
+@*                     <th>Bitiş Tarihi</th> *@
+@*                     <th>Durum</th> *@
+@*                     <th>İşlemler</th> *@
+@*                 </tr> *@
+@*                 </thead> *@
+@*                 <tbody> *@
+@*                 @foreach (var hw in Model.HomeWorks.OrderByDescending(h => h.Title)) *@
+@*                 { *@
+@*                     <tr> *@
+@*                         <td>@hw.Title</td> *@
+@*                         <td class="text-truncate" style="max-width: 200px;">@hw.Content</td> *@
+@*                         $1$ <td>@hw.CreatedDate?.ToString("dd MMM yyyy")</td> #1# *@
+@*                         $1$ <td> #1# *@
+@*                         $1$         <span class="badge @(hw.Status ? "bg-success" : "bg-danger")"> #1# *@
+@*                         $1$             @(hw.Status ? "Completed" : "Pending") #1# *@
+@*                         $1$         </span> #1# *@
+@*                         $1$ </td> #1# *@
+@*                         <td> *@
+@*                             <button class="btn btn-sm btn-outline-primary" title="View Details"> *@
+@*                                 <i class="fas fa-eye"></i> *@
+@*                             </button> *@
+@*                             <button class="btn btn-sm btn-outline-secondary ms-1" *@
+@*                                     title="Download"> *@
+@*                                 <i class="fas fa-download"></i> *@
+@*                             </button> *@
+@*                         </td> *@
+@*                     </tr> *@
+@*                 } *@
+@*                 </tbody> *@
+@*             </table> *@
+@*         </div> *@
+@* *@
+@*         <div class="d-flex justify-content-between mt-3"> *@
+@*             <div class="text-muted"> *@
+@*                 @Model.HomeWorks.Count() Ödev Gösteriliyor *@
+@*             </div> *@
+@*             <button class="btn btn-sm btn-primary"> *@
+@*                 <i class="fas fa-plus me-1"></i> Ödev Ekle *@
+@*             </button> *@
+@*         </div> *@
+@*     } *@
+@*     else *@
+@*     { *@
+@*         <div class="alert alert-info"> *@
+@*             <i class="fas fa-info-circle me-2"></i>Öğrenciye Verilen Ödev Yok *@
+@*         </div> *@
+@*         <form asp-action="AddAssignment" asp-controller="Student" asp-route-studentId="@Model.Id" method="post"> *@
+@*             <input type="text" name="Title" class="form-control" placeholder="Ödev Başlığı" required/> *@
+@*             <input type="text" name="Description" class="form-control" placeholder="Açıklama" required/> *@
+@*             <input type="date" name="DueDate" class="form-control" required/> *@
+@*             <button type="submit" class="btn btn-primary">Kaydet</button> *@
+@*         </form> *@
+@*     } *@
+@* </div> *@
+
+@* <div class="tab-pane fade" id="progress" role="tabpanel"> *@
+@*     <div class="row"> *@
+@*         <div class="col-md-6"> *@
+@*             <div class="card mb-4"> *@
+@*                 <div class="card-header bg-light"> *@
+@*                     <h6 class="mb-0">Module Completion</h6> *@
+@*                 </div> *@
+@*                 <div class="card-body"> *@
+@*                     <canvas id="moduleProgressChart" height="200"></canvas> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*         <div class="col-md-6"> *@
+@*             <div class="card"> *@
+@*                 <div class="card-header bg-light"> *@
+@*                     <h6 class="mb-0">Homework Status</h6> *@
+@*                 </div> *@
+@*                 <div class="card-body"> *@
+@*                     <canvas id="homeworkStatusChart" height="200"></canvas> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@*     <div class="card mt-3"> *@
+@*         <div class="card-header bg-light"> *@
+@*             <h6 class="mb-0">Recent Activity</h6> *@
+@*         </div> *@
+@*         <div class="card-body"> *@
+@*             <div class="list-group list-group-flush"> *@
+@*                 <div class="list-group-item d-flex"> *@
+@*                     <div class="flex-shrink-0"> *@
+@*                         <i class="fas fa-check-circle text-success me-3"></i> *@
+@*                     </div> *@
+@*                     <div> *@
+@*                         <small class="text-muted">Today, 10:45 AM</small> *@
+@*                         <p class="mb-0">Completed homework for Mathematics</p> *@
+@*                     </div> *@
+@*                 </div> *@
+@*                 <div class="list-group-item d-flex"> *@
+@*                     <div class="flex-shrink-0"> *@
+@*                         <i class="fas fa-book text-primary me-3"></i> *@
+@*                     </div> *@
+@*                     <div> *@
+@*                         <small class="text-muted">Yesterday, 3:30 PM</small> *@
+@*                         <p class="mb-0">Started new module in History</p> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@

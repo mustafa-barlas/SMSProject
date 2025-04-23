@@ -11,7 +11,6 @@ public record StudentGetByIdDto : BaseDto
     public string Surname { get; set; }
     public DateTime DateOfBirth { get; set; }
     public string ImageUrl { get; set; }
-
     public List<StudentModuleGetByIdDto> StudentModules { get; set; } = new List<StudentModuleGetByIdDto>();
     public List<GetAllHomeworkDto> HomeWorks { get; set; } = new List<GetAllHomeworkDto>(); 
 }

@@ -7,7 +7,7 @@ public class RemoveHomeWorkCommandHandler(IHomeWorkWriteRepository writeReposito
 {
     public async Task<RemoveHomeWorkCommandResponse> Handle(RemoveHomeWorkCommandRequest request, CancellationToken cancellationToken)
     {
-        await writeRepository.RemoveByIdAsync(request.Id.ToString());
+        await writeRepository.RemoveByIdAsync(request.Id);
         await writeRepository.SaveAsync();
         return new RemoveHomeWorkCommandResponse();
     }

@@ -7,5 +7,5 @@ public record BaseDto
 
     public DateTime? UpdatedDate { get; set; }
 
-    public bool? Status { get; set; }
+    public bool Status { get; set; }
 }

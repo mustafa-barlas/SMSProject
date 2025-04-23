@@ -1,33 +1,35 @@
 using SMS.DtoLayer.HomeWork;
+using SMS.WebUI.ViewModels.Homework;
 
 namespace SMS.WebUI.Services.HomeWork;
 
 public class HomeWorkService(HttpClient httpClient) : IHomeWorkService
 {
-    public async Task<List<HomeworkListDto>> GetHomeworksByStudentIdAsync(Guid studentId)
+    public async Task<List<HomeWorkViewModel>> GetAllHomeworkByStudentId(int studentId)
     {
-        var response = await httpClient.GetFromJsonAsync<List<HomeworkListDto>>($"homeworks/{studentId}");
+        var response = await httpClient.GetFromJsonAsync<List<HomeWorkViewModel>>($"homeWorks/student/{studentId}");
         return response ?? new();
     }
 
-    public async Task<HomeworkListDto?> GetByIdAsync(Guid id)
+    public async Task<HomeWorkViewModel?> GetByIdAsync(int id)
     {
-        var response = await httpClient.GetAsync($"homeworks/{id}");
-        return await response.Content.ReadFromJsonAsync<HomeworkListDto>();
+        var response = await httpClient.GetAsync($"homeWorks/{id}");
+        return await response.Content.ReadFromJsonAsync<HomeWorkViewModel>();
     }
 
-    public async Task CreateAsync(HomeWorkCreateDTO dto)
+    public async Task CreateAsync(HomeWorkCreateDto model)
     {
-        await httpClient.PostAsJsonAsync("homeworks", dto);
+        await httpClient.PostAsJsonAsync("homeWorks", model);
     }
 
-    public async Task UpdateAsync(HomeWorkUpdateDto dto)
+    public async Task UpdateAsync(HomeWorkUpdateDto model)
     {
-        await httpClient.PutAsJsonAsync($"homeworks/{dto.Id}", dto);
+        await httpClient.PutAsJsonAsync($"homeWorks/{model.Id}", model);
     }
 
-    public async Task DeleteAsync(Guid id)
+
+    public async Task DeleteAsync(int id)
     {
-        await httpClient.DeleteAsync($"homeworks/{id}");
+        await httpClient.DeleteAsync($"homeWorks/{id}");
     }
 }

@@ -1,60 +1,60 @@
- @model List<SMS.DtoLayer.HomeWork.HomeworkListDto>
-@{
-    ViewData["Title"] = "Ödevler";
-    var studentId = ViewBag.StudentId as Guid?;
-}
-
-<h2>@ViewData["Title"]</h2>
-
-<!-- ✅ Yeni Ödev Ekle -->
-<form asp-action="Create" method="post" class="mb-4">
-    <input type="hidden" name="StudentId" value="@studentId" />
-    <input type="text" name="Title" placeholder="Başlık" class="form-control mb-2" />
-    <textarea name="Content" placeholder="İçerik" class="form-control mb-2"></textarea>
-    <label>
-        <input type="checkbox" name="Status" /> Aktif mi?
-    </label>
-    <button type="submit" class="btn btn-primary">Ekle</button>
-</form>
-
-<!-- ✅ Ödev Listesi -->
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Başlık</th>
-            <th>İçerik</th>
-            <th>Durum</th>
-            <th>İşlemler</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <form asp-action="Update" method="post">
-                    <td>
-                        <input type="hidden" name="Id" value="@item.Id" />
-                        <input type="hidden" name="StudentId" value="@studentId" />
-                        <input type="text" name="Title" value="@item.Title" class="form-control" />
-                    </td>
-                    <td>
-                        <textarea name="Content" class="form-control">@item.Content</textarea>
-                    </td>
-                    <td>
-                        <input type="checkbox" name="Status" @(item.Status ? "checked" : "") />
-                    </td>
-                    <td>
-                        <button type="submit" class="btn btn-success btn-sm">Güncelle</button>
-                    </td>
-                </form>
-                <form asp-action="Delete" method="post">
-                    <td>
-                        <input type="hidden" name="homeworkId" value="@item.Id" />
-                        <input type="hidden" name="studentId" value="@studentId" />
-                        <button type="submit" class="btn btn-danger btn-sm">Sil</button>
-                    </td>
-                </form>
-            </tr>
-        }
-    </tbody>
-</table>
+@*  @model List<SMS.DtoLayer.HomeWork.HomeworkListDto> *@
+@* @{ *@
+@*     ViewData["Title"] = "Ödevler"; *@
+@*     var studentId = ViewBag.StudentId as Guid?; *@
+@* } *@
+@* *@
+@* <h2>@ViewData["Title"]</h2> *@
+@* *@
+@* <!-- ✅ Yeni Ödev Ekle --> *@
+@* <form asp-action="Create" method="post" class="mb-4"> *@
+@*     <input type="hidden" name="StudentId" value="@studentId" /> *@
+@*     <input type="text" name="Title" placeholder="Başlık" class="form-control mb-2" /> *@
+@*     <textarea name="Content" placeholder="İçerik" class="form-control mb-2"></textarea> *@
+@*     <label> *@
+@*         <input type="checkbox" name="Status" /> Aktif mi? *@
+@*     </label> *@
+@*     <button type="submit" class="btn btn-primary">Ekle</button> *@
+@* </form> *@
+@* *@
+@* <!-- ✅ Ödev Listesi --> *@
+@* <table class="table table-bordered"> *@
+@*     <thead> *@
+@*         <tr> *@
+@*             <th>Başlık</th> *@
+@*             <th>İçerik</th> *@
+@*             <th>Durum</th> *@
+@*             <th>İşlemler</th> *@
+@*         </tr> *@
+@*     </thead> *@
+@*     <tbody> *@
+@*         @foreach (var item in Model) *@
+@*         { *@
+@*             <tr> *@
+@*                 <form asp-action="Update" method="post"> *@
+@*                     <td> *@
+@*                         <input type="hidden" name="Id" value="@item.Id" /> *@
+@*                         <input type="hidden" name="StudentId" value="@studentId" /> *@
+@*                         <input type="text" name="Title" value="@item.Title" class="form-control" /> *@
+@*                     </td> *@
+@*                     <td> *@
+@*                         <textarea name="Content" class="form-control">@item.Content</textarea> *@
+@*                     </td> *@
+@*                     <td> *@
+@*                         <input type="checkbox" name="Status" @(item.Status ? "checked" : "") /> *@
+@*                     </td> *@
+@*                     <td> *@
+@*                         <button type="submit" class="btn btn-success btn-sm">Güncelle</button> *@
+@*                     </td> *@
+@*                 </form> *@
+@*                 <form asp-action="Delete" method="post"> *@
+@*                     <td> *@
+@*                         <input type="hidden" name="homeworkId" value="@item.Id" /> *@
+@*                         <input type="hidden" name="studentId" value="@studentId" /> *@
+@*                         <button type="submit" class="btn btn-danger btn-sm">Sil</button> *@
+@*                     </td> *@
+@*                 </form> *@
+@*             </tr> *@
+@*         } *@
+@*     </tbody> *@
+@* </table> *@

@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SMS.Application.Features.Commands.Module.ChangeStatusModule;
 using SMS.Application.Features.Commands.Module.CreateModule;
 using SMS.Application.Features.Commands.Module.RemoveModule;
 using SMS.Application.Features.Commands.Module.UpdateModule;
@@ -10,55 +11,66 @@ namespace StudentManagementWebApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ModulesController : ControllerBase
+public class ModulesController(IMediator mediator) : ControllerBase
 {
-    private readonly IMediator _mediator;
-
-    // Constructor injection for IMediator
-    public ModulesController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
 
     // Get all Modules
     [HttpGet]
     public async Task<IActionResult> Get([FromQuery] GetAllModuleQueryRequest request)
     {
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 
     // Create a Module
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<IActionResult> Post([FromBody] CreateModuleCommandRequest request)
     {
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 
     // Get a Module by ID
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById([FromRoute] int id) // Guid al
+    public async Task<IActionResult> GetById([FromRoute] int id) 
     {
         var request = new GetByIdModuleQueryRequest { Id = id }; // ModuleId'yi göndermek
-        var response = await _mediator.Send(request);
+        var response = await mediator.Send(request);
         return Ok(response);
     }
 
     // Update a Module
-    [HttpPut]
+    [HttpPut("update")]
     public async Task<IActionResult> Put([FromBody] UpdateModuleCommandRequest request)
     {
-        await _mediator.Send(request);
+        await mediator.Send(request);
         return NoContent(); // NoContent is more appropriate for successful PUT requests
     }
 
     // Delete a Module
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] int id) // Guid al
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        var request = new RemoveModuleCommandRequest { Id = id }; // ModuleId'yi göndermek
-        var response = await _mediator.Send(request);
+        var request = new RemoveModuleCommandRequest { Id = id }; 
+        var response = await mediator.Send(request);
         return Ok(response);
+    }
+    
+    public class ChangeStatusRequest
+    {
+        public bool Status { get; set; }
+    }
+
+    [HttpPut("{id}/status")]
+    public async Task<IActionResult> ChangeStatus([FromRoute] int id, [FromBody] ChangeStatusRequest request)
+    {
+        var command = new ChangeStatusModuleCommandRequest
+        {
+            Id = id,
+            Status = request.Status
+        };
+
+        await mediator.Send(command);
+        return NoContent();
     }
 }

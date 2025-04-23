@@ -1,8 +1,8 @@
-using SMS.DtoLayer.Base;
+using System.ComponentModel.DataAnnotations;
 
-namespace SMS.DtoLayer.HomeWork;
+namespace SMS.WebUI.ViewModels.Homework;
 
-public record GetHomeworkByIdForUpdateDto : BaseDto
+public class HomeWorkViewModel
 {
     public int Id { get; set; }
     public string Title { get; set; }

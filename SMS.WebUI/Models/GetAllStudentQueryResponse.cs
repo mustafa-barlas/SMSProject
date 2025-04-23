@@ -1,8 +1,9 @@
 using SMS.DtoLayer.Student;
+using SMS.WebUI.ViewModels.Student;
 
 namespace SMS.WebUI.Models;
 
 public class GetAllStudentQueryResponse
 {
-    public List<GetAllStudentDto>? Students { get; set; }
+    public StudentDetailViewModel Student { get; set; }
 }

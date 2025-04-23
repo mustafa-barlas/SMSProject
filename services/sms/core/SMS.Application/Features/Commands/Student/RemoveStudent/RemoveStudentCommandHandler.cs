@@ -3,11 +3,13 @@ using SMS.Application.Repositories.StudentRepository;
 
 namespace SMS.Application.Features.Commands.Student.RemoveStudent;
 
-public class RemoveStudentCommandHandler(IStudentWriteRepository writeRepository) : IRequestHandler<RemoveStudentCommandRequest, RemoveStudentCommandResponse>
+public class RemoveStudentCommandHandler(IStudentWriteRepository writeRepository)
+    : IRequestHandler<RemoveStudentCommandRequest, RemoveStudentCommandResponse>
 {
-    public async Task<RemoveStudentCommandResponse> Handle(RemoveStudentCommandRequest request, CancellationToken cancellationToken)
+    public async Task<RemoveStudentCommandResponse> Handle(RemoveStudentCommandRequest request,
+        CancellationToken cancellationToken)
     {
-        await writeRepository.ChangeStatusAsync(request.Id.ToString());
+        await writeRepository.RemoveByIdAsync(request.Id);
         await writeRepository.SaveAsync();
 
         return new();

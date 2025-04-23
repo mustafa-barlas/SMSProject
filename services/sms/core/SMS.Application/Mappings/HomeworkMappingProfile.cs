@@ -1,4 +1,5 @@
 using AutoMapper;
+using SMS.Application.Features.Commands.HomeWork.CreateHomeWork;
 using SMS.Domain.Entities;
 using SMS.DtoLayer.HomeWork;
 
@@ -10,7 +11,11 @@ public class HomeworkMappingProfile : Profile
     {
         CreateMap<HomeWork, HomeWorkCreateDto>().ReverseMap();
         CreateMap<HomeWork, HomeWorkUpdateDto>().ReverseMap();
-        CreateMap<HomeWork, GetHomeworkByIdForUpdateDto>().ReverseMap();
+        CreateMap<HomeWork, GetHomeworkDto>().ReverseMap();
         CreateMap<HomeWork, GetAllHomeworkDto>().ReverseMap();
+        
+        CreateMap<CreateHomeWorkCommandRequest, HomeWork>().ReverseMap();
+        CreateMap<HomeWorkCreateDto, CreateHomeWorkCommandRequest>().ReverseMap();
+
     }
 }

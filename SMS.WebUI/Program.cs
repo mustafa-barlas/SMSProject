@@ -1,5 +1,4 @@
 using SMS.WebUI.Extensions;
-using SMS.WebUI.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
-builder.Services.AddAutoMapper(typeof(StudentMappingProfile));
-builder.Services.AddAutoMapper(typeof(ModuleMappingProfile));
+
 
 builder.Services.AddHttpClients(builder.Configuration);
 var app = builder.Build();

@@ -1,63 +1,108 @@
 @model SMS.DtoLayer.Student.StudentUpdateDto
 
 @{
-    ViewData["Title"] = "Edit Student";
+    ViewData["Title"] = "Öğrenci Güncelle";
 }
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-        @TempData["Success"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+<h2 class="mb-4">Öğrenci Güncelle</h2>
+
+<form asp-controller="Student" asp-action="Edit" method="post" class="border p-4 rounded shadow-sm">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group mb-3">
+        <label asp-for="Name" class="form-label">Ad</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow rounded-4">
-                <div class="card-header bg-primary text-white text-center rounded-top-4">
-                    <h3>Edit Student</h3>
-                </div>
-                <div class="card-body p-4">
-
-                    <form asp-action="Edit" method="post">
-                        @Html.HiddenFor(model => model.StudentId)  
-
-                        <div class="mb-3">
-                            <label asp-for="Name" class="form-label">Name</label>
-                            <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="DateOfBirth" class="form-label">Date of Birth</label>
-                            <input asp-for="DateOfBirth" type="date" class="form-control" />
-                            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="ImageUrl" class="form-label">Image URL</label>
-                            <input asp-for="ImageUrl" class="form-control" />
-                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3 form-check">
-                            <input asp-for="Status" class="form-check-input" />
-                            <label asp-for="Status" class="form-check-label">Is Active?</label>
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-success">Update</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
+    <div class="form-group mb-3">
+        <label asp-for="Surname" class="form-label">Soyad</label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
     </div>
-</div>
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-}
+    <div class="form-group mb-3">
+        <label asp-for="DateOfBirth" class="form-label">Dağum Tarihi</label>
+        <input asp-for="DateOfBirth" type="date" class="form-control" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="ImageUrl" class="form-label">Görsel</label>
+        <input asp-for="ImageUrl" class="form-control" />
+    </div>
+
+    <div class="form-check form-switch mb-4">
+        <input asp-for="Status" class="form-check-input" type="checkbox" role="switch" />
+        <label asp-for="Status" class="form-check-label">Aktif mi?</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Güncelle</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Geri Dön</a>
+</form>
+
+
+
+@* @model SMS.DtoLayer.Student.StudentUpdateDto *@
+@* *@
+@* @{ *@
+@*     ViewData["Title"] = "Edit Student"; *@
+@* } *@
+@* @if (TempData["Success"] != null) *@
+@* { *@
+@*     <div class="alert alert-success alert-dismissible fade show mt-3" role="alert"> *@
+@*         @TempData["Success"] *@
+@*         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> *@
+@*     </div> *@
+@* } *@
+@* *@
+@* <div class="container mt-5"> *@
+@*     <div class="row justify-content-center"> *@
+@*         <div class="col-md-8"> *@
+@*             <div class="card shadow rounded-4"> *@
+@*                 <div class="card-header bg-primary text-white text-center rounded-top-4"> *@
+@*                     <h3>Edit Student</h3> *@
+@*                 </div> *@
+@*                 <div class="card-body p-4"> *@
+@* *@
+@*                     <form asp-action="Edit" method="post"> *@
+@*                         @Html.HiddenFor(model => model.StudentId)   *@
+@* *@
+@*                         <div class="mb-3"> *@
+@*                             <label asp-for="Name" class="form-label">Name</label> *@
+@*                             <input asp-for="Name" class="form-control" /> *@
+@*                             <span asp-validation-for="Name" class="text-danger"></span> *@
+@*                         </div> *@
+@* *@
+@*                         <div class="mb-3"> *@
+@*                             <label asp-for="DateOfBirth" class="form-label">Date of Birth</label> *@
+@*                             <input asp-for="DateOfBirth" type="date" class="form-control" /> *@
+@*                             <span asp-validation-for="DateOfBirth" class="text-danger"></span> *@
+@*                         </div> *@
+@* *@
+@*                         <div class="mb-3"> *@
+@*                             <label asp-for="ImageUrl" class="form-label">Image URL</label> *@
+@*                             <input asp-for="ImageUrl" class="form-control" /> *@
+@*                             <span asp-validation-for="ImageUrl" class="text-danger"></span> *@
+@*                         </div> *@
+@* *@
+@*                         <div class="mb-3 form-check"> *@
+@*                             <input asp-for="Status" class="form-check-input" /> *@
+@*                             <label asp-for="Status" class="form-check-label">Is Active?</label> *@
+@*                         </div> *@
+@* *@
+@*                         <div class="d-flex justify-content-between"> *@
+@*                             <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a> *@
+@*                             <button type="submit" class="btn btn-success">Update</button> *@
+@*                         </div> *@
+@*                     </form> *@
+@* *@
+@*                 </div> *@
+@*             </div> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@
+@* *@
+@* @section Scripts { *@
+@*     @await Html.PartialAsync("_ValidationScriptsPartial") *@
+@* } *@

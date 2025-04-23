@@ -12,12 +12,21 @@ namespace StudentManagementWebApi.Controllers;
 [Route("api/[controller]")]
 public class HomeWorksController(IMediator mediator) : ControllerBase
 {
-    // Constructor injection for IMediator
-
     // Get all HomeWorks
-    [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] GetAllHomeWorkQueryRequest request)
+    [HttpGet("student/{studentId}")]
+    public async Task<IActionResult> GetHomeWorksByStudentId([FromRoute] int studentId)
     {
+        var request = new GetAllHomeWorkQueryRequest() { StudentId = studentId };
+        var response = await mediator.Send(request);
+        return Ok(response);
+    }
+
+
+    // Get a HomeWork by ID
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById([FromRoute] int id)
+    {
+        var request = new GetHomeworkByIdQueryRequest() { Id = id };
         var response = await mediator.Send(request);
         return Ok(response);
     }
@@ -26,15 +35,6 @@ public class HomeWorksController(IMediator mediator) : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromBody] CreateHomeWorkCommandRequest request)
     {
-        var response = await mediator.Send(request);
-        return Ok(response);
-    }
-
-    // Get a HomeWork by ID
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById([FromRoute] int id) // int al
-    {
-        var request = new GetHomeworksByStudentIdQueryRequest() { StudentId = id }; // HomeWorkId'yi göndermek
         var response = await mediator.Send(request);
         return Ok(response);
     }

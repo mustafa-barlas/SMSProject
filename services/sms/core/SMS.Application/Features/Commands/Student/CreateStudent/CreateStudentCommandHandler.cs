@@ -10,7 +10,8 @@ public class CreateStudentCommandHandler(IStudentWriteRepository studentWriteRep
     public async Task<CreateStudentCommandResponse> Handle(CreateStudentCommandRequest request,
         CancellationToken cancellationToken)
     {
-        var student = mapper.Map<Domain.Entities.Student>(request.StudentCreateDto);
+        var student = mapper.Map<Domain.Entities.Student>(request);
+
         await studentWriteRepository.AddAsync(student);
 
         await studentWriteRepository.SaveAsync();

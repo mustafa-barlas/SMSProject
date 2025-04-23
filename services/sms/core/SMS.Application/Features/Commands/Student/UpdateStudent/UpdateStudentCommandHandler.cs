@@ -14,8 +14,9 @@ public class UpdateStudentCommandHandler(
     public async Task<UpdateStudentCommandResponse> Handle(UpdateStudentCommandRequest request,
         CancellationToken cancellationToken)
     {
-        var student = await readRepository.GetByIdAsync(request.StudentUpdateDto.Id);
-        mapper.Map(request.StudentUpdateDto, student);
+        var student = await readRepository.GetByIdAsync(request.Id);
+
+        mapper.Map(request, student); // CommandRequest → Entity
 
         writeRepository.Update(student);
         await writeRepository.SaveAsync();

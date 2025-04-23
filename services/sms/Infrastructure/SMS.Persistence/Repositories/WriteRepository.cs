@@ -29,22 +29,12 @@ public class WriteRepository<T>(SMSAPIDbContext context) : IWriteRepository<T> w
         return entityEntry.State == EntityState.Deleted;
     }
 
-    public async Task<bool> ChangeStatusAsync(string id)
+    public async Task ChangeStatusAsync(int id, bool status)
     {
-        var model = await Table.FirstOrDefaultAsync(x => x.Id.Equals(id));
+        var entity = await Table.FindAsync(id);
 
-        if (model.Status == false || model.Status == null)
-        {
-            model.Status = true;
-        }
-        else
-        {
-            model.Status = false;
-        }
-
-        await SaveAsync();
-
-        return model.Status; 
+        entity.Status = status; // Status değerini güncelledik
+        await SaveAsync(); // Değişiklikleri kaydediyoruz
     }
 
     public bool RemoveRange(List<T> datas)
@@ -53,7 +43,7 @@ public class WriteRepository<T>(SMSAPIDbContext context) : IWriteRepository<T> w
         return true;
     }
 
-    public async Task<bool> RemoveByIdAsync(string id)
+    public async Task<bool> RemoveByIdAsync(int id)
     {
         T model = await Table.FirstOrDefaultAsync(x => x.Id.Equals(id));
         return Remove(model);

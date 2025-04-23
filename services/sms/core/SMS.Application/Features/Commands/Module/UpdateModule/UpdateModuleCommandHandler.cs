@@ -13,9 +13,9 @@ public class UpdateModuleCommandHandler(
     public async Task<UpdateModuleCommandResponse> Handle(UpdateModuleCommandRequest request,
         CancellationToken cancellationToken)
     {
-        var response = await readRepository.GetByIdAsync(request.ModuleUpdateDto.Id);
+        var response = await readRepository.GetByIdAsync(request.Id);
 
-        mapper.Map(request.ModuleUpdateDto, response);
+        mapper.Map(request, response);
         writeRepository.Update(response);
         await writeRepository.SaveAsync();
         return new();

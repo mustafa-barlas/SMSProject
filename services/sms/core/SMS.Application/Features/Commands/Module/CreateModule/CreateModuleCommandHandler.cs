@@ -11,7 +11,7 @@ public class CreateModuleCommandHandler(IModuleWriteRepository writeRepository, 
     public async Task<CreateModuleCommandResponse> Handle(CreateModuleCommandRequest request,
         CancellationToken cancellationToken)
     {
-        var module = mapper.Map<Domain.Entities.Module>(request.ModuleCreateDto);
+        var module = mapper.Map<Domain.Entities.Module>(request);
         await writeRepository.AddAsync(module);
 
         await writeRepository.SaveAsync();

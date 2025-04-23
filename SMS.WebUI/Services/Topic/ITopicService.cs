@@ -1,14 +1,14 @@
 using SMS.DtoLayer.Topic;
+using SMS.WebUI.ViewModels.Topic;
 
 namespace SMS.WebUI.Services.Topic;
 
 public interface ITopicService
 {
-    Task CreateTopicAsync(TopicCreateDto topicCreateDto);
-    Task UpdateTopicAsync(TopicUpdateDto topicUpdateDto);
-    Task DeleteTopicAsync(Guid topicId);
+    Task CreateTopicAsync(TopicCreateDto model);
+    Task UpdateTopicAsync(TopicUpdateDto model);
+    Task DeleteTopicAsync(int topicId);
 
-    Task<List<TopicDto>> GetAllTopicsAsync(bool includeModule = false);
-    Task<List<TopicDto>> GetAllTopicsWithModuleIdAsync(Guid moduleId);
-    Task<TopicDto?> GetTopicByIdAsync(Guid topicId);
+    Task<List<TopicListViewModel>> GetAllTopicsAsync();
+    Task<TopicViewModel> GetTopicByIdAsync(int topicId);
 }
