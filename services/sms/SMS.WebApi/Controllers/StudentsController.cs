@@ -66,13 +66,13 @@ public class StudentsController(IMediator mediator) : ControllerBase
         return Ok(response);
     }
 
-    public class ChangeStatusRequest
+    public class ChangeStudentStatusRequest
     {
         public bool Status { get; set; }
     }
 
     [HttpPut("{id}/status")]
-    public async Task<IActionResult> ChangeStatus([FromRoute] int id, [FromBody] ChangeStatusRequest request)
+    public async Task<IActionResult> ChangeStatus([FromRoute] int id, [FromBody] ChangeStudentStatusRequest request)
     {
         var command = new ChangeStatusStudentCommandRequest
         {

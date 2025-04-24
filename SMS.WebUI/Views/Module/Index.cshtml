@@ -1,8 +1,7 @@
 @model List<SMS.WebUI.ViewModels.Module.ModuleViewModel>
 
 @{
-    ViewBag.Title = "title";
-    Layout = "_UILayout";
+    ViewBag.Title = "Dersler";
 }
 
 <style>
@@ -15,7 +14,7 @@
     }
 </style>
 
-<h2 class="mb-4">Module List</h2>
+<h2 class="mb-4">Dersler</h2>
 
 <a asp-action="Create" class="btn btn-primary mb-3">+ Yeni Ders Ekle</a>
 
@@ -46,9 +45,20 @@
                 <td>
                     <a asp-action="Detail" asp-route-id="@module.Id" class="btn btn-info btn-sm me-1">Detay</a>
                     <a asp-action="Edit" asp-route-id="@module.Id" class="btn btn-warning btn-sm">Güncelle</a>
-                    <form asp-controller="Module" asp-action="DeleteConfirmed" asp-route-id="@module.Id" method="post"
-                          onsubmit="return confirm('Silmek istediğinizden emin misiniz?');">
-                        <button type="submit" class="btn btn-danger">Sil</button>
+                    
+                    @* <form asp-controller="Module" asp-action="DeleteConfirmed" asp-route-id="@module.Id" method="post" *@
+                    @*       onsubmit="return confirm('Silmek istediğinizden emin misiniz?');"> *@
+                    @*     <button type="submit" class="btn btn-danger">Sil</button> *@
+                    @* </form> *@
+
+                    <form asp-action="DeleteConfirmed" asp-controller="Module" method="post" asp-route-id="@module.Id"
+                          style="display:inline;">
+                        
+                        <button type="submit" class="btn btn-sm btn-outline-danger ms-1"
+                                title="Sil"
+                                onclick="return confirm('Silmek istediğinize emin misiniz?')">
+                            <i class="fas fa-trash-alt"></i> Sil
+                        </button>
                     </form>
                 </td>
             </tr>

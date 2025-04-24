@@ -48,7 +48,7 @@ public class ModulesController(IMediator mediator) : ControllerBase
     }
 
     // Delete a Module
-    [HttpDelete("{id}")]
+    [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
         var request = new RemoveModuleCommandRequest { Id = id }; 
@@ -56,13 +56,13 @@ public class ModulesController(IMediator mediator) : ControllerBase
         return Ok(response);
     }
     
-    public class ChangeStatusRequest
+    public class ChangeModuleStatusRequest
     {
         public bool Status { get; set; }
     }
 
     [HttpPut("{id}/status")]
-    public async Task<IActionResult> ChangeStatus([FromRoute] int id, [FromBody] ChangeStatusRequest request)
+    public async Task<IActionResult> ChangeStatus([FromRoute] int id, [FromBody] ChangeModuleStatusRequest request)
     {
         var command = new ChangeStatusModuleCommandRequest
         {

@@ -16,30 +16,11 @@ public class RemoveStudentModuleCommandHandler(
             .GetWhere(sm => sm.StudentId == request.StudentId && sm.ModuleId == request.ModuleId)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (studentModule == null)
-            return new RemoveStudentModuleCommandResponse()
-            {
-                Success = false,
-                Message = "StudentModule not found"
-            };
-
         // Silme işlemini yap
-        writeRepository.Remove(studentModule);
-        var saveResult = await writeRepository.SaveAsync(); // Asenkron Save işlemi
+        if (studentModule != null) writeRepository.Remove(studentModule);
+         await writeRepository.SaveAsync();
 
-        if (saveResult > 0) // Eğer değişiklik yapılmışsa
-        {
-            return new RemoveStudentModuleCommandResponse()
-            {
-                Success = true,
-                Message = "StudentModule successfully removed"
-            };
-        }
 
-        return new RemoveStudentModuleCommandResponse()
-        {
-            Success = false,
-            Message = "Failed to remove StudentModule"
-        };
+         return new RemoveStudentModuleCommandResponse();
     }
 }

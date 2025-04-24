@@ -20,11 +20,13 @@ public class TopicService(HttpClient httpClient) : ITopicService
         await httpClient.DeleteAsync($"topics/{topicId}");
     }
 
-    public async Task<List<TopicListViewModel>> GetAllTopicsAsync()
+    public async Task<List<TopicListViewModel>> GetAllTopicsByModuleIdAsync(int moduleId)
     {
-        var response = await httpClient.GetFromJsonAsync<List<TopicListViewModel>>("topics");
-        return response;
+        var response = await httpClient.GetFromJsonAsync<GetAllTopicQueryResponse>($"topics/getall?moduleId={moduleId}");
+
+        return response.Topics;
     }
+
 
     public async Task<TopicViewModel> GetTopicByIdAsync(int topicId)
     {

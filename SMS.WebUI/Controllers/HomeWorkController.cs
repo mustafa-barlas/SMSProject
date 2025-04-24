@@ -31,7 +31,6 @@ public class HomeWorkController(IHomeWorkService homeWorkService) : Controller
     }
 
 
-
     // Ödev düzenleme formu
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
@@ -63,6 +62,6 @@ public class HomeWorkController(IHomeWorkService homeWorkService) : Controller
     public async Task<IActionResult> Delete(int homeworkId, int studentId)
     {
         await homeWorkService.DeleteAsync(homeworkId);
-        return RedirectToAction("Index", new { studentId });
+        return RedirectToAction("Details", "Student", new { id = studentId });
     }
 }

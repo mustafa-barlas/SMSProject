@@ -9,6 +9,6 @@ public interface ITopicService
     Task UpdateTopicAsync(TopicUpdateDto model);
     Task DeleteTopicAsync(int topicId);
 
-    Task<List<TopicListViewModel>> GetAllTopicsAsync();
+    Task<List<TopicListViewModel>> GetAllTopicsByModuleIdAsync(int moduleId);
     Task<TopicViewModel> GetTopicByIdAsync(int topicId);
 }

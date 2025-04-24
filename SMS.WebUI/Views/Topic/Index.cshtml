@@ -1,0 +1,50 @@
+@model List<SMS.WebUI.ViewModels.Topic.TopicListViewModel>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold">Konular</h2>
+        <a class="btn btn-primary" asp-controller="Topic" asp-action="Create">+ Yeni Konu</a>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <label for="moduleSelect" class="form-label fw-semibold">Modül Seçin</label>
+            <select id="moduleSelect" class="form-select shadow-sm">
+                @foreach (var module in ViewBag.Modules)
+                {
+                    <option value="@module.Id">@module.Title</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <div id="topicListContainer">
+        @await Html.PartialAsync("_TopicListPartial", Model)
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#moduleSelect').on('change', function () {
+                const moduleId = $(this).val();
+
+                $.ajax({
+                    url: '/Topic/GetTopicsByModule',
+                    data: { moduleId: moduleId },
+                    type: 'GET',
+                    beforeSend: function () {
+                        $('#topicListContainer').html('<div class="text-center my-3 text-muted">Yükleniyor...</div>');
+                    },
+                    success: function (data) {
+                        $('#topicListContainer').html(data);
+                    },
+                    error: function () {
+                        alert('Veri yüklenirken bir hata oluştu.');
+                    }
+                });
+            });
+        });
+    </script>
+}

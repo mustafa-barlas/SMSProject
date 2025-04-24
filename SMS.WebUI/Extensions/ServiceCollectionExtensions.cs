@@ -2,6 +2,7 @@ using System.Reflection;
 using SMS.WebUI.Services.HomeWork;
 using SMS.WebUI.Services.Module;
 using SMS.WebUI.Services.Student;
+using SMS.WebUI.Services.StudentModule;
 using SMS.WebUI.Services.Topic;
 
 namespace SMS.WebUI.Extensions;
@@ -15,6 +16,11 @@ public static class ServiceCollectionExtensions
         var baseAddress = configuration.GetValue<string>("ApiBaseUrl") ?? "https://localhost:7109/api/";
 
         services.AddHttpClient<IStudentService, StudentService>(client =>
+        {
+            client.BaseAddress = new Uri(baseAddress);
+        });
+        
+        services.AddHttpClient<IStudentModuleService, StudentModuleService>(client =>
         {
             client.BaseAddress = new Uri(baseAddress);
         });

@@ -10,7 +10,7 @@ public class CreateTopicCommandHandler(ITopicWriteRepository writeRepository, IM
     public async Task<CreateTopicCommandResponse> Handle(CreateTopicCommandRequest request,
         CancellationToken cancellationToken)
     {
-        var response = mapper.Map<Domain.Entities.Topic>(request.TopicCreateDto);
+        var response = mapper.Map<Domain.Entities.Topic>(request);
 
         await writeRepository.AddAsync(response);
         await writeRepository.SaveAsync();

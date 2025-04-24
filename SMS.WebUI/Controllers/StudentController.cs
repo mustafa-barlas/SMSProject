@@ -1,14 +1,20 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SMS.DtoLayer.HomeWork;
 using SMS.DtoLayer.Student;
 using SMS.WebUI.Services.HomeWork;
+using SMS.WebUI.Services.Module;
 using SMS.WebUI.Services.Student;
 using SMS.WebUI.ViewModels.Student;
 
 namespace SMS.WebUI.Controllers
 {
-    public class StudentController(IStudentService studentService, IMapper mapper, IHomeWorkService homeWorkService) : Controller
+    public class StudentController(
+        IStudentService studentService,
+        IMapper mapper,
+        IHomeWorkService homeWorkService,
+        IModuleService moduleService) : Controller
     {
         public async Task<IActionResult> Index()
         {
@@ -19,6 +25,10 @@ namespace SMS.WebUI.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var studentDto = await studentService.GetByIdStudentAsync(id);
+            var modules = await moduleService.GetAllModuleAsync();
+
+            // SelectListItem kullanarak SelectList oluşturma
+            ViewBag.Modules = new SelectList(modules, "Id", "Title");
             return View(studentDto);
         }
 
@@ -77,7 +87,7 @@ namespace SMS.WebUI.Controllers
             await studentService.ChangeStudentAsync(id, status);
             return NoContent();
         }
-        
+
         // [HttpPost]
         // public async Task<IActionResult> AddAssignment(HomeWorkCreateDto dto)
         // {
@@ -86,7 +96,5 @@ namespace SMS.WebUI.Controllers
         //     await homeWorkService.CreateAsync(dto);
         //     return RedirectToAction("Details", new { id = dto.StudentId });
         // }
-
-
     }
 }

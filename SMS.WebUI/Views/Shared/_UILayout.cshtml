@@ -48,7 +48,7 @@
       <div class="content-wrapper">
 
         @RenderBody()
-        @RenderSection("Scripts", required: false)
+        @await RenderSectionAsync("Scripts", required: false)
 
       </div>
       <!-- content-wrapper ends -->

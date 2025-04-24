@@ -1,22 +1,39 @@
 using Microsoft.AspNetCore.Mvc;
 using SMS.DtoLayer.Topic;
+using SMS.WebUI.Services.Module;
 using SMS.WebUI.Services.Topic;
 
 namespace SMS.WebUI.Controllers;
 
-public class TopicController(ITopicService topicService) : Controller
+public class TopicController(ITopicService topicService, IModuleService moduleService) : Controller
 {
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(int? moduleId)
     {
-        var topics = await topicService.GetAllTopicsAsync();
+        // Modülleri çekiyoruz
+        var modules = await moduleService.GetAllModuleAsync();
+        ViewBag.Modules = modules;
+
+        // Eğer moduleId parametresi varsa, o id'yi kullanıyoruz; yoksa ilk modül id'sini kullanıyoruz
+        var selectedModuleId = moduleId ?? modules.FirstOrDefault()?.Id ?? 0;
+
+        // Modül ID'sine göre topic verilerini çekiyoruz
+        var topics = await topicService.GetAllTopicsByModuleIdAsync(selectedModuleId);
+
+        // View'e veri gönderiyoruz
         return View(topics);
     }
 
-    public async Task<IActionResult> GetAllTopicsWithModuleId()
+
+    public async Task<IActionResult> GetTopicsByModule(int moduleId)
     {
-        var topics = await topicService.GetAllTopicsAsync();
-        return View(topics);
+        // Modül ID'sine göre topic verilerini çekiyoruz
+        var topics = await topicService.GetAllTopicsByModuleIdAsync(moduleId);
+
+        // PartialView olarak veri döndürüyoruz
+        return PartialView("_TopicListPartial", topics);
     }
+
+
 
     // Detay
     public async Task<IActionResult> Detail(int id)
@@ -27,8 +44,11 @@ public class TopicController(ITopicService topicService) : Controller
     }
 
     // Oluşturma (GET)
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
+        var modules = await moduleService.GetAllModuleAsync(); // bu servisi senin eklemen gerekebilir
+        ViewBag.Modules = modules;
+
         return View();
     }
 
@@ -37,9 +57,8 @@ public class TopicController(ITopicService topicService) : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(TopicCreateDto dto)
     {
-        
         await topicService.CreateTopicAsync(dto);
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Index", "Topic");
     }
 
     // Güncelleme (GET)

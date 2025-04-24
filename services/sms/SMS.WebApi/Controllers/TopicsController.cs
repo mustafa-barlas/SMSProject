@@ -15,15 +15,16 @@ public class TopicsController(IMediator mediator) : ControllerBase
     // Constructor injection for IMediator
 
     // Get all Topics
-    [HttpGet]
-    public async Task<IActionResult> Get([FromQuery] GetAllTopicQueryRequest request)
+    [HttpGet("getall")]
+    public async Task<IActionResult> Get([FromQuery] int moduleId)
     {
+        var request = new GetAllTopicQueryRequest { ModuleId = moduleId };
         var response = await mediator.Send(request);
         return Ok(response);
     }
 
     // Create a Topic
-    [HttpPost]
+    [HttpPost("create")]
     public async Task<IActionResult> Post([FromBody] CreateTopicCommandRequest request)
     {
         var response = await mediator.Send(request);

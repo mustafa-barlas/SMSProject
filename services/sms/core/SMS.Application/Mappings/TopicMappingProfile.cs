@@ -1,4 +1,5 @@
 using AutoMapper;
+using SMS.Application.Features.Commands.Topic.CreateTopic;
 using SMS.Domain.Entities;
 using SMS.DtoLayer.Topic;
 
@@ -10,6 +11,8 @@ public class TopicMappingProfile : Profile
     {
         CreateMap<Topic, GetAllTopicDto>().ReverseMap();
         CreateMap<Topic, TopicCreateDto>().ReverseMap();
+        CreateMap<CreateTopicCommandRequest, TopicCreateDto>().ReverseMap();
+        CreateMap<CreateTopicCommandRequest, Topic>().ReverseMap();
         CreateMap<Topic, TopicGetByIdDto>().ReverseMap();
         CreateMap<Topic, TopicUpdateDto>().ReverseMap();
     }

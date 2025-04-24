@@ -12,6 +12,9 @@ public class SMSAPIDbContext(DbContextOptions<SMSAPIDbContext> options) : DbCont
     public DbSet<Module> Modules { get; set; }
     public DbSet<StudentModule> StudentModules { get; set; }
 
+    public DbSet<Exam> Exams { get; set; }
+    public DbSet<ExamResult> ExamResults { get; set; }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -50,6 +53,27 @@ public class SMSAPIDbContext(DbContextOptions<SMSAPIDbContext> options) : DbCont
             .HasOne(h => h.Student)
             .WithMany(s => s.HomeWorks)
             .HasForeignKey(h => h.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Exam - ExamResult => One-to-Many
+        modelBuilder.Entity<ExamResult>()
+            .HasOne(er => er.Exam)
+            .WithMany(e => e.ExamResults)
+            .HasForeignKey(er => er.ExamId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Student - ExamResult => One-to-Many
+        modelBuilder.Entity<ExamResult>()
+            .HasOne(er => er.Student)
+            .WithMany(s => s.ExamResults)
+            .HasForeignKey(er => er.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        // Module - ExamResult => One-to-Many
+        modelBuilder.Entity<ExamResult>()
+            .HasOne(er => er.Module)
+            .WithMany(m => m.ExamResults)
+            .HasForeignKey(er => er.ModuleId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 

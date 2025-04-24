@@ -35,13 +35,9 @@ namespace StudentManagementWebApi.Controllers
             };
 
             var response = await mediator.Send(commandRequest);
+            
 
-            if (response.Success)
-            {
-                return Ok(new { Message = response.Message });
-            }
-
-            return BadRequest(new { Message = response.Message });
+            return BadRequest();
         }
     }
 }

@@ -11,29 +11,30 @@ public class CreateStudentModuleCommandHandler(
     IStudentReadRepository studentReadRepository,
     IModuleReadRepository moduleReadRepository,
     IStudentModuleWriteRepository studentModuleWriteRepository,
-    IStudentModuleReadRepository studentModuleReadRepository, IMapper mapper)
+    IStudentModuleReadRepository studentModuleReadRepository,
+    IMapper mapper)
     : IRequestHandler<CreateStudentModuleCommandRequest, CreateStudentModuleCommandResponse>
 {
     public async Task<CreateStudentModuleCommandResponse> Handle(CreateStudentModuleCommandRequest request,
         CancellationToken cancellationToken)
     {
         // Öğrenci var mı kontrolü
-        var student = await studentReadRepository.GetByIdAsync(request.StudentModuleCreateDto.StudentId);
+        var student = await studentReadRepository.GetByIdAsync(request.StudentId);
         if (student == null)
             throw new Exception("Student not found");
 
 
         // Daha önce atanmış mı?
         var existing = await studentModuleReadRepository.GetWhere(sm =>
-                sm.StudentId == request.StudentModuleCreateDto.StudentId &&
-                sm.ModuleId == request.StudentModuleCreateDto.ModuleId)
+                sm.StudentId == request.StudentId &&
+                sm.ModuleId == request.ModuleId)
             .FirstOrDefaultAsync(cancellationToken);
 
         if (existing != null)
             return new(); // zaten atanmış, işlem yapma
 
         // Yeni modül ata
-        var result = mapper.Map<Domain.Entities.StudentModule>(request.StudentModuleCreateDto);
+        var result = mapper.Map<Domain.Entities.StudentModule>(request);
 
         await studentModuleWriteRepository.AddAsync(result);
         await studentModuleWriteRepository.SaveAsync();

@@ -5,5 +5,6 @@ namespace SMS.Application.Features.Commands.StudentModule.CreateStudentModule;
 
 public class CreateStudentModuleCommandRequest : IRequest<CreateStudentModuleCommandResponse>
 {
-    public StudentModuleCreateDto StudentModuleCreateDto { get; set; }
+    public int StudentId { get; set; }
+    public int ModuleId { get; set; }
 }

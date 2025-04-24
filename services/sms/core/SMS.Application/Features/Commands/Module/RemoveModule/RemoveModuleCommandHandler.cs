@@ -10,6 +10,7 @@ public class RemoveModuleCommandHandler(IModuleWriteRepository writeRepository)
         CancellationToken cancellationToken)
     {
         await writeRepository.RemoveByIdAsync(request.Id);
+        await writeRepository.SaveAsync();
         return new();
     }
 }

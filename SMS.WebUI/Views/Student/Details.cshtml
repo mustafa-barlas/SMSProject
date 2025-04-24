@@ -3,7 +3,6 @@
 
 @{
     ViewBag.Title = "Öğrenci Detay Sayfası";
-    Layout = "_UILayout";
 }
 
 <div class="container my-5">
@@ -92,79 +91,7 @@
 
                     <div class="tab-content mt-4" id="studentTabsContent">
                         <!-- Modules Tab -->
-                        @* <div class="tab-pane fade show active" id="modules" role="tabpanel"> *@
-                        @*     @if (Model.StudentModules?.Any() == true) *@
-                        @*     { *@
-                        @*         <div class="accordion" id="modulesAccordion"> *@
-                        @*             @foreach (var module in Model.StudentModules) *@
-                        @*             { *@
-                        @*                 <div class="accordion-item mb-2 border-0 shadow-sm"> *@
-                        @*                     <h2 class="accordion-header" id="heading-@module.ModuleId"> *@
-                        @*                         <button class="accordion-button @(module.Status ? "" : "collapsed")" *@
-                        @*                                 type="button" *@
-                        @*                                 data-bs-toggle="collapse" *@
-                        @*                                 data-bs-target="#collapse-@module.ModuleId" *@
-                        @*                                 aria-expanded="@module.Status.ToString().ToLower()" *@
-                        @*                                 aria-controls="collapse-@module.ModuleId"> *@
-                        @*                             <div class="d-flex justify-content-between w-100 pe-3"> *@
-                        @*                                 <span>@module.Title</span> *@
-                        @*                                 <span *@
-                        @*                                     class="badge @(module.Status ? "bg-primary" : "bg-warning")"> *@
-                        @*                                     @(module.Status ? "Active" : "Inactive") *@
-                        @*                                 </span> *@
-                        @*                             </div> *@
-                        @*                         </button> *@
-                        @*                     </h2> *@
-                        @*                     <div id="collapse-@module.ModuleId" *@
-                        @*                          class="accordion-collapse collapse @(module.Status ? "show" : "")" *@
-                        @*                          aria-labelledby="heading-@module.ModuleId" *@
-                        @*                          data-bs-parent="#modulesAccordion"> *@
-                        @*                         <div class="accordion-body"> *@
-                        @* *@
-                        @*                             $1$ @foreach (var topic in module.Topics) #1# *@
-                        @*                             $1$ { #1# *@
-                        @*                             $1$     <li class="list-group-item d-flex justify-content-between align-items-center"> #1# *@
-                        @*                             $1$         <span>@topic.Title</span> #1# *@
-                        @*                             $1$         $2$                                     <span #2# #1# *@
-                        @*                             $1$         $2$                                         class="badge @(topic.Status ? "bg-success" : "bg-secondary")"> #2# #1# *@
-                        @*                             $1$         $2$     @(topic.Status ? "Completed" : "Pending") #2# #1# *@
-                        @*                             $1$         $2$ </span> #2# #1# *@
-                        @*                             $1$     </li> #1# *@
-                        @*                             $1$ } #1# *@
-                        @*                             @if (module.Topics?.Any() == true) *@
-                        @*                             { *@
-                        @*                                 <ul class="list-group list-group-flush"> *@
-                        @*                                     @foreach (var topic in module.Topics) *@
-                        @*                                     { *@
-                        @*                                         <li class="list-group-item d-flex justify-content-between align-items-center"> *@
-                        @*                                             <span>@topic.Title</span> *@
-                        @*                                             $1$                                     <span #1# *@
-                        @*                                             $1$                                         class="badge @(topic.Status ? "bg-success" : "bg-secondary")"> #1# *@
-                        @*                                             $1$     @(topic.Status ? "Completed" : "Pending") #1# *@
-                        @*                                             $1$ </span> #1# *@
-                        @*                                         </li> *@
-                        @*                                     } *@
-                        @*                                 </ul> *@
-                        @*                             } *@
-                        @*                             else *@
-                        @*                             { *@
-                        @*                                 <div class="text-muted">No topics available for this module. *@
-                        @*                                 </div> *@
-                        @*                             } *@
-                        @* *@
-                        @*                         </div> *@
-                        @*                     </div> *@
-                        @*                 </div> *@
-                        @*             } *@
-                        @*         </div> *@
-                        @*     } *@
-                        @*     else *@
-                        @*     { *@
-                        @*         <div class="alert alert-info"> *@
-                        @*             <i class="fas fa-info-circle me-2"></i>No modules assigned to this student. *@
-                        @*         </div> *@
-                        @*     } *@
-                        @* </div> *@
+
 
                         <!-- modules Tab -->
                         <div class="tab-pane fade" id="modules" role="tabpanel">
@@ -180,18 +107,26 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach (var hw in Model.StudentModules)
+                                        @foreach (var sm in Model.StudentModules)
                                         {
                                             <tr>
-                                                <td>@hw.Title</td>
+                                                <td>@sm.Title</td>
                                                 <td>
-                                                    <button class="btn btn-sm btn-outline-primary" title="View Details">
-                                                        <i class="fas fa-eye"></i>
-                                                    </button>
-                                                    <button class="btn btn-sm btn-outline-secondary ms-1"
-                                                            title="Download">
-                                                        <i class="fas fa-download"></i>
-                                                    </button>
+                                                    <span
+                                                        class="badge @(sm.Status ? "bg-success" : "bg-danger") fs-6">@(sm.Status ? "Aktif" : "Pasif")</span>
+
+                                                </td>
+                                                <td>
+                                                    <form asp-action="RemoveStudentModule" asp-controller="StudentModule" method="post"
+                                                          style="display:inline;">
+                                                        <input type="hidden" name="moduleId" value="@sm.ModuleId"/>
+                                                        <input type="hidden" name="studentId" value="@sm.StudentId"/>
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger ms-1"
+                                                                title="Sil"
+                                                                onclick="return confirm('Silmek istediğinize emin misiniz?')">
+                                                            <i class="fas fa-trash-alt"></i> Sil
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         }
@@ -201,10 +136,11 @@
 
                                 <div class="d-flex justify-content-between mt-3">
                                     <div class="text-muted">
-                                        @Model.StudentModules.Count() Ders Gösteriliyor
+                                        @Model.StudentModules.Count() Modül Gösteriliyor
                                     </div>
-                                    <button class="btn btn-sm btn-primary">
-                                        <i class="fas fa-plus me-1"></i> Add module
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#addModuleModal">
+                                        <i class="fas fa-plus me-1"></i> Modül Ekle
                                     </button>
                                 </div>
                             }
@@ -213,8 +149,9 @@
                                 <div class="alert alert-info">
                                     <i class="fas fa-info-circle me-2"></i>Öğrencinin Kayıtlı Olduğu Ders Yok
                                 </div>
-                                <button class="btn btn-primary">
-                                    <i class="fas fa-plus me-1"></i> Ders Kaydı Yap
+                                <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#addModuleModal">
+                                    <i class="fas fa-plus me-1"></i> Modül Ekle
                                 </button>
                             }
                         </div>
@@ -231,25 +168,50 @@
                                         <tr>
                                             <th>Ad</th>
                                             <th>İçerik</th>
+                                            <th>Durum</th>
+                                            <th>Ekleniş Tarihi</th>
                                             <th>Bitiş Tarihi</th>
                                             <th>İşlemler</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach (var hw in Model.HomeWorks.OrderByDescending(h => h.Title))
+                                        @foreach (var hw in Model.HomeWorks.OrderByDescending(h => h.DueDate))
                                         {
                                             <tr>
                                                 <td>@hw.Title</td>
                                                 <td class="text-truncate" style="max-width: 200px;">@hw.Content</td>
-                                                @* <td>@hw..ToShortDateString()</td> *@
                                                 <td>
-                                                    <button class="btn btn-sm btn-outline-primary" title="View Details">
-                                                        <i class="fas fa-eye"></i>
+
+                                                    <span
+                                                        class="badge @(hw.Status ? "bg-success" : "bg-danger") fs-6">@(hw.Status ? "Aktif" : "Pasif")</span>
+                                                    <span
+                                                        class="badge @(hw.IsFinished ? "bg-success" : "bg-danger") fs-6"> @(hw.IsFinished ? "Tamamlandı" : "Devam Ediyor")</span>
+                                                </td>
+
+                                                <td>@hw.CreatedDate.ToShortDateString()</td>
+                                                <td>@hw.DueDate.ToShortDateString()</td>
+                                                <td>
+                                                    <!-- Detay Butonu -->
+                                                    <button class="btn btn-sm btn-outline-primary" title="View Details"
+                                                            data-bs-toggle="modal" data-bs-target="#homeworkDetailModal"
+                                                            data-title="@hw.Title"
+                                                            data-content="@hw.Content"
+                                                            data-createddate="@hw.CreatedDate.ToShortDateString()"
+                                                            data-duedate="@hw.DueDate.ToShortDateString()"
+                                                            data-status="@(hw.Status ? "Aktif" : "Pasif")"
+                                                            data-isfinished="@(hw.IsFinished ? "Tamamlandı" : "Devam Ediyor")">
+                                                        <i class="fas fa-eye"></i> Detay
                                                     </button>
-                                                    <button class="btn btn-sm btn-outline-secondary ms-1"
-                                                            title="Download">
-                                                        <i class="fas fa-download"></i>
-                                                    </button>
+                                                    <form asp-action="Delete" asp-controller="HomeWork" method="post"
+                                                          style="display:inline;">
+                                                        <input type="hidden" name="homeworkId" value="@hw.Id"/>
+                                                        <input type="hidden" name="studentId" value="@Model.Id"/>
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger ms-1"
+                                                                title="Sil"
+                                                                onclick="return confirm('Silmek istediğinize emin misiniz?')">
+                                                            <i class="fas fa-trash-alt"></i> Sil
+                                                        </button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         }
@@ -269,26 +231,39 @@
                             }
 
                             <!-- ✏️ ÖDEV EKLE FORMU - her zaman görünsün -->
-                            <form asp-action="CreateFromStudent" asp-controller="HomeWork" method="post">
-                                <input type="hidden" name="StudentId" value="@Model.Id" />
+                            <!-- Toggle Button -->
+                            <button class="btn btn-sm btn-primary mb-3" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#homeworkForm"
+                                    aria-expanded="false" aria-controls="homeworkForm">
+                                <i class="fas fa-plus me-1"></i> Ödev Ekle
+                            </button>
 
-                                <input type="text" name="Title" class="form-control mb-2" placeholder="Ödev Başlığı" required />
-                                <input type="text" name="Content" class="form-control mb-2" placeholder="İçerik" required />
-                                <input type="date" name="DueDate" class="form-control mb-2" required />
+                            <!-- Collapse Form -->
+                            <div class="collapse" id="homeworkForm">
+                                <form asp-action="CreateFromStudent" asp-controller="HomeWork" method="post">
+                                    <input type="hidden" name="StudentId" value="@Model.Id"/>
 
-                                <div class="form-check mb-2">
-                                    <input type="checkbox" class="form-check-input" name="Status" value="true" id="statusCheck" />
-                                    <label class="form-check-label" for="statusCheck">Durum (aktif mi?)</label>
-                                </div>
+                                    <input type="text" name="Title" class="form-control mb-2" placeholder="Ödev Başlığı"
+                                           required/>
+                                    <input type="text" name="Content" class="form-control mb-2" placeholder="İçerik"
+                                           required/>
+                                    <input type="date" name="DueDate" class="form-control mb-2" required/>
 
-                                <div class="form-check mb-3">
-                                    <input type="checkbox" class="form-check-input" name="IsFinished" value="true" id="isFinishedCheck" />
-                                    <label class="form-check-label" for="isFinishedCheck">Tamamlandı mı?</label>
-                                </div>
+                                    <div class="form-check mb-2">
+                                        <input type="checkbox" class="form-check-input" name="Status" value="true"
+                                               id="statusCheck"/>
+                                        <label class="form-check-label" for="statusCheck">Durum (aktif mi?)</label>
+                                    </div>
 
-                                <button type="submit" class="btn btn-primary">Kaydet</button>
-                            </form>
+                                    <div class="form-check mb-3">
+                                        <input type="checkbox" class="form-check-input" name="IsFinished" value="true"
+                                               id="isFinishedCheck"/>
+                                        <label class="form-check-label" for="isFinishedCheck">Tamamlandı Mı?</label>
+                                    </div>
 
+                                    <button type="submit" class="btn btn-success">Kaydet</button>
+                                </form>
+                            </div>
 
 
                         </div>
@@ -302,7 +277,72 @@
     </div>
 </div>
 
+<!-- Modül Ekleme Modal -->
+<div class="modal fade" id="addModuleModal" tabindex="-1" aria-labelledby="addModuleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModuleModalLabel">Yeni Modül Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Modül ekleme formu -->
+                <form asp-action="AddModuleToStudent" asp-controller="StudentModule" method="post">
+                    <input type="hidden" name="studentId" value="@Model.Id"/>
+                    <div class="mb-3">
+                        <label for="moduleId" class="form-label">Modül Seçin</label>
+                        <select class="form-control" id="moduleId" name="moduleId" required>
+                            <option value="">Bir modül seçin</option>
+                            @foreach (var module in ViewBag.Modules)
+                            {
+                                <option value="@module.Value">@module.Text</option>
+                            }
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Ekle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Homework Detail Modal -->
+<div class="modal fade" id="homeworkDetailModal" tabindex="-1" aria-labelledby="homeworkDetailModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg">
+            <div class="modal-header">
+                <h5 class="modal-title" id="homeworkDetailModalLabel">Ödev Detayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                <h5 id="modalTitle"></h5>
+                <p class="text-muted" id="modalContent"></p>
+                <p><strong>Ekleniş Tarihi:</strong> <span id="modalCreatedDate"></span></p>
+                <p><strong>Bitiş Tarihi:</strong> <span id="modalDueDate"></span></p>
+                <p><strong>Durum:</strong> <span id="modalStatus"></span></p>
+                <p><strong>Tamamlanma:</strong> <span id="modalIsFinished"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
+    <script>
+        const homeworkModal = document.getElementById('homeworkDetailModal');
+        homeworkModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            document.getElementById('modalTitle').innerText = button.getAttribute('data-title');
+            document.getElementById('modalContent').innerText = button.getAttribute('data-content');
+            document.getElementById('modalCreatedDate').innerText = button.getAttribute('data-createddate');
+            document.getElementById('modalDueDate').innerText = button.getAttribute('data-duedate');
+            document.getElementById('modalStatus').innerText = button.getAttribute('data-status');
+            document.getElementById('modalIsFinished').innerText = button.getAttribute('data-isfinished');
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -372,6 +412,83 @@
         });
     </script>
 }
+
+
+@* <div class="tab-pane fade show active" id="modules" role="tabpanel"> *@
+@*     @if (Model.StudentModules?.Any() == true) *@
+@*     { *@
+@*         <div class="accordion" id="modulesAccordion"> *@
+@*             @foreach (var module in Model.StudentModules) *@
+@*             { *@
+@*                 <div class="accordion-item mb-2 border-0 shadow-sm"> *@
+@*                     <h2 class="accordion-header" id="heading-@module.ModuleId"> *@
+@*                         <button class="accordion-button @(module.Status ? "" : "collapsed")" *@
+@*                                 type="button" *@
+@*                                 data-bs-toggle="collapse" *@
+@*                                 data-bs-target="#collapse-@module.ModuleId" *@
+@*                                 aria-expanded="@module.Status.ToString().ToLower()" *@
+@*                                 aria-controls="collapse-@module.ModuleId"> *@
+@*                             <div class="d-flex justify-content-between w-100 pe-3"> *@
+@*                                 <span>@module.Title</span> *@
+@*                                 <span *@
+@*                                     class="badge @(module.Status ? "bg-primary" : "bg-warning")"> *@
+@*                                     @(module.Status ? "Active" : "Inactive") *@
+@*                                 </span> *@
+@*                             </div> *@
+@*                         </button> *@
+@*                     </h2> *@
+@*                     <div id="collapse-@module.ModuleId" *@
+@*                          class="accordion-collapse collapse @(module.Status ? "show" : "")" *@
+@*                          aria-labelledby="heading-@module.ModuleId" *@
+@*                          data-bs-parent="#modulesAccordion"> *@
+@*                         <div class="accordion-body"> *@
+@* *@
+@*                             $1$ @foreach (var topic in module.Topics) #1# *@
+@*                             $1$ { #1# *@
+@*                             $1$     <li class="list-group-item d-flex justify-content-between align-items-center"> #1# *@
+@*                             $1$         <span>@topic.Title</span> #1# *@
+@*                             $1$         $2$                                     <span #2# #1# *@
+@*                             $1$         $2$                                         class="badge @(topic.Status ? "bg-success" : "bg-secondary")"> #2# #1# *@
+@*                             $1$         $2$     @(topic.Status ? "Completed" : "Pending") #2# #1# *@
+@*                             $1$         $2$ </span> #2# #1# *@
+@*                             $1$     </li> #1# *@
+@*                             $1$ } #1# *@
+@*                             @if (module.Topics?.Any() == true) *@
+@*                             { *@
+@*                                 <ul class="list-group list-group-flush"> *@
+@*                                     @foreach (var topic in module.Topics) *@
+@*                                     { *@
+@*                                         <li class="list-group-item d-flex justify-content-between align-items-center"> *@
+@*                                             <span>@topic.Title</span> *@
+@*                                             $1$                                     <span #1# *@
+@*                                             $1$                                         class="badge @(topic.Status ? "bg-success" : "bg-secondary")"> #1# *@
+@*                                             $1$     @(topic.Status ? "Completed" : "Pending") #1# *@
+@*                                             $1$ </span> #1# *@
+@*                                         </li> *@
+@*                                     } *@
+@*                                 </ul> *@
+@*                             } *@
+@*                             else *@
+@*                             { *@
+@*                                 <div class="text-muted">No topics available for this module. *@
+@*                                 </div> *@
+@*                             } *@
+@* *@
+@*                         </div> *@
+@*                     </div> *@
+@*                 </div> *@
+@*             } *@
+@*         </div> *@
+@*     } *@
+@*     else *@
+@*     { *@
+@*         <div class="alert alert-info"> *@
+@*             <i class="fas fa-info-circle me-2"></i>No modules assigned to this student. *@
+@*         </div> *@
+@*     } *@
+@* </div> *@
+
+
 @* *@
 @* <div class="tab-pane fade" id="homeworks" role="tabpanel"> *@
 @*     @if (Model.HomeWorks?.Any() == true) *@

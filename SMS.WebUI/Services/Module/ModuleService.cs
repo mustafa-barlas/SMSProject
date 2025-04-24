@@ -15,9 +15,9 @@ public class ModuleService(HttpClient httpClient) : IModuleService
         var response = await httpClient.PutAsJsonAsync($"modules/update", model);
     }
 
-    public async Task DeleteModuleAsync(int moduleId)
+    public async Task DeleteModuleAsync(int id)
     {
-        await httpClient.DeleteAsync($"Modules/{moduleId}");
+        await httpClient.DeleteAsync($"modules/{id}");
     }
 
     public async Task<ModuleViewModel?> GetByIdModuleAsync(int moduleId)
