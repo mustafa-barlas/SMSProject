@@ -27,14 +27,22 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" >
+            <a class="nav-link" asp-controller="Exam" asp-action="Index">
                 <i class="icon-grid-2 menu-icon"></i>
-                <span class="menu-title">Ödevler</span>
+                <span class="menu-title">Sınavlar</span>
+            </a>
+
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="ExamResult" asp-action="GetExamResults">
+                <i class="icon-grid-2 menu-icon"></i>
+                <span class="menu-title">Sınav detayı</span>
             </a>
 
         </li>
         <li class="nav-item">
-            <a class="nav-link" asp-controller="Student" asp-action="Index">
+            <a class="nav-link" asp-controller="ExamResult" asp-action="Create">
                 <i class="icon-contract menu-icon"></i>
                 <span class="menu-title">Puan Hesapla</span>
             </a>

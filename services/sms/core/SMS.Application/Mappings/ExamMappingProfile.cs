@@ -12,7 +12,7 @@ public class ExamMappingProfile : Profile
     public ExamMappingProfile()
     {
         CreateMap<Exam, ExamCreateDto>().ReverseMap();
-        CreateMap<Exam, ExamupdateDto>().ReverseMap();
+        CreateMap<Exam, ExamUpdateDto>().ReverseMap();
         CreateMap<Exam, ExamDto>().ReverseMap();
 
 

@@ -21,7 +21,7 @@ namespace StudentManagementWebApi.Controllers
         }
 
         // Get Exam by ID
-        [HttpGet("{id:int}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id) // ID'yi int olarak alıyoruz
         {
             var response = await mediator.Send(new GetExamByIdQueryRequest { Id = id });
@@ -29,7 +29,7 @@ namespace StudentManagementWebApi.Controllers
         }
 
         // Create Exam
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Create(CreateExamCommandRequest request)
         {
             var response = await mediator.Send(request);
@@ -37,7 +37,7 @@ namespace StudentManagementWebApi.Controllers
         }
 
         // Update Exam
-        [HttpPut]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(UpdateExamCommandRequest request)
         {
             var response = await mediator.Send(request);
@@ -45,7 +45,7 @@ namespace StudentManagementWebApi.Controllers
         }
 
         // Delete Exam
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var response = await mediator.Send(new RemoveExamCommandRequest { Id = id });

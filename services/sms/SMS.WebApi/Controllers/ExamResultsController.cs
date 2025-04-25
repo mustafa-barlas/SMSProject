@@ -5,6 +5,7 @@ using SMS.Application.Features.Commands.ExamResult.RemoveExamResult;
 using SMS.Application.Features.Queries.ExamResult.GetAllExamResult;
 using SMS.Application.Features.Queries.ExamResult.GetByIdExamResult;
 using SMS.Application.Features.Queries.ExamResult.GetExamResultByStudentId;
+using SMS.Application.Features.Queries.ExamResult.GetExamResultsByExamId;
 
 namespace StudentManagementWebApi.Controllers;
 
@@ -12,14 +13,6 @@ namespace StudentManagementWebApi.Controllers;
 [ApiController]
 public class ExamResultsController(IMediator mediator) : ControllerBase
 {
-    // POST api/examresults
-    [HttpPost]
-    public async Task<IActionResult> Create(CreateExamResultCommandRequest request)
-    {
-        var response = await mediator.Send(request);
-        return StatusCode(201, response); // Created status
-    }
-
     // GET api/examresults
     [HttpGet]
     public async Task<IActionResult> GetAll()
@@ -44,6 +37,23 @@ public class ExamResultsController(IMediator mediator) : ControllerBase
         var response = await mediator.Send(
             new GetExamResultsByStudentIdQueryRequest { StudentId = studentId });
         return Ok(response);
+    }
+
+    // GET api/examresults/exam/{examId}
+    [HttpGet("exam/{examId}")]
+    public async Task<IActionResult> GetByExam(int examId, int studentId)
+    {
+        var response = await mediator.Send(new GetExamResultsByExamIdQueryRequest()
+            { ExamId = examId, StudentId = studentId });
+        return Ok(response);
+    }
+
+    // POST api/examresults
+    [HttpPost("create")]
+    public async Task<IActionResult> Create(CreateExamResultCommandRequest request)
+    {
+        var response = await mediator.Send(request);
+        return StatusCode(201, response); // Created status
     }
 
     // DELETE api/examresults/{id}

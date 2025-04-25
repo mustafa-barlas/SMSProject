@@ -1,0 +1,88 @@
+@model List<SMS.WebUI.ViewModels.Exam.ExamListViewModel>
+
+@{
+    ViewData["Title"] = "Sınav Listesi";
+}
+
+@section styles {
+    <style>
+        .status-label {
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+}
+
+<h2>Sınav Listesi</h2>
+
+<a asp-action="Create" asp-controller="Exam" class="btn btn-primary mb-3">Yeni Sınav Ekle</a>
+
+<table class="table table-hover align-middle">
+    <thead class="table-light">
+    <tr>
+        <th>Sınav Adı</th>
+        <th>Sınav Tarihi</th>
+        <th>Durum</th>
+        <th>İşlemler</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var exam in Model)
+    {
+        <tr data-student-id="@exam.Id">
+            <td>
+                @exam.Title
+            </td>
+            <td>@exam.ExamDate.ToShortDateString()</td>
+            <td>
+                <span class="badge status-label @(exam.Status == true ? "bg-success" : "bg-secondary")"
+                      data-id="@exam.Id">
+                    @(exam.Status == true ? "Aktif" : "Pasif")
+                </span>
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@exam.Id" class="btn btn-info btn-sm">Detay</a>
+                <a asp-action="Update" asp-route-id="@exam.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                <form asp-controller="Exam" asp-action="Delete" asp-route-id="@exam.Id" method="post"
+                      onsubmit="return confirm('Silmek istediğinizden emin misiniz?');">
+                    <button type="submit" class="btn btn-danger">Sil</button>
+                </form>
+            </td>
+
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.status-label').forEach(label => {
+            label.addEventListener('click', async function () {
+                const examId = this.getAttribute('data-id');
+                const currentStatus = this.textContent.trim() === 'Aktif';
+
+                try {
+                    const response = await fetch(`/Student/ChangeStatus/${studentId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(!currentStatus)
+                    });
+
+                    if (response.ok) {
+                        this.classList.toggle('bg-success', !currentStatus);
+                        this.classList.toggle('bg-secondary', currentStatus);
+                        this.textContent = !currentStatus ? 'Aktif' : 'Pasif';
+                    } else {
+                        alert("Durum güncellenemedi!");
+                    }
+                } catch (err) {
+                    alert("Hata oluştu.");
+                }
+            });
+        });
+    </script>
+}

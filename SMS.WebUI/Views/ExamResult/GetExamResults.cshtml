@@ -1,0 +1,79 @@
+@model List<SMS.WebUI.ViewModels.ExamResult.ExamResultViewModel>
+
+@{
+    ViewData["Title"] = "Sınav Sonuçları";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-primary"><i class="bi bi-clipboard-data"></i> Sınav Sonuçları</h2>
+        <a class="btn btn-success shadow-sm" asp-controller="ExamResult" asp-action="Create">
+            <i class="bi bi-plus-circle"></i> Yeni Sınav Verisi Ekle
+        </a>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <label for="moduleSelect" class="form-label fw-semibold text-secondary">Öğrenci Seçin</label>
+                    <select id="moduleSelect" class="form-select">
+                        @foreach (var student in ViewBag.Students)
+                        {
+                            <option value="@student.Id">@student.Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <label for="examSelect" class="form-label fw-semibold text-secondary">Sınav Seçin</label>
+                    <select id="examSelect" class="form-select">
+                        @foreach (var exam in ViewBag.Exams)
+                        {
+                            <option value="@exam.Id">@exam.Title</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="topicListContainer">
+        @await Html.PartialAsync("_ExamListPartial", Model)
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        function loadExamResults() {
+            const studentId = $('#moduleSelect').val();
+            const examId = $('#examSelect').val();
+
+            $.ajax({
+                url: '/ExamResult/GetExams/',
+                data: { examId: examId, studentId: studentId },
+                type: 'GET',
+                beforeSend: function () {
+                    $('#topicListContainer').html('<div class="text-center my-4 text-muted"><div class="spinner-border text-primary" role="status"></div><br>Yükleniyor...</div>');
+                },
+                success: function (data) {
+                    $('#topicListContainer').html(data);
+                },
+                error: function (xhr) {
+                    console.error("Hata:", xhr);
+                    $('#topicListContainer').html('<div class="alert alert-danger">Veri yüklenirken bir hata oluştu.</div>');
+                }
+            });
+        }
+
+        $('#moduleSelect, #examSelect').on('change', loadExamResults);
+    });
+</script>

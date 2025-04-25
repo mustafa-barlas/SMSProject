@@ -1,0 +1,43 @@
+@model SMS.WebUI.ViewModels.Exam.ExamCreateViewModel
+
+@{
+    ViewData["Title"] = "Yeni Sınav Ekle";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg rounded-4">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">Yeni Sınav Ekle</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" asp-controller="Exam" method="post" novalidate>
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label">Ad</label>
+                            <input asp-for="Title" class="form-control" placeholder="Sınav adı giriniz"/>
+                            <span asp-validation-for="Title" class="text-danger small"></span>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label asp-for="ExamDate" class="form-label">Sınav Tarihi</label>
+                            <input asp-for="ExamDate" class="form-control" type="date"/>
+                            <span asp-validation-for="ExamDate" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-check form-switch mb-4">
+                            <input asp-for="Status" class="form-check-input" type="checkbox" role="switch"/>
+                            <label asp-for="Status" class="form-check-label">Aktif mi?</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-success px-4">Kaydet</button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">Geri Dön</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

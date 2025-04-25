@@ -28,7 +28,6 @@
 
     <ItemGroup>
       <Folder Include="Abstract\Services\" />
-      <Folder Include="Features\Queries\ExamResult\GetExamResultsByExamId\" />
     </ItemGroup>
 
 </Project>

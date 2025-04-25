@@ -1,10 +1,9 @@
-using SMS.DtoLayer.Base;
+namespace SMS.WebUI.ViewModels.Exam;
 
-namespace SMS.DtoLayer.Exam;
-
-public record ExamUpdateDto : BaseDto
+public class ExamListViewModel
 {
     public int Id { get; set; }
     public string Title { get; set; }
     public DateTime ExamDate { get; set; }
+    public bool Status { get; set; }
 }
