@@ -26,4 +26,9 @@
       <Reference Include="Microsoft.AspNetCore.Mvc.Core" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Abstract\Services\" />
+      <Folder Include="Features\Queries\ExamResult\GetExamResultsByExamId\" />
+    </ItemGroup>
+
 </Project>

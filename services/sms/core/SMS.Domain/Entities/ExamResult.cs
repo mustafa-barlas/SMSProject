@@ -17,5 +17,5 @@ public class ExamResult : BaseEntity
     public int Correct { get; set; }
     public int Incorrect { get; set; }
 
-    public double Total => Correct - (Incorrect / 4.0);
+    public double NetScore { get; set; }
 }
