@@ -3,6 +3,7 @@ using SMS.WebUI.Services.Exam;
 using SMS.WebUI.Services.ExamResult;
 using SMS.WebUI.Services.HomeWork;
 using SMS.WebUI.Services.Module;
+using SMS.WebUI.Services.Pdf;
 using SMS.WebUI.Services.Student;
 using SMS.WebUI.Services.StudentModule;
 using SMS.WebUI.Services.Topic;
@@ -14,6 +15,9 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddHttpClients(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        
+        services.AddScoped<IExamResultPdfService, ExamResultPdfService>();
+
         
         var baseAddress = configuration.GetValue<string>("ApiBaseUrl") ?? "https://localhost:7109/api/";
 

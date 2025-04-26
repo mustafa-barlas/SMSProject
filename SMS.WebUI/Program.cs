@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
 
 
 builder.Services.AddHttpClients(builder.Configuration);

@@ -24,6 +24,7 @@ public class ExamResultMappingProfile : Profile
         // Detaylı DTO (Student, Exam ve Module bilgilerini içerir)
         CreateMap<ExamResult, ExamResultDto>()
             .ForMember(d => d.ExamTitle, o => o.MapFrom(s => s.Exam.Title))
+            .ForMember(d => d.ExamDate, o => o.MapFrom(s => s.Exam.ExamDate))
             .ForMember(d => d.ModuleTitle, o => o.MapFrom(s => s.Module.Title))
             .ForMember(d => d.NetScore, o => o.MapFrom(s => s.Correct - s.Incorrect / 4.0))
             .ForMember(d => d.StudentName, o => o.MapFrom(s => s.Student.Name + " " + s.Student.Surname))
@@ -32,7 +33,7 @@ public class ExamResultMappingProfile : Profile
 
         CreateMap<GetExamResultsByExamIdQueryRequest, ExamResult>().ReverseMap();
         CreateMap<GetExamResultsByExamIdQueryRequest, ExamResultListDto>().ReverseMap();
-        
+
         CreateMap<GetExamResultsByStudentIdQueryRequest, ExamResult>().ReverseMap();
         CreateMap<GetExamResultsByStudentIdQueryRequest, ExamResultListDto>().ReverseMap();
     }

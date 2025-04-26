@@ -15,6 +15,8 @@ public record ExamResultDto : BaseDto
     public int ModuleId { get; init; }
     public string ModuleTitle { get; init; }
 
+    public DateTime ExamDate { get; set; }
+    
     public int Correct { get; init; }
     public int InCorrect { get; init; }
     public double NetScore { get; init; }

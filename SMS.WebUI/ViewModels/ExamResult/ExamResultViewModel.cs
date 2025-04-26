@@ -14,5 +14,6 @@ public class ExamResultViewModel
     public double NetScore { get; set; }
     public DateTime CreatedDate { get; set; }
     public DateTime UpdatedDate { get; set; }
+    public DateTime ExamDate { get; set; }
     public bool Status { get; set; }
 }

@@ -4,7 +4,8 @@ using SMS.DtoLayer.ExamResult;
 using SMS.WebUI.Services.ExamResult;
 using SMS.WebUI.Services.Student; // Öğrenci servisi
 using SMS.WebUI.Services.Exam; // Sınav servisi
-using SMS.WebUI.Services.Module; // Modül servisi
+using SMS.WebUI.Services.Module;
+using SMS.WebUI.Services.Pdf; // Modül servisi
 
 namespace SMS.WebUI.Controllers
 {
@@ -12,7 +13,8 @@ namespace SMS.WebUI.Controllers
         IExamResultService examResultService,
         IStudentService studentService,
         IExamService examService,
-        IModuleService moduleService)
+        IModuleService moduleService,
+        IExamResultPdfService examResultPdfService)
         : Controller
     {
         // GET: ExamResult/Create
@@ -72,6 +74,13 @@ namespace SMS.WebUI.Controllers
             var result = await examResultService.GetExamResultsAsync(examId, studentId);
 
             return PartialView("_ExamListPartial", result);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> DownloadExamResultsPdf(int? examId, int? studentId)
+        {
+            var pdfBytes = await examResultPdfService.GenerateExamResultsPdfAsync(examId, studentId);
+            return File(pdfBytes, "application/pdf", "SinavSonuclari.pdf");
         }
     }
 }
