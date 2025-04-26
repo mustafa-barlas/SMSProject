@@ -1,4 +1,5 @@
-@model SMS.WebUI.ViewModels.Student.StudentDetailViewModel
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model SMS.WebUI.ViewModels.Student.StudentDetailViewModel?
 
 
 @{
@@ -117,7 +118,8 @@
 
                                                 </td>
                                                 <td>
-                                                    <form asp-action="RemoveStudentModule" asp-controller="StudentModule" method="post"
+                                                    <form asp-action="RemoveStudentModule"
+                                                          asp-controller="StudentModule" method="post"
                                                           style="display:inline;">
                                                         <input type="hidden" name="moduleId" value="@sm.ModuleId"/>
                                                         <input type="hidden" name="studentId" value="@sm.StudentId"/>
@@ -205,7 +207,8 @@
                                                     <form asp-action="Delete" asp-controller="HomeWork" method="post"
                                                           style="display:inline;">
                                                         <input type="hidden" name="homeworkId" value="@hw.Id"/>
-                                                        <input type="hidden" name="studentId" value="@Model.Id"/>
+                                                        <input type="hidden" name="studentId"
+                                                               value="@Model.Id"/>
                                                         <button type="submit" class="btn btn-sm btn-outline-danger ms-1"
                                                                 title="Sil"
                                                                 onclick="return confirm('Silmek istediğinize emin misiniz?')">
@@ -274,6 +277,27 @@
                 </div>
             </div>
         </div>
+
+        @* <div class="col-md-6"> *@
+        @*     <div class="card shadow-sm border-0"> *@
+        @*         <input type="hidden" id="studentId" value="@Model.Id"/> *@
+        @*         <div class="card-body"> *@
+        @*             <label for="examSelect" class="form-label fw-semibold text-secondary">Sınav Seçin</label> *@
+        @*             <select id="examSelect" class="form-select"> *@
+        @*                 @foreach (var exam in ViewBag.Exams) *@
+        @*                 { *@
+        @*                     <option value="@exam.Id">@exam.Title</option> *@
+        @*                 } *@
+        @*             </select> *@
+        @*         </div> *@
+        @*     </div> *@
+        @* </div> *@
+        @* *@
+        @* <div id="topicListContainer"> *@
+        @*     @await Html.PartialAsync("_ExamResultsPartial", Model.result) *@
+        @* </div> *@
+
+
     </div>
 </div>
 
@@ -331,6 +355,35 @@
 </div>
 
 @section Scripts {
+
+@*     <script> *@
+@*         $(document).ready(function () { *@
+@*             function loadExamResults() { *@
+@*                 const studentId = $('#studentId').val(); // Hidden input'tan gelen öğrenci ID'si *@
+@*                 const examId = $('#examSelect').val(); // Seçilen sınav ID'si *@
+@* *@
+@*                 $.ajax({ *@
+@*                     url: '/Student/Details/', *@
+@*                     data: {examId: examId, studentId: studentId}, *@
+@*                     type: 'GET', *@
+@*                     beforeSend: function () { *@
+@*                         $('#topicListContainer').html('<div class="text-center my-4 text-muted"><div class="spinner-border text-primary" role="status"></div><br>Yükleniyor...</div>'); *@
+@*                     }, *@
+@*                     success: function (data) { *@
+@*                         $('#topicListContainer').html(data); *@
+@*                     }, *@
+@*                     error: function (xhr) { *@
+@*                         console.error("Hata:", xhr); *@
+@*                         $('#topicListContainer').html('<div class="alert alert-danger">Veri yüklenirken bir hata oluştu.</div>'); *@
+@*                     } *@
+@*                 }); *@
+@*             } *@
+@* *@
+@*             $('#moduleSelect, #examSelect').on('change', loadExamResults); *@
+@*         }); *@
+@*     </script> *@
+
+
     <script>
         const homeworkModal = document.getElementById('homeworkDetailModal');
         homeworkModal.addEventListener('show.bs.modal', function (event) {
@@ -412,196 +465,3 @@
         });
     </script>
 }
-
-
-@* <div class="tab-pane fade show active" id="modules" role="tabpanel"> *@
-@*     @if (Model.StudentModules?.Any() == true) *@
-@*     { *@
-@*         <div class="accordion" id="modulesAccordion"> *@
-@*             @foreach (var module in Model.StudentModules) *@
-@*             { *@
-@*                 <div class="accordion-item mb-2 border-0 shadow-sm"> *@
-@*                     <h2 class="accordion-header" id="heading-@module.ModuleId"> *@
-@*                         <button class="accordion-button @(module.Status ? "" : "collapsed")" *@
-@*                                 type="button" *@
-@*                                 data-bs-toggle="collapse" *@
-@*                                 data-bs-target="#collapse-@module.ModuleId" *@
-@*                                 aria-expanded="@module.Status.ToString().ToLower()" *@
-@*                                 aria-controls="collapse-@module.ModuleId"> *@
-@*                             <div class="d-flex justify-content-between w-100 pe-3"> *@
-@*                                 <span>@module.Title</span> *@
-@*                                 <span *@
-@*                                     class="badge @(module.Status ? "bg-primary" : "bg-warning")"> *@
-@*                                     @(module.Status ? "Active" : "Inactive") *@
-@*                                 </span> *@
-@*                             </div> *@
-@*                         </button> *@
-@*                     </h2> *@
-@*                     <div id="collapse-@module.ModuleId" *@
-@*                          class="accordion-collapse collapse @(module.Status ? "show" : "")" *@
-@*                          aria-labelledby="heading-@module.ModuleId" *@
-@*                          data-bs-parent="#modulesAccordion"> *@
-@*                         <div class="accordion-body"> *@
-@* *@
-@*                             $1$ @foreach (var topic in module.Topics) #1# *@
-@*                             $1$ { #1# *@
-@*                             $1$     <li class="list-group-item d-flex justify-content-between align-items-center"> #1# *@
-@*                             $1$         <span>@topic.Title</span> #1# *@
-@*                             $1$         $2$                                     <span #2# #1# *@
-@*                             $1$         $2$                                         class="badge @(topic.Status ? "bg-success" : "bg-secondary")"> #2# #1# *@
-@*                             $1$         $2$     @(topic.Status ? "Completed" : "Pending") #2# #1# *@
-@*                             $1$         $2$ </span> #2# #1# *@
-@*                             $1$     </li> #1# *@
-@*                             $1$ } #1# *@
-@*                             @if (module.Topics?.Any() == true) *@
-@*                             { *@
-@*                                 <ul class="list-group list-group-flush"> *@
-@*                                     @foreach (var topic in module.Topics) *@
-@*                                     { *@
-@*                                         <li class="list-group-item d-flex justify-content-between align-items-center"> *@
-@*                                             <span>@topic.Title</span> *@
-@*                                             $1$                                     <span #1# *@
-@*                                             $1$                                         class="badge @(topic.Status ? "bg-success" : "bg-secondary")"> #1# *@
-@*                                             $1$     @(topic.Status ? "Completed" : "Pending") #1# *@
-@*                                             $1$ </span> #1# *@
-@*                                         </li> *@
-@*                                     } *@
-@*                                 </ul> *@
-@*                             } *@
-@*                             else *@
-@*                             { *@
-@*                                 <div class="text-muted">No topics available for this module. *@
-@*                                 </div> *@
-@*                             } *@
-@* *@
-@*                         </div> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             } *@
-@*         </div> *@
-@*     } *@
-@*     else *@
-@*     { *@
-@*         <div class="alert alert-info"> *@
-@*             <i class="fas fa-info-circle me-2"></i>No modules assigned to this student. *@
-@*         </div> *@
-@*     } *@
-@* </div> *@
-
-
-@* *@
-@* <div class="tab-pane fade" id="homeworks" role="tabpanel"> *@
-@*     @if (Model.HomeWorks?.Any() == true) *@
-@*     { *@
-@*         <div class="table-responsive"> *@
-@*             <table class="table table-hover align-middle"> *@
-@*                 <thead class="table-light"> *@
-@*                 <tr> *@
-@*                     <th>Ad</th> *@
-@*                     <th>İçerik</th> *@
-@*                     <th>Bitiş Tarihi</th> *@
-@*                     <th>Durum</th> *@
-@*                     <th>İşlemler</th> *@
-@*                 </tr> *@
-@*                 </thead> *@
-@*                 <tbody> *@
-@*                 @foreach (var hw in Model.HomeWorks.OrderByDescending(h => h.Title)) *@
-@*                 { *@
-@*                     <tr> *@
-@*                         <td>@hw.Title</td> *@
-@*                         <td class="text-truncate" style="max-width: 200px;">@hw.Content</td> *@
-@*                         $1$ <td>@hw.CreatedDate?.ToString("dd MMM yyyy")</td> #1# *@
-@*                         $1$ <td> #1# *@
-@*                         $1$         <span class="badge @(hw.Status ? "bg-success" : "bg-danger")"> #1# *@
-@*                         $1$             @(hw.Status ? "Completed" : "Pending") #1# *@
-@*                         $1$         </span> #1# *@
-@*                         $1$ </td> #1# *@
-@*                         <td> *@
-@*                             <button class="btn btn-sm btn-outline-primary" title="View Details"> *@
-@*                                 <i class="fas fa-eye"></i> *@
-@*                             </button> *@
-@*                             <button class="btn btn-sm btn-outline-secondary ms-1" *@
-@*                                     title="Download"> *@
-@*                                 <i class="fas fa-download"></i> *@
-@*                             </button> *@
-@*                         </td> *@
-@*                     </tr> *@
-@*                 } *@
-@*                 </tbody> *@
-@*             </table> *@
-@*         </div> *@
-@* *@
-@*         <div class="d-flex justify-content-between mt-3"> *@
-@*             <div class="text-muted"> *@
-@*                 @Model.HomeWorks.Count() Ödev Gösteriliyor *@
-@*             </div> *@
-@*             <button class="btn btn-sm btn-primary"> *@
-@*                 <i class="fas fa-plus me-1"></i> Ödev Ekle *@
-@*             </button> *@
-@*         </div> *@
-@*     } *@
-@*     else *@
-@*     { *@
-@*         <div class="alert alert-info"> *@
-@*             <i class="fas fa-info-circle me-2"></i>Öğrenciye Verilen Ödev Yok *@
-@*         </div> *@
-@*         <form asp-action="AddAssignment" asp-controller="Student" asp-route-studentId="@Model.Id" method="post"> *@
-@*             <input type="text" name="Title" class="form-control" placeholder="Ödev Başlığı" required/> *@
-@*             <input type="text" name="Description" class="form-control" placeholder="Açıklama" required/> *@
-@*             <input type="date" name="DueDate" class="form-control" required/> *@
-@*             <button type="submit" class="btn btn-primary">Kaydet</button> *@
-@*         </form> *@
-@*     } *@
-@* </div> *@
-
-@* <div class="tab-pane fade" id="progress" role="tabpanel"> *@
-@*     <div class="row"> *@
-@*         <div class="col-md-6"> *@
-@*             <div class="card mb-4"> *@
-@*                 <div class="card-header bg-light"> *@
-@*                     <h6 class="mb-0">Module Completion</h6> *@
-@*                 </div> *@
-@*                 <div class="card-body"> *@
-@*                     <canvas id="moduleProgressChart" height="200"></canvas> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*         <div class="col-md-6"> *@
-@*             <div class="card"> *@
-@*                 <div class="card-header bg-light"> *@
-@*                     <h6 class="mb-0">Homework Status</h6> *@
-@*                 </div> *@
-@*                 <div class="card-body"> *@
-@*                     <canvas id="homeworkStatusChart" height="200"></canvas> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@*     <div class="card mt-3"> *@
-@*         <div class="card-header bg-light"> *@
-@*             <h6 class="mb-0">Recent Activity</h6> *@
-@*         </div> *@
-@*         <div class="card-body"> *@
-@*             <div class="list-group list-group-flush"> *@
-@*                 <div class="list-group-item d-flex"> *@
-@*                     <div class="flex-shrink-0"> *@
-@*                         <i class="fas fa-check-circle text-success me-3"></i> *@
-@*                     </div> *@
-@*                     <div> *@
-@*                         <small class="text-muted">Today, 10:45 AM</small> *@
-@*                         <p class="mb-0">Completed homework for Mathematics</p> *@
-@*                     </div> *@
-@*                 </div> *@
-@*                 <div class="list-group-item d-flex"> *@
-@*                     <div class="flex-shrink-0"> *@
-@*                         <i class="fas fa-book text-primary me-3"></i> *@
-@*                     </div> *@
-@*                     <div> *@
-@*                         <small class="text-muted">Yesterday, 3:30 PM</small> *@
-@*                         <p class="mb-0">Started new module in History</p> *@
-@*                     </div> *@
-@*                 </div> *@
-@*             </div> *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@

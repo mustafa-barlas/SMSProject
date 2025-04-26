@@ -1,12 +1,12 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using SMS.DtoLayer.HomeWork;
 using SMS.DtoLayer.Student;
+using SMS.WebUI.Services.Exam;
+using SMS.WebUI.Services.ExamResult;
 using SMS.WebUI.Services.HomeWork;
 using SMS.WebUI.Services.Module;
 using SMS.WebUI.Services.Student;
-using SMS.WebUI.ViewModels.Student;
 
 namespace SMS.WebUI.Controllers
 {
@@ -14,7 +14,9 @@ namespace SMS.WebUI.Controllers
         IStudentService studentService,
         IMapper mapper,
         IHomeWorkService homeWorkService,
-        IModuleService moduleService) : Controller
+        IModuleService moduleService,
+        IExamResultService examResultService,
+        IExamService examService) : Controller
     {
         public async Task<IActionResult> Index()
         {
@@ -31,6 +33,31 @@ namespace SMS.WebUI.Controllers
             ViewBag.Modules = new SelectList(modules, "Id", "Title");
             return View(studentDto);
         }
+        
+        // public async Task<IActionResult> Details( int? examId,int? studentId)
+        // {
+        //     var studentDto = await studentService.GetByIdStudentAsync(studentId);
+        //     var modules = await moduleService.GetAllModuleAsync();
+        //
+        //     var exams = await examService.GetAllExamAsync();
+        //
+        //     ViewBag.Exams = exams;
+        //
+        //     var selectedExamId = examId ?? exams.FirstOrDefault()?.Id ?? 0;
+        //
+        //     var result = await examResultService.GetExamResultsAsync(selectedExamId, studentId);
+        //
+        //     ViewBag.Modules = new SelectList(modules, "Id", "Title");
+        //     return View((studentDto,result));
+        // }
+        
+        
+        // public async Task<IActionResult> GetExamResultByStudent(int? examId, int? studentId)
+        // {
+        //     var result = await examResultService.GetExamResultsAsync(examId, studentId);
+        //
+        //     return PartialView("_ExamResultsPartial", result);
+        // }
 
         [HttpGet]
         [Route("createStudent")]

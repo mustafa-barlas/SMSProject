@@ -1,5 +1,6 @@
 using AutoMapper;
 using SMS.Application.Features.Commands.ExamResult.CreateExamResult;
+using SMS.Application.Features.Queries.ExamResult.GetExamResultByStudentId;
 using SMS.Application.Features.Queries.ExamResult.GetExamResultsByExamId;
 using SMS.Domain.Entities;
 using SMS.DtoLayer.ExamResult;
@@ -31,5 +32,8 @@ public class ExamResultMappingProfile : Profile
 
         CreateMap<GetExamResultsByExamIdQueryRequest, ExamResult>().ReverseMap();
         CreateMap<GetExamResultsByExamIdQueryRequest, ExamResultListDto>().ReverseMap();
+        
+        CreateMap<GetExamResultsByStudentIdQueryRequest, ExamResult>().ReverseMap();
+        CreateMap<GetExamResultsByStudentIdQueryRequest, ExamResultListDto>().ReverseMap();
     }
 }

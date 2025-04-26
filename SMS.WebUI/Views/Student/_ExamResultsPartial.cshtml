@@ -1,0 +1,114 @@
+@* @model List<SMS.WebUI.ViewModels.ExamResult.ExamResultViewModel> *@
+@* *@
+@* @if (!Model.Any()) *@
+@* { *@
+@*     <div class="alert alert-warning text-center shadow-sm rounded">📭 Öğrenciye ait sınav verisi bulunamadı.</div> *@
+@* } *@
+@* else *@
+@* { *@
+@*     <div class="table-responsive shadow-sm rounded"> *@
+@*         <table class="table table-bordered table-hover align-middle mb-0"> *@
+@*             <thead class="table-primary text-center"> *@
+@*             <tr> *@
+@*                 <th scope="col">📚 Ders Adı</th> *@
+@*                 <th scope="col">✅ Doğru</th> *@
+@*                 <th scope="col">❌ Yanlış</th> *@
+@*                 <th scope="col">📊 Net</th> *@
+@*                 <th scope="col">📌 Durum</th> *@
+@*                 <th scope="col" style="width: 160px;">⚙️ İşlemler</th> *@
+@*             </tr> *@
+@*             </thead> *@
+@*             <tbody class="text-center"> *@
+@*             @foreach (var examResult in Model) *@
+@*             { *@
+@*                 <tr> *@
+@*                     <td class="fw-semibold">@examResult.ModuleTitle</td> *@
+@*                     <td>@examResult.Correct</td> *@
+@*                     <td>@examResult.InCorrect</td> *@
+@*                     <td class="text-primary fw-bold">@examResult.NetScore</td> *@
+@*                     <td> *@
+@*                             <span class="badge rounded-pill @(examResult.Status ? "bg-success" : "bg-secondary")"> *@
+@*                                 @(examResult.Status ? "Başarılı" : "Başarısız") *@
+@*                             </span> *@
+@*                     </td> *@
+@*                     <td> *@
+@*                         <div class="d-flex justify-content-center gap-2"> *@
+@*                             $1$ Düzenleme istenirse açılabilir #1# *@
+@*                             $1$ <a class="btn btn-sm btn-outline-warning" #1# *@
+@*                             $1$    href="@Url.Action("Edit", "ExamResult", new { id = examResult.Id })"> #1# *@
+@*                             $1$     <i class="bi bi-pencil-square"></i> #1# *@
+@*                             $1$ </a> #1# *@
+@* *@
+@*                             <form asp-action="Delete" asp-controller="ExamResult" asp-route-id="@examResult.Id" *@
+@*                                   method="post" class="d-inline"> *@
+@*                                 <button type="submit" class="btn btn-sm btn-outline-danger"> *@
+@*                                     <i class="bi bi-trash"></i> *@
+@*                                 </button> *@
+@*                             </form> *@
+@*                         </div> *@
+@*                     </td> *@
+@*                 </tr> *@
+@*             } *@
+@*             </tbody> *@
+@*         </table> *@
+@*     </div> *@
+@* } *@
+@* *@
+@* *@
+@* <canvas id="examResultsChart" height="100"></canvas> *@
+@* *@
+@* @section Scripts { *@
+@*     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+@* *@
+@*     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> *@
+@* *@
+@* *@
+@* *@
+@* *@
+@*     <script> *@
+@*         function updateChart(chartData) { *@
+@*             const labels = chartData.map(item => item.moduleTitle); *@
+@*             const scores = chartData.map(item => item.netScore); *@
+@* *@
+@*             const ctx = document.getElementById('examResultsChart'); *@
+@* *@
+@*             if (ctx) { *@
+@*                 const context = ctx.getContext('2d'); *@
+@* *@
+@*                 // Eğer grafik varsa, verileri güncelle *@
+@*                 if (examResultsChartInstance) { *@
+@*                     examResultsChartInstance.data.labels = labels; *@
+@*                     examResultsChartInstance.data.datasets[0].data = scores; *@
+@*                     examResultsChartInstance.update(); *@
+@*                 } else { *@
+@*                     // Yoksa yeni grafik oluştur *@
+@*                     examResultsChartInstance = new Chart(context, { *@
+@*                         type: 'bar', *@
+@*                         data: { *@
+@*                             labels: labels, *@
+@*                             datasets: [{ *@
+@*                                 label: 'Net Skor', *@
+@*                                 data: scores, *@
+@*                                 backgroundColor: 'rgba(54, 162, 235, 0.7)', *@
+@*                                 borderColor: 'rgba(54, 162, 235, 1)', *@
+@*                                 borderWidth: 1 *@
+@*                             }] *@
+@*                         }, *@
+@*                         options: { *@
+@*                             scales: { *@
+@*                                 y: { *@
+@*                                     beginAtZero: true *@
+@*                                 } *@
+@*                             }, *@
+@*                             responsive: true, *@
+@*                             maintainAspectRatio: false *@
+@*                         } *@
+@*                     }); *@
+@*                 } *@
+@*             } else { *@
+@*                 console.error('Canvas bulunamadı!'); *@
+@*             } *@
+@*         } *@
+@* *@
+@*     </script> *@
+@* } *@

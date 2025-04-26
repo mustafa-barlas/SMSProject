@@ -13,7 +13,7 @@ public class StudentService(HttpClient httpClient, IMapper mapper) : IStudentSer
         return response.Students;
     }
 
-    public async Task<StudentDetailViewModel?> GetByIdStudentAsync(int studentId)
+    public async Task<StudentDetailViewModel?> GetByIdStudentAsync(int? studentId)
     {
         var response = await httpClient.GetAsync($"students/{studentId}");
         var data = await response.Content.ReadFromJsonAsync<GetAllStudentQueryResponse>();

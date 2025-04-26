@@ -18,4 +18,14 @@ public class ExamResultService(HttpClient httpClient) : IExamResultService
         // API'den gelen response'dan sonuçları alıyoruz ve döndürüyoruz
         return response?.Results ?? new List<ExamResultViewModel>();
     }
+
+
+    public async Task<List<ExamResultViewModel>> GetExamResultByStudentIdAsync(int? studentId)
+    {
+        var response =
+            await httpClient.GetFromJsonAsync<ExamResultListResponseViewModel>($"ExamResults/student/{studentId}");
+
+        // API'den gelen response'dan sonuçları alıyoruz ve döndürüyoruz
+        return response?.Results ?? new List<ExamResultViewModel>();
+    }
 }

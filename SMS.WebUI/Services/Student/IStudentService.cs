@@ -10,5 +10,5 @@ public interface IStudentService
     Task UpdateStudentAsync(StudentUpdateDto model);
     Task DeleteStudentAsync(int studentId);
     Task ChangeStudentAsync(int studentId, bool status);
-    Task<StudentDetailViewModel?> GetByIdStudentAsync(int studentId);
+    Task<StudentDetailViewModel?> GetByIdStudentAsync(int? studentId);
 }

@@ -8,4 +8,5 @@ public interface IExamResultService
     Task CreateExamResultAsync(ExamResultCreateDto model);
 
     Task<List<ExamResultViewModel>> GetExamResultsAsync(int? examId, int? studentId); 
+    Task<List<ExamResultViewModel>> GetExamResultByStudentIdAsync( int? studentId); 
 }
