@@ -1,8 +1,9 @@
-﻿namespace Chat.Domain.Entities;
+﻿using SMS.Domain.Entities.Common;
 
-public class Message
+namespace SMS.Domain.Entities;
+
+public class Message : BaseEntity
 {
-    public Guid Id { get; set; } // Mesajın benzersiz kimliği
     public string Content { get; set; } // Mesaj içeriği
     public Guid SenderId { get; set; } // Gönderen kullanıcı ID'si
     public Guid ChatRoomId { get; set; } // Mesajın ait olduğu sohbet odası ID'si
