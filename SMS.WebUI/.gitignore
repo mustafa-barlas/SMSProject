@@ -7,6 +7,8 @@
 node_modules/
 dist/
 
+skydash-free-bootstrap-admin-template-main
+
 # Compiled Java class files
 *.class
 
